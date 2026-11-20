@@ -841,7 +841,7 @@ export function Dictionary({ config, onConfigChange, onImportConfig, onOpenEnhan
         }}
       >
         <AddRow onAdd={addEntry} reducedMotion={reducedMotion} />
-        <p className="text-[11px] text-steel mt-2 px-1">Boost helps AI enhancement choose the right spelling when it fits your dictation.</p>
+        <p className="text-[11px] text-steel mt-2">Boost helps AI enhancement choose the right spelling when it fits your dictation.</p>
       </motion.div>
       {config.word_boosts.length > 0 && (!config.enhancement_enabled || !config.enhancement_vocabulary_supported) && <div className="text-[12px] text-steel px-3 py-2.5 rounded-[var(--radius-input)]" style={{ background: "color-mix(in srgb, var(--color-gold) 7%, transparent)", border: "1px solid color-mix(in srgb, var(--color-gold) 25%, transparent)" }}>
         <p>{!config.enhancement_enabled ? "Boost is inactive while AI enhancement is off. You can still save words." : "Your selected enhancement model does not support Boost. Saved words will stay in your dictionary."}</p>
