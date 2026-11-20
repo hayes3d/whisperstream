@@ -848,32 +848,34 @@ export function Dictionary({ config, onConfigChange, onImportConfig, onOpenEnhan
         {onOpenEnhancement && <button onClick={onOpenEnhancement} className="text-[11px] underline mt-1 cursor-pointer">Open enhancement settings</button>}
       </div>}
       {entries.length === 0 && <div className="text-center py-6 text-[12px] text-steel">Your dictionary is empty. Add a word or import a CSV.</div>}
-      {entries.length > 1 && (
-        <div className="flex justify-end">
-          <Dropdown
-            value={sortMode}
-            options={SORT_OPTIONS}
-            onChange={setSortMode}
-            ariaLabel="Sort entries"
-            triggerClassName="w-[104px]"
-          />
-        </div>
-      )}
-      <div className="space-y-1">
-        <AnimatePresence initial={false}>
-          {entries.slice(0, visibleCount).map((entry) => (
-            <EntryRow
-              key={entry.id}
-              entry={entry}
-              onRemove={() => removeEntry(entry.id)}
-              onEdit={editEntry}
-              isEditing={editingId === entry.id}
-              onStartEdit={() => handleStartEdit(entry.id)}
-              onCancelEdit={() => setEditingId(null)}
-              reducedMotion={reducedMotion}
+      <div>
+        {entries.length > 1 && (
+          <div className="flex justify-end mb-1.5">
+            <Dropdown
+              value={sortMode}
+              options={SORT_OPTIONS}
+              onChange={setSortMode}
+              ariaLabel="Sort entries"
+              triggerClassName="w-[104px]"
             />
-          ))}
-        </AnimatePresence>
+          </div>
+        )}
+        <div className="space-y-1">
+          <AnimatePresence initial={false}>
+            {entries.slice(0, visibleCount).map((entry) => (
+              <EntryRow
+                key={entry.id}
+                entry={entry}
+                onRemove={() => removeEntry(entry.id)}
+                onEdit={editEntry}
+                isEditing={editingId === entry.id}
+                onStartEdit={() => handleStartEdit(entry.id)}
+                onCancelEdit={() => setEditingId(null)}
+                reducedMotion={reducedMotion}
+              />
+            ))}
+          </AnimatePresence>
+        </div>
       </div>
       {entries.length > 100 && <div className="flex items-center justify-between gap-3 text-[11px] text-steel">
         <span>Showing {Math.min(visibleCount, entries.length)} of {entries.length} entries.</span>
