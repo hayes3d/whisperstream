@@ -113,7 +113,7 @@ const BoostIcon = ({ size = 12 }: { size?: number }) => (
     strokeLinejoin="round"
     aria-hidden="true"
   >
-    <path d="M7 3v8M3 7h8" />
+    <path d="M7 11V3m0 0L4 6m3-3l3 3" />
   </svg>
 );
 
