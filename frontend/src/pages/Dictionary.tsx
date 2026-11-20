@@ -3,12 +3,18 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import type { AppConfig } from "../lib/api/config";
 import { DictionaryImportModal, DictionaryFileIcon } from "../components/DictionaryImportModal";
 import { SecondaryButton } from "../components/SecondaryButton";
+import { Dropdown, type DropdownOption } from "../components/Dropdown";
 import { normalizeDictionaryWord, reviewVocabulary, vocabularyImportPatch, type VocabularyFile } from "../lib/dictionaryImport";
 
 // Build-time variant toggle. Change, rebuild, screenshot. See design.md section 6.
 const VARIANT: "traffic-light" | "frost" = "traffic-light";
 
 type EntryType = "boost" | "filter" | "replace";
+
+const SORT_OPTIONS: DropdownOption<"recent" | "alpha">[] = [
+  { value: "recent", label: "Recent" },
+  { value: "alpha", label: "A to Z" },
+];
 
 interface DictionaryEntry {
   id: string;
@@ -622,6 +628,7 @@ export function Dictionary({ config, onConfigChange, onImportConfig, onOpenEnhan
   const [importOpen, setImportOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(100);
   const [recentEntryIds, setRecentEntryIds] = useState<string[]>([]);
+  const [sortMode, setSortMode] = useState<"recent" | "alpha">("recent");
 
   // Build unified entries from the three typed fields. Newest-first ordering
   // comes from the backing arrays' existing order; new additions are prepended.
@@ -654,11 +661,21 @@ export function Dictionary({ config, onConfigChange, onImportConfig, onOpenEnhan
       result.push({ id: `boost:${word}`, type: "boost", word });
     }
 
+    // A–Z sorts every entry by its word (the left word for replacements),
+    // case-insensitively; ties fall back to the replacement.
+    if (sortMode === "alpha") {
+      return [...result].sort(
+        (a, b) =>
+          a.word.localeCompare(b.word, undefined, { sensitivity: "base" }) ||
+          (a.replacement ?? "").localeCompare(b.replacement ?? "", undefined, { sensitivity: "base" }),
+      );
+    }
+
     // Keep freshly added entries visible even when another action type fills
     // the first page. Saved arrays retain their existing ordering semantics.
     const recent = new Map(recentEntryIds.map((id, index) => [id, index]));
     return [...result.filter(entry => recent.has(entry.id)).sort((a, b) => recent.get(a.id)! - recent.get(b.id)!), ...result.filter(entry => !recent.has(entry.id))];
-  }, [config.word_boosts, config.word_filters, config.word_replacements, recentEntryIds]);
+  }, [config.word_boosts, config.word_filters, config.word_replacements, recentEntryIds, sortMode]);
 
   // Fresh-install prefill. See design.md section 6 for the exact guard. Fire once.
   const prefillFired = useRef<boolean>(false);
@@ -807,7 +824,16 @@ export function Dictionary({ config, onConfigChange, onImportConfig, onOpenEnhan
       >
         <div className="flex items-center justify-between gap-3">
           <h2 className="text-[18px] font-medium text-slate">Dictionary</h2>
-          <SecondaryButton onClick={() => setImportOpen(true)} className="rounded-full px-3.5 py-1.5 text-[12px] text-slate inline-flex items-center gap-1.5"><DictionaryFileIcon />Import CSV</SecondaryButton>
+          <div className="flex items-center gap-2">
+            <Dropdown
+              value={sortMode}
+              options={SORT_OPTIONS}
+              onChange={setSortMode}
+              ariaLabel="Sort entries"
+              triggerClassName="w-[104px]"
+            />
+            <SecondaryButton onClick={() => setImportOpen(true)} className="rounded-full px-3.5 py-1.5 text-[12px] text-slate inline-flex items-center gap-1.5"><DictionaryFileIcon />Import CSV</SecondaryButton>
+          </div>
         </div>
         <p className="text-[12px] text-steel leading-relaxed mt-1">
           Boost names with AI enhancement, filter out words, or swap one word for another.
