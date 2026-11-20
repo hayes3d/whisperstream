@@ -824,16 +824,7 @@ export function Dictionary({ config, onConfigChange, onImportConfig, onOpenEnhan
       >
         <div className="flex items-center justify-between gap-3">
           <h2 className="text-[18px] font-medium text-slate">Dictionary</h2>
-          <div className="flex items-center gap-2">
-            <Dropdown
-              value={sortMode}
-              options={SORT_OPTIONS}
-              onChange={setSortMode}
-              ariaLabel="Sort entries"
-              triggerClassName="w-[104px]"
-            />
-            <SecondaryButton onClick={() => setImportOpen(true)} className="rounded-full px-3.5 py-1.5 text-[12px] text-slate inline-flex items-center gap-1.5"><DictionaryFileIcon />Import CSV</SecondaryButton>
-          </div>
+          <SecondaryButton onClick={() => setImportOpen(true)} className="rounded-full px-3.5 py-1.5 text-[12px] text-slate inline-flex items-center gap-1.5"><DictionaryFileIcon />Import CSV</SecondaryButton>
         </div>
         <p className="text-[12px] text-steel leading-relaxed mt-1">
           Boost names with AI enhancement, filter out words, or swap one word for another.
@@ -857,6 +848,17 @@ export function Dictionary({ config, onConfigChange, onImportConfig, onOpenEnhan
         {onOpenEnhancement && <button onClick={onOpenEnhancement} className="text-[11px] underline mt-1 cursor-pointer">Open enhancement settings</button>}
       </div>}
       {entries.length === 0 && <div className="text-center py-6 text-[12px] text-steel">Your dictionary is empty. Add a word or import a CSV.</div>}
+      {entries.length > 1 && (
+        <div className="flex justify-end">
+          <Dropdown
+            value={sortMode}
+            options={SORT_OPTIONS}
+            onChange={setSortMode}
+            ariaLabel="Sort entries"
+            triggerClassName="w-[104px]"
+          />
+        </div>
+      )}
       <div className="space-y-1">
         <AnimatePresence initial={false}>
           {entries.slice(0, visibleCount).map((entry) => (
