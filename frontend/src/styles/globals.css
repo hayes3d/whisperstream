@@ -707,6 +707,7 @@ input::-webkit-caps-lock-indicator {
 /* Frameless window drag region */
 [data-tauri-drag-region] {
   -webkit-app-region: drag;
+  cursor: grab;
 }
 [data-tauri-drag-region] button {
   -webkit-app-region: no-drag;

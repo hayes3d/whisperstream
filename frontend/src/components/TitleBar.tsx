@@ -20,8 +20,23 @@ export function TitleBar() {
   return (
     <div
       data-tauri-drag-region
-      className="absolute top-0 left-0 right-0 h-10 z-20 flex items-center justify-end gap-1.5 pr-5 pt-1"
+      title="Drag to move the window"
+      className="group absolute top-0 left-0 right-0 h-10 z-20 flex items-center justify-end gap-1.5 pr-5 pt-1"
     >
+      {/* Grip glyph: the one visible cue that this strip moves the window. */}
+      <div
+        aria-hidden
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-steel/25 group-hover:text-steel/50 transition-colors pointer-events-none"
+      >
+        <svg width="18" height="8" viewBox="0 0 18 8" fill="none">
+          {[0, 7, 14].map((x) => (
+            <g key={x} fill="currentColor">
+              <circle cx={x + 2} cy="2" r="1.1" />
+              <circle cx={x + 2} cy="6" r="1.1" />
+            </g>
+          ))}
+        </svg>
+      </div>
       {/* Minimize */}
       <button
         onClick={minimize}

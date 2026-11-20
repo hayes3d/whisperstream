@@ -137,7 +137,6 @@ export const OFFERS: SpotlightOffer[] = [
         ? "Your history is saved on this PC with no backup. A recovery key lets you get it back if this PC loses its encryption key. It takes a minute."
         : "Your history is saved on this Mac with no backup. A recovery key lets you get it back if this Mac loses its encryption key. It takes a minute.",
     note: "Saving continues while you finish this.",
-    required: true,
     hero: createElement(HistoryRecoveryHero),
     accent: "gold",
     cta: {

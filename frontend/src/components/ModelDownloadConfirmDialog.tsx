@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { DownloadCard } from "./onboarding/DownloadCard";
 import type { AppEvent } from "../lib/socket/events";
@@ -281,7 +282,10 @@ export function ModelDownloadConfirmDialog({
     ? "Finishing setup. This may take a moment."
     : downloadSubtitle;
 
-  return (
+  // Portaled to <body>: an inline render would be trapped in the stacking
+  // context of any blurred ancestor, letting body-portaled dropdown panels
+  // (z-50) paint over this z-[60] dialog.
+  return createPortal(
     <AnimatePresence>
       <div className="fixed inset-0 z-[60] flex items-center justify-center">
         {/* Backdrop — family C: --backdrop-soft (8px blur) */}
@@ -451,6 +455,7 @@ export function ModelDownloadConfirmDialog({
           </AnimatePresence>
         </motion.div>
       </div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }
