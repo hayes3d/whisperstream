@@ -2073,16 +2073,6 @@ function ReadyApp({ initialEulaStatus, onConsentRequired }: ReadyAppProps) {
             border: "1px solid var(--border-emphasis)",
           }}
         >
-          {/* Top scrim: scrolled content fades out under the titlebar chrome
-              (drag grip, minimize, close) instead of colliding with it. */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute top-0 left-0 right-0 h-10 z-10"
-            style={{
-              background:
-                "linear-gradient(to bottom, var(--surface-card) 20%, transparent)",
-            }}
-          />
           {/* DevMark: 1px gold hairline at the top edge of <main> when the
               dev-only UI Test tab is active. Peripheral / unmistakable
               cue that the user is off the production rails. */}
@@ -2094,7 +2084,17 @@ function ReadyApp({ initialEulaStatus, onConsentRequired }: ReadyAppProps) {
             />
           )}
           <TitleBar />
-          <div className="h-full overflow-y-auto px-8 py-8">
+          {/* The mask fades scrolled content out before it reaches the titlebar
+              chrome (drag grip, minimize, close) at the card's top edge. */}
+          <div
+            className="h-full overflow-y-auto px-8 py-8"
+            style={{
+              maskImage:
+                "linear-gradient(to bottom, transparent 0, black 40px)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, transparent 0, black 40px)",
+            }}
+          >
             <AnimatePresence mode="popLayout">
               <motion.div
                 key={tab}
