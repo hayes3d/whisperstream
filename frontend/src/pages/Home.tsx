@@ -645,10 +645,9 @@ export function Home({
         ))}
       </motion.div>
 
-      {/* Settings — full-bleed inside the rounded pane: scrollbar hugs the
-          right edge, pl-10 keeps content off the left edge, pr-5 keeps
-          controls off the scroll track. */}
-      <div className="flex-1 min-h-0 overflow-y-auto pl-10 pr-5 pb-6">
+      {/* Settings — full-bleed inside the rounded pane: the scrollbar hugs the
+          right edge; side and bottom insets match so the pane reads centered. */}
+      <div className="flex-1 min-h-0 overflow-y-auto pl-10 pr-10 pb-10">
         <SettingRow index={0} title="Appearance">
           <Dropdown
             value={config.theme ?? "light"}
