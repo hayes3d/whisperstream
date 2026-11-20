@@ -2056,7 +2056,7 @@ function ReadyApp({ initialEulaStatus, onConsentRequired }: ReadyAppProps) {
       <div data-tauri-drag-region className="absolute top-0 left-0 h-10 w-44 z-10" />
       {/* The sidebar is the window's left pane, flush to its edges; the
           content card floats beside it. */}
-      <div className="flex h-full gap-2.5 pr-2">
+      <div className="flex h-full gap-2.5 pr-2.5">
         <Sidebar
           activeTab={tab}
           onTabChange={setTab}
