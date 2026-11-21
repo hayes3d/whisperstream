@@ -9,6 +9,7 @@
  * one model twice.
  */
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { MultilingualLanguageSwitchDialog } from "../MultilingualLanguageSwitchDialog";
 
@@ -77,18 +78,21 @@ describe("MultilingualLanguageSwitchDialog", () => {
       expect(onSwitchToRecommended).toHaveBeenCalledOnce();
     });
 
-    it("maps Escape and backdrop clicks to abandoning the language change", () => {
+    it("maps Escape and backdrop clicks to abandoning the language change", async () => {
       const onDismiss = vi.fn();
       const onKeepCurrentModel = vi.fn();
       const onSwitchToRecommended = vi.fn();
-      const { container } = render(
+      render(
         <MultilingualLanguageSwitchDialog
           {...switchProps({ onDismiss, onKeepCurrentModel, onSwitchToRecommended })}
         />,
       );
 
-      fireEvent.keyDown(window, { key: "Escape" });
-      fireEvent.click(container.querySelector(".absolute.inset-0")!);
+      fireEvent.keyDown(document, { key: "Escape" });
+      // A real pointer press on the scrim (Radix dismisses on outside press).
+      await userEvent
+        .setup({ pointerEventsCheck: 0 })
+        .click(document.querySelector('[data-slot="dialog-overlay"]') as HTMLElement);
 
       expect(onDismiss).toHaveBeenCalledTimes(2);
       expect(onKeepCurrentModel).not.toHaveBeenCalled();
@@ -151,7 +155,7 @@ describe("MultilingualLanguageSwitchDialog", () => {
       expect(cancel).toHaveFocus();
 
       fireEvent.click(cancel);
-      fireEvent.keyDown(window, { key: "Escape" });
+      fireEvent.keyDown(document, { key: "Escape" });
 
       expect(onDismiss).toHaveBeenCalledTimes(2);
       expect(onKeepCurrentModel).not.toHaveBeenCalled();

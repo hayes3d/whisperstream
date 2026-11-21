@@ -289,20 +289,22 @@ describe("existing Lockdown scope review", () => {
     expect(screen.queryByText(/Claude Code/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/provider/i)).not.toBeInTheDocument();
 
-    // Required review: neither Escape nor an outside press may dismiss it.
-    fireEvent.keyDown(document, { key: "Escape" });
-    fireEvent.pointerDown(
-      document.querySelector('[data-slot="dialog-overlay"]') as HTMLElement,
-    );
-    expect(onContinue).not.toHaveBeenCalled();
-    expect(onTurnOff).not.toHaveBeenCalled();
-    expect(dialog).toBeInTheDocument();
-
     const continueButton = screen.getByRole("button", { name: "Continue" });
     const turnOffButton = screen.getByRole("button", {
       name: "Turn off Lockdown Mode",
     });
     await waitFor(() => expect(continueButton).toHaveFocus());
+    // Required review: neither Escape nor an outside press may dismiss it.
+    fireEvent.keyDown(document, { key: "Escape" });
+    await userEvent
+      .setup({ pointerEventsCheck: 0 })
+      .click(document.querySelector('[data-slot="dialog-overlay"]') as HTMLElement);
+    expect(onContinue).not.toHaveBeenCalled();
+    expect(onTurnOff).not.toHaveBeenCalled();
+    expect(dialog).toBeInTheDocument();
+
+    // Pressing the scrim blurs the active element; restore it before the Tab check.
+    continueButton.focus();
     // Radix FocusScope wraps Tab from the event target inside the dialog.
     fireEvent.keyDown(continueButton, { key: "Tab" });
     expect(turnOffButton).toHaveFocus();

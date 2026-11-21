@@ -72,6 +72,8 @@ function DialogContent({
       <DialogOverlay backdrop={backdrop} />
       <DialogPrimitive.Content
         data-slot="dialog-content"
+        // Radix omits aria-modal; the app's dialogs (and their a11y tests) expect it.
+        aria-modal="true"
         className={cn(
           // Glacier modal card: frost-glass surface, emphasis border, glass
           // glow, card radius. The app's dialogs draw their own pills, so no
