@@ -2084,17 +2084,9 @@ function ReadyApp({ initialEulaStatus, onConsentRequired }: ReadyAppProps) {
             />
           )}
           <TitleBar />
-          {/* The mask fades scrolled content out before it reaches the titlebar
-              chrome (drag grip, minimize, close) at the card's top edge. */}
-          <div
-            className="h-full overflow-y-auto px-8 py-8"
-            style={{
-              maskImage:
-                "linear-gradient(to bottom, transparent 0, black 40px)",
-              WebkitMaskImage:
-                "linear-gradient(to bottom, transparent 0, black 40px)",
-            }}
-          >
+          {/* Scroll viewport starts below the titlebar strip (h-10), so
+              content never passes under the drag grip / minimize / close. */}
+          <div className="absolute inset-x-0 bottom-0 top-10 overflow-y-auto px-8 pb-8 pt-2">
             <AnimatePresence mode="popLayout">
               <motion.div
                 key={tab}
