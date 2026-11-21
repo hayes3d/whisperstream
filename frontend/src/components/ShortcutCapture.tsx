@@ -164,11 +164,11 @@ export function ShortcutCapture({
               : chips
                 ? "1px solid var(--border-hairline-steel)"
                 : "1px solid var(--border-standard)",
+            // Resting state reads as a sunken field (input well), so hotkey
+            // targets aren't mistaken for the raised action pills beside them.
             boxShadow: capturing
               ? "var(--shadow-frost-glow), inset 0 1px 0 rgb(255 255 255 / calc(0.8 * var(--rim-scale)))"
-              : chips
-                ? "none"
-                : "var(--shadow-glass-sm)",
+              : "var(--shadow-input-well)",
             transition: "background 200ms, border 200ms, box-shadow 200ms",
           }}
         >
