@@ -39,7 +39,8 @@ function DialogOverlay({
     <DialogPrimitive.Overlay
       data-slot="dialog-overlay"
       className={cn(
-        "fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0",
+        // Glacier family-A/B backdrop: frosted canvas scrim + 40px blur.
+        "fixed inset-0 z-50 [background:var(--backdrop-strong)] backdrop-blur-[40px]",
         className
       )}
       {...props}
@@ -50,7 +51,7 @@ function DialogOverlay({
 function DialogContent({
   className,
   children,
-  showCloseButton = true,
+  showCloseButton = false,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean
@@ -61,7 +62,10 @@ function DialogContent({
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
-          "fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg duration-200 outline-none data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 sm:max-w-lg",
+          // Glacier modal card: frost-glass surface, emphasis border, glass
+          // glow, card radius. The app's dialogs draw their own pills, so no
+          // default close button.
+          "fixed top-[50%] left-[50%] z-50 w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] rounded-[var(--radius-card)] p-7 outline-none [background:var(--surface-modal)] backdrop-blur-[24px] border border-[var(--border-emphasis)] [box-shadow:var(--shadow-glass)] sm:max-w-lg",
           className
         )}
         {...props}
@@ -125,7 +129,10 @@ function DialogTitle({
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
-      className={cn("text-lg leading-none font-semibold", className)}
+      className={cn(
+        "font-display text-[18px] font-normal text-slate",
+        className
+      )}
       {...props}
     />
   )
@@ -138,7 +145,7 @@ function DialogDescription({
   return (
     <DialogPrimitive.Description
       data-slot="dialog-description"
-      className={cn("text-sm text-muted-foreground", className)}
+      className={cn("text-[12px] leading-relaxed text-steel", className)}
       {...props}
     />
   )
