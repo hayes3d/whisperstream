@@ -87,7 +87,7 @@ describe("LowRamDialog", () => {
   it("Escape key triggers onDismiss", () => {
     const onDismiss = vi.fn();
     render(<LowRamDialog {...makeProps({ onDismiss })} />);
-    fireEvent.keyDown(window, { key: "Escape" });
+    fireEvent.keyDown(document, { key: "Escape" });
     expect(onDismiss).toHaveBeenCalledOnce();
   });
 
