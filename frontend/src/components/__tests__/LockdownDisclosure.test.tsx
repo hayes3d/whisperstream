@@ -5,6 +5,7 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { AppConfig } from "../../lib/api/config";
 import {
@@ -79,8 +80,10 @@ beforeEach(() => {
   });
   apiMocks.changeLockdownPassword.mockResolvedValue({ ok: true });
   recoveryFiles.downloadRecoveryFile.mockResolvedValue("saved");
-  Object.assign(navigator, {
-    clipboard: { writeText: vi.fn().mockResolvedValue(undefined) },
+  // userEvent.setup() installs a getter-only clipboard stub; override it.
+  Object.defineProperty(navigator, "clipboard", {
+    configurable: true,
+    value: { writeText: vi.fn().mockResolvedValue(undefined) },
   });
 });
 
@@ -218,15 +221,22 @@ describe("Lockdown version-3 acknowledgment", () => {
     );
     const finish = screen.getByRole("button", { name: "Finish setup" });
     expect(finish).toHaveAttribute("aria-disabled", "true");
-    expect(finish).toHaveAccessibleDescription(
+    // Radix mounts the hint bubble (the aria-describedby target) only while
+    // the trigger is hovered/focused.
+    const user = userEvent.setup();
+    await user.hover(finish);
+    await waitFor(() => expect(finish).toHaveAccessibleDescription(
       "Copy, print, or download your recovery key to continue.",
-    );
+    ));
     fireEvent.click(finish);
     expect(
       screen.getByRole("heading", { name: "Save your recovery key" }),
     ).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "Copy recovery key" }));
+    // Clicking the gated button closed its bubble; leave and re-enter to reopen.
+    await user.unhover(finish);
+    await user.hover(finish);
     await waitFor(() =>
       expect(finish).toHaveAccessibleDescription(
         "Confirm where you saved it to continue.",

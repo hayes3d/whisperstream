@@ -21,6 +21,7 @@
  * The provider/key/model controls now live inside the stateful Connection block
  * (issue 1): always reachable, but collapsed behind a summary row once connected.
  */
+import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor, within, act } from "@testing-library/react";
 import { Enhancement } from "../Enhancement";
@@ -1102,10 +1103,16 @@ describe("Enhancement — Stream-1 Mini local picker", () => {
     const tabbable: HTMLElement[] = Array.from(panel.querySelectorAll<HTMLButtonElement>("button:not([disabled])"))
       .filter((button) => button.tabIndex !== -1);
     const trash = within(panel).getByRole("button", { name: "Delete Stream-1 Mini" });
-    expect(tabbable.indexOf(trash)).toBe(tabbable.indexOf(mini) + 1);
+    // Radix Select rows are roving-focus (tabIndex -1), so a row is never in
+    // the tabbable list itself; Tab from a row lands on the next tabbable
+    // control in DOM order, which must be that row's own action.
+    const nextTabbable = (row: HTMLElement) =>
+      tabbable.find((el) => row.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(nextTabbable(mini)).toBe(trash);
     const custom = within(panel).getByRole("option", { name: /Customizable/ });
-    expect(tabbable.indexOf(within(panel).getByRole("button", { name: "Delete Customizable" })))
-      .toBe(tabbable.indexOf(custom) + 1);
+    expect(nextTabbable(custom)).toBe(
+      within(panel).getByRole("button", { name: "Delete Customizable" }),
+    );
   });
 
   it("keeps a too-slow installed model disabled but deletable", async () => {
@@ -1310,8 +1317,12 @@ describe("Enhancement - persisted Ollama connection checks", () => {
     expect(
       summary.querySelector('[data-provider-icon="remote"]'),
     ).toBeInTheDocument();
+    // Radix portals the bubble and mounts it only while the glyph is hovered.
+    await userEvent.setup().hover(
+      summary.querySelector<HTMLElement>('[data-provider-icon="remote"]')!,
+    );
     expect(
-      within(summary).getByRole("tooltip", {
+      await screen.findByRole("tooltip", {
         name: "Server on this device; may use cloud models",
       }),
     ).toBeInTheDocument();
@@ -1330,8 +1341,11 @@ describe("Enhancement - persisted Ollama connection checks", () => {
     expect(
       summary.querySelector('[data-provider-icon="remote"]'),
     ).toBeInTheDocument();
+    await userEvent.setup().hover(
+      summary.querySelector<HTMLElement>('[data-provider-icon="remote"]')!,
+    );
     expect(
-      within(summary).getByRole("tooltip", {
+      await screen.findByRole("tooltip", {
         name: "Sent to workstation.local for cleanup.",
       }),
     ).toBeInTheDocument();

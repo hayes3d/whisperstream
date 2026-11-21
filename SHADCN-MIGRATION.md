@@ -115,6 +115,21 @@ swapped components.
      nudge otherwise opens in unrelated tests); the two nudge tests set false
      explicitly.
    - Not touched: `MemoryRingIcon` export (still used by VoiceModelMemoryDialog).
+6. **HoverTooltip tree is now stable** (follow-up fix): it used to return the
+   bare wrapper when `content` was empty, so a hint going null (e.g. a gate
+   opening on RecoveryGateButton / LockdownSetup Continue) remounted the
+   trigger and dropped focus from the wrapped control. Only `TooltipContent`
+   is conditional now; props unchanged.
+7. **Known a11y compromise, not fixed**: `aria-describedby` that points at a
+   HoverTooltip bubble resolves only while the trigger is hovered/focused. It
+   works when the described control is itself the trigger (RecoveryGateButton),
+   but not for the Transcripts header, whose provenance bubble hangs off the
+   (non-focusable) version chip, and `focusVisibleClassName` (show-on-header-
+   focus) is ignored. A persistent visually-hidden mirror of the bubble text
+   would restore it; left as a decision.
+8. **Test setup**: the Radix jsdom stubs in `src/test/setup.ts` are guarded on
+   `typeof Element` (node-environment suites crashed with "Element is not
+   defined").
 
 ## Verification
 

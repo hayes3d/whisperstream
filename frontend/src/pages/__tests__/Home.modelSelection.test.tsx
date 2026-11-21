@@ -14,6 +14,7 @@ import { WINDOWS_CAPABILITIES } from "../../test/platformFixtures";
  *   - `Force selected language` exists only on Manual + Qwen;
  *   - an in-flight switch disables the model controls and is announced.
  */
+import userEvent from "@testing-library/user-event";
 import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
 import {
   render,
@@ -183,7 +184,11 @@ function openAdvanced() {
 }
 
 function modelPicker() {
-  return screen.queryByRole("button", { name: /^Voice recognition model:/ });
+  // hidden: an open Radix Select aria-hides the page behind it, trigger included.
+  return screen.queryByRole("button", {
+    name: /^Voice recognition model:/,
+    hidden: true,
+  });
 }
 
 beforeEach(() => {
@@ -315,9 +320,14 @@ describe("Manual mode", () => {
     await settled();
 
     expect(screen.getByText("Cohere Transcribe")).toBeInTheDocument();
+    // The blurb lives in the info icon's hover bubble (mounted only while open).
+    await userEvent.setup().hover(
+      document.querySelector<HTMLElement>("svg.cursor-help")!,
+    );
     expect(
-      screen.getByText(
+      await screen.findByText(
         "Cohere's speech-to-text model. Supports 14 languages, uses your selected language, and requires more memory.",
+        { selector: '[data-slot="tooltip-content"]' },
       ),
     ).toBeInTheDocument();
     expect(screen.getByText("Models vary in speed and transcription quality.")).toBeInTheDocument();
@@ -467,7 +477,11 @@ describe("Model deletion from the picker", () => {
     renderHome(manualDual);
     const panel = await openPicker();
 
-    expect(panel.querySelector('[role="tooltip"]')).toHaveTextContent(
+    // Radix mounts (and portals) the bubble only while the icon is hovered.
+    await userEvent.setup().hover(
+      panel.querySelector<HTMLElement>('span[aria-hidden="true"] > span')!,
+    );
+    expect(await screen.findByRole("tooltip", { hidden: true })).toHaveTextContent(
       "Download Qwen3 ASR",
     );
     expect(

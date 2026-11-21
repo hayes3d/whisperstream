@@ -69,25 +69,28 @@ export function HoverTooltip({
     </span>
   );
 
-  if (!hasContent) return wrapper;
-
   const placement = SIDE_MAP[side];
 
   return (
     // ponytail: per-instance provider keeps 20+ call sites untouched; hoist
     // one app-level TooltipProvider if instance count ever matters.
+    // The tree is identical with or without content (only TooltipContent is
+    // conditional) so a hint that goes null (e.g. a gate opening) does not
+    // remount the trigger and drop focus from the wrapped control.
     <TooltipProvider delayDuration={150}>
       <Tooltip>
         <TooltipTrigger asChild>{wrapper}</TooltipTrigger>
-      <TooltipContent
-        id={bubbleId}
-        side={placement.side}
-        align={placement.align}
-        sideOffset={8}
-        className={width}
-      >
-          {content}
-        </TooltipContent>
+        {hasContent && (
+          <TooltipContent
+            id={bubbleId}
+            side={placement.side}
+            align={placement.align}
+            sideOffset={8}
+            className={width}
+          >
+            {content}
+          </TooltipContent>
+        )}
       </Tooltip>
     </TooltipProvider>
   );

@@ -17,13 +17,16 @@ globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 // construct one on mount, so stub it to a no-op for the test environment.
 // jsdom lacks the pointer-capture API and scrollIntoView, which Radix Select
 // (shadcn migration) touches during open/close. No-op stubs are enough.
-if (typeof Element.prototype.hasPointerCapture === "undefined") {
-  Element.prototype.hasPointerCapture = () => false;
-  Element.prototype.setPointerCapture = () => {};
-  Element.prototype.releasePointerCapture = () => {};
-}
-if (typeof Element.prototype.scrollIntoView === "undefined") {
-  Element.prototype.scrollIntoView = () => {};
+// Node-environment suites (lib/, hud/ ...) have no DOM, so guard on Element.
+if (typeof Element !== "undefined") {
+  if (typeof Element.prototype.hasPointerCapture === "undefined") {
+    Element.prototype.hasPointerCapture = () => false;
+    Element.prototype.setPointerCapture = () => {};
+    Element.prototype.releasePointerCapture = () => {};
+  }
+  if (typeof Element.prototype.scrollIntoView === "undefined") {
+    Element.prototype.scrollIntoView = () => {};
+  }
 }
 
 if (typeof globalThis.ResizeObserver === "undefined") {
