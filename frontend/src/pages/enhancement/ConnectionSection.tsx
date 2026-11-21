@@ -11,7 +11,7 @@ import { ProviderDataGlyph } from "./Glyphs";
  *                           (Local: `● Local · Ready   <model>  ⌄`). Click the
  *                           row or caret to expand the controls inline.
  *   connected (expanded)    the full controls + a "Done" affordance to re-collapse.
- *   unconfigured            guided setup card: title "Connect a cleanup model",
+ *   unconfigured            guided setup card: title "Connect an enhancement model",
  *                           description, and the provider/key controls. Always
  *                           expanded (the parent forces `expanded`); never a modal.
  *   failed                  same as connected-collapsed but the dot is rose and
@@ -78,7 +78,7 @@ export function ConnectionSection({
       {state === "unconfigured" ? (
         // ---- Guided setup card (first-run / no key) ----
         <div className="rounded-[var(--radius-card)] p-5" style={cardStyle}>
-          <div className="text-[13px] font-medium text-slate">Connect a cleanup model</div>
+          <div className="text-[13px] font-medium text-slate">Connect an enhancement model</div>
           <div className="text-[11px] text-steel mt-0.5 mb-3">
             Pick a provider and add its API key.
           </div>

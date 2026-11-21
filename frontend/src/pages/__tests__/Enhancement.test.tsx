@@ -1028,7 +1028,7 @@ describe("Enhancement — default provider is local", () => {
     // Connection block renders the guided setup card EXPANDED, so the provider
     // dropdown + API key field are in the DOM without any user action.
     renderEnhancement({ enhancement_provider: "gemini" });
-    expect(screen.getByText("Connect a cleanup model")).toBeInTheDocument();
+    expect(screen.getByText("Connect an enhancement model")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Paste API key")).toBeInTheDocument();
   });
 });
@@ -1279,7 +1279,7 @@ describe("Enhancement — Connection block (issue 1)", () => {
     expect(onConfigChange).not.toHaveBeenCalledWith(
       expect.objectContaining({ enhancement_enabled: true }),
     );
-    expect(screen.getByText("Connect a cleanup model")).toBeInTheDocument();
+    expect(screen.getByText("Connect an enhancement model")).toBeInTheDocument();
     expect(screen.queryByText("Add API key first")).toBeNull();
   });
 });

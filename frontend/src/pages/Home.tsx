@@ -174,6 +174,48 @@ interface HomeProps {
   connected?: boolean;
 }
 
+/** Seconds field with a local draft: only a valid number commits (on blur or
+ *  Enter), so erasing the field no longer silently becomes 0 = "no limit". */
+function MaxDurationField({
+  value,
+  onChange,
+}: {
+  value: number;
+  onChange: (seconds: number) => void;
+}) {
+  const [draft, setDraft] = useState(String(value));
+  useEffect(() => setDraft(String(value)), [value]);
+  const commit = () => {
+    const parsed = parseFloat(draft);
+    if (Number.isFinite(parsed) && parsed >= 0) onChange(parsed);
+    else setDraft(String(value));
+  };
+  return (
+    <div className="flex items-center gap-2">
+      <input
+        type="number"
+        min={0}
+        step={1}
+        aria-label="Max recording duration in seconds"
+        value={draft}
+        onChange={(e) => setDraft(e.target.value)}
+        onBlur={commit}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") (e.target as HTMLInputElement).blur();
+        }}
+        className="w-16 px-2 py-1.5 rounded-[var(--radius-input)] text-[13px] text-center text-slate outline-none"
+        style={{
+          background: "var(--surface-control)",
+          border: "1px solid var(--border-hairline)",
+        }}
+      />
+      <span className="text-[12px] text-steel">
+        {value === 0 ? "seconds — no limit" : "seconds"}
+      </span>
+    </div>
+  );
+}
+
 export function Home({
   config,
   startupStatus,
@@ -901,13 +943,13 @@ export function Home({
 
               <SettingRow
                 index={2}
-                title="Unload cleanup model when idle"
+                title="Unload enhancement model when idle"
                 description="Free memory after this long with no use. Never keeps it loaded."
               >
                 <DurationSelect
                   value={config.enhancement_local_idle_timeout}
                   onChange={(seconds) => onConfigChange({ enhancement_local_idle_timeout: seconds })}
-                  ariaLabel="Unload cleanup model when idle"
+                  ariaLabel="Unload enhancement model when idle"
                 />
               </SettingRow>
 
@@ -916,25 +958,10 @@ export function Home({
                 title="Max Recording Duration"
                 description="Auto-stop after this duration (0 for no limit)"
               >
-                <div className="flex items-center gap-2">
-                  <input
-                    type="number"
-                    min={0}
-                    step={1}
-                    value={config.max_recording_duration}
-                    onChange={(e) =>
-                      onConfigChange({
-                        max_recording_duration: parseFloat(e.target.value) || 0,
-                      })
-                    }
-                    className="w-16 px-2 py-1.5 rounded-[var(--radius-input)] text-[13px] text-center text-slate outline-none"
-                    style={{
-                      background: "var(--surface-control)",
-                      border: "1px solid var(--border-hairline)",
-                    }}
-                  />
-                  <span className="text-[12px] text-steel">seconds</span>
-                </div>
+                <MaxDurationField
+                  value={config.max_recording_duration}
+                  onChange={(seconds) => onConfigChange({ max_recording_duration: seconds })}
+                />
               </SettingRow>
 
               {/* Qwen's decode hint, shown ONLY while Qwen is manually
@@ -982,9 +1009,9 @@ export function Home({
                   {/* Description */}
                   <div className="text-[11px] text-steel mt-0.5 mb-2.5">
                     {privateMacStorage
-                      ? "Move the Parakeet Multilingual model. Other speech and cleanup models stay in app storage."
+                      ? "Move the Parakeet Multilingual model. Other speech and enhancement models stay in app storage."
                       : modelLifecycle.enabled
-                        ? "Where the speech and cleanup models are kept. Changing this moves about 3.5 GB to the new folder."
+                        ? "Where the speech and enhancement models are kept. Changing this moves about 3.5 GB to the new folder."
                         : capabilityExplanation(modelLifecycle)}
                   </div>
                   {/* Path field + Browse button */}
