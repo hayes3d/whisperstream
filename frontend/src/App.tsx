@@ -2062,7 +2062,16 @@ function ReadyApp({ initialEulaStatus, onConsentRequired }: ReadyAppProps) {
           onTabChange={setTab}
           status={status}
           devEnabled={devTabVisible}
-          attention={historyNeedsRecoverySetup ? { transcripts: "Recovery setup needed" } : undefined}
+          attention={{
+            ...(historyNeedsRecoverySetup ? { transcripts: "Recovery setup needed" } : {}),
+            // The cannot-dictate-at-all state gets a nav beacon; gated on
+            // setup_completed so onboarding doesn't light it.
+            ...(config?.setup_completed === true &&
+            !config.push_to_talk_shortcut &&
+            !config.toggle_shortcut
+              ? { controls: "No recording shortcut set" }
+              : {}),
+          }}
         />
 
         <main

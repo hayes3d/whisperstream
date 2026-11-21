@@ -221,8 +221,16 @@ function TypeBadge({ type }: { type: EntryType }) {
   const Icon =
     type === "boost" ? BoostIcon : type === "filter" ? FilterIcon : ReplaceIcon;
   return (
-    <span className="relative group shrink-0">
+    // Focusable with a spoken name: the badge's meaning must not require a
+    // mouse, so the tooltip also reveals on keyboard focus.
+    <span
+      className="relative group shrink-0"
+      tabIndex={0}
+      role="img"
+      aria-label={LABELS[type]}
+    >
       <span
+        aria-hidden="true"
         className="inline-flex items-center justify-center w-5 h-5 rounded-full cursor-default"
         style={{
           background: palette.bg,
@@ -233,7 +241,8 @@ function TypeBadge({ type }: { type: EntryType }) {
         <Icon size={10} />
       </span>
       <span
-        className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-1.5 rounded-lg px-2 py-1 text-[10px] font-medium text-slate opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-30 whitespace-nowrap"
+        aria-hidden="true"
+        className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-1.5 rounded-lg px-2 py-1 text-[10px] font-medium text-slate opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-150 z-30 whitespace-nowrap"
         style={{
           background: "var(--surface-overlay)",
           border: "1px solid var(--border-emphasis)",

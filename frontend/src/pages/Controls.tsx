@@ -43,6 +43,18 @@ export function Controls({
   const showScreenReaderHint =
     !config.input_style_user_set && !!config.screen_reader_detected;
 
+  // Warnings (conflicts, nothing-bound) wear the caution tone so they read
+  // apart from ordinary row descriptions; informational hints stay steel.
+  const CautionCaption = ({ children }: { children: React.ReactNode }) => (
+    <div
+      role="alert"
+      className="text-[11px] -mt-2 pb-3"
+      style={{ color: "var(--color-caution-deep)" }}
+    >
+      {children}
+    </div>
+  );
+
   return (
     <div>
       {/* Group 1: Recording Indicator. The heading names the feature, so each
@@ -116,9 +128,9 @@ export function Controls({
         />
       </Section>
       {(currentShortcutConflict(config.push_to_talk_shortcut) || crossFieldConflict(config.push_to_talk_shortcut, [config.toggle_shortcut, config.paste_last_shortcut, config.paste_last_original_shortcut, config.claude_view_shortcut ?? "", config.agents_toggle_shortcut ?? ""])) && (
-        <div className="text-[11px] text-steel -mt-2 pb-3">
+        <CautionCaption>
           {currentShortcutConflict(config.push_to_talk_shortcut) || crossFieldConflict(config.push_to_talk_shortcut, [config.toggle_shortcut, config.paste_last_shortcut, config.paste_last_original_shortcut, config.claude_view_shortcut ?? "", config.agents_toggle_shortcut ?? ""])}
-        </div>
+        </CautionCaption>
       )}
 
       {/* Toggle */}
@@ -134,14 +146,14 @@ export function Controls({
         />
       </Section>
       {(currentShortcutConflict(config.toggle_shortcut) || crossFieldConflict(config.toggle_shortcut, [config.push_to_talk_shortcut, config.paste_last_shortcut, config.paste_last_original_shortcut, config.claude_view_shortcut ?? "", config.agents_toggle_shortcut ?? ""])) && (
-        <div className="text-[11px] text-steel -mt-2 pb-3">
+        <CautionCaption>
           {currentShortcutConflict(config.toggle_shortcut) || crossFieldConflict(config.toggle_shortcut, [config.push_to_talk_shortcut, config.paste_last_shortcut, config.paste_last_original_shortcut, config.claude_view_shortcut ?? "", config.agents_toggle_shortcut ?? ""])}
-        </div>
+        </CautionCaption>
       )}
       {!config.push_to_talk_shortcut && !config.toggle_shortcut && (
-        <div className="text-[11px] text-steel -mt-2 pb-3">
+        <CautionCaption>
           No recording shortcut is set. Set Push to Talk or Toggle to start dictating.
-        </div>
+        </CautionCaption>
       )}
 
       {/* Paste Last Transcript */}
@@ -157,9 +169,9 @@ export function Controls({
         />
       </Section>
       {(currentShortcutConflict(config.paste_last_shortcut) || crossFieldConflict(config.paste_last_shortcut, [config.push_to_talk_shortcut, config.toggle_shortcut, config.paste_last_original_shortcut, config.claude_view_shortcut ?? "", config.agents_toggle_shortcut ?? ""])) && (
-        <div className="text-[11px] text-steel -mt-2 pb-3">
+        <CautionCaption>
           {currentShortcutConflict(config.paste_last_shortcut) || crossFieldConflict(config.paste_last_shortcut, [config.push_to_talk_shortcut, config.toggle_shortcut, config.paste_last_original_shortcut, config.claude_view_shortcut ?? "", config.agents_toggle_shortcut ?? ""])}
-        </div>
+        </CautionCaption>
       )}
 
       {/* Paste Last Transcript (Original) */}
@@ -175,9 +187,9 @@ export function Controls({
         />
       </Section>
       {(currentShortcutConflict(config.paste_last_original_shortcut) || crossFieldConflict(config.paste_last_original_shortcut, [config.push_to_talk_shortcut, config.toggle_shortcut, config.paste_last_shortcut, config.claude_view_shortcut ?? "", config.agents_toggle_shortcut ?? ""])) && (
-        <div className="text-[11px] text-steel -mt-2 pb-3">
+        <CautionCaption>
           {currentShortcutConflict(config.paste_last_original_shortcut) || crossFieldConflict(config.paste_last_original_shortcut, [config.push_to_talk_shortcut, config.toggle_shortcut, config.paste_last_shortcut, config.claude_view_shortcut ?? "", config.agents_toggle_shortcut ?? ""])}
-        </div>
+        </CautionCaption>
       )}
 
       </SettingsGroup>
