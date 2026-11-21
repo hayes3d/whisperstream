@@ -7,12 +7,16 @@
  * DELETE arms the rose button, safe action below, focus on the field. On
  * success the caller opens the recovery key setup for the new history.
  *
- * Dialog shell is hand-rolled (no shared base).
+ * Dialog shell is the shared shadcn Dialog (Esc / scrim cancel unless deleting).
  */
 
 import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
-import { motion } from "framer-motion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { resetHistory } from "../lib/api/historyRecovery";
 import {
   passwordInputClassName as inputBase,
@@ -29,14 +33,6 @@ export interface StartFreshDialogProps {
   /** History and its keys are deleted. */
   onDeleted: () => void;
 }
-
-const shellStyle: React.CSSProperties = {
-  background: "var(--surface-modal)",
-  backdropFilter: "blur(24px)",
-  WebkitBackdropFilter: "blur(24px)",
-  border: "1px solid var(--border-emphasis)",
-  boxShadow: "var(--shadow-glass)",
-};
 
 const glassPillStyle: React.CSSProperties = {
   background: "var(--surface-control)",
@@ -107,20 +103,6 @@ export function StartFreshDialog({
     return () => window.clearTimeout(id);
   }, [open, step]);
 
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && !deleting) {
-        event.preventDefault();
-        onCancel();
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, deleting, onCancel]);
-
-  if (!open) return null;
-
   const handleDelete = async () => {
     if (!armed || deleting) return;
     setDeleting(true);
@@ -137,37 +119,21 @@ export function StartFreshDialog({
 
   const bullet = deleteBullet(recordCount, hasAudio);
 
-  return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="absolute inset-0"
-        style={{ background: "var(--backdrop-strong)", backdropFilter: "blur(40px)", WebkitBackdropFilter: "blur(40px)" }}
-        onClick={() => {
-          if (!deleting) onCancel();
-        }}
-      />
-      <motion.div
-        initial={{ scale: 0.92, opacity: 0, y: 12 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 400, damping: 30 }}
-        className="relative w-[440px] max-w-full max-h-[calc(100dvh-32px)] overflow-y-auto rounded-[var(--radius-card)] p-7"
-        style={shellStyle}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="start-fresh-heading"
-      >
+  // Esc and a scrim press cancel, except while deleting (the original ignored
+  // both then). Focus follows the step (safe action, then the typed field).
+  return (
+    <Dialog open={open} onOpenChange={(next) => !next && !deleting && onCancel()}>
+      <DialogContent className="w-[440px] max-h-[calc(100dvh-32px)] overflow-y-auto">
         {step === "explain" ? (
           <>
-            <h2 id="start-fresh-heading" className="font-display text-[18px] font-normal text-slate text-center mb-3">
+            <DialogTitle className="text-center mb-3">
               Start fresh without your history?
-            </h2>
-            <p className="text-[13px] text-steel leading-relaxed text-center mb-3">
+            </DialogTitle>
+            <DialogDescription className="text-[13px] text-steel leading-relaxed text-center mb-3">
               {hasRecoveryPassword
                 ? "Without the recovery key or recovery password, your saved transcripts can't be opened by anyone, including us."
                 : "Without the recovery key, your saved transcripts can't be opened by anyone, including us."}
-            </p>
+            </DialogDescription>
             <ul className="space-y-1.5 max-w-[340px] mx-auto">
               {[bullet, "Saving starts again with a new recovery key.", "If you find your key later, it won't work on the new history."]
                 .filter((b): b is string => b !== null)
@@ -209,10 +175,10 @@ export function StartFreshDialog({
             >
               <TrashGlyph />
             </div>
-            <h2 id="start-fresh-heading" className="font-display text-[18px] font-normal text-slate text-center mb-3">
+            <DialogTitle className="text-center mb-3">
               Delete all saved transcripts?
-            </h2>
-            <p className="text-[13px] text-steel mb-4 leading-relaxed text-center">{confirmBody(recordCount)}</p>
+            </DialogTitle>
+            <DialogDescription className="text-[13px] text-steel mb-4 leading-relaxed text-center">{confirmBody(recordCount)}</DialogDescription>
             <input
               ref={fieldRef}
               value={typed}
@@ -259,8 +225,7 @@ export function StartFreshDialog({
             </div>
           </>
         )}
-      </motion.div>
-    </div>,
-    document.body,
+      </DialogContent>
+    </Dialog>
   );
 }
