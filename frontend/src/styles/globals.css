@@ -658,7 +658,9 @@ input[type="range"]:focus-visible {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 5px 6px 5px 14px;
+  /* 2px vertical seats the 28px inner value box at 34px total, matching the
+     shortcut capture fields' height. */
+  padding: 2px 6px 2px 14px;
   border-radius: var(--radius-input);
   background: var(--surface-control);
   border: 1px solid var(--border-hairline-steel);
