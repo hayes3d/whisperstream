@@ -1466,7 +1466,7 @@ export function Enhancement({
   );
 
   const inputBase =
-    "w-full h-11 rounded-[var(--radius-input)] px-5 text-[13px] font-body text-slate placeholder:text-steel/40 outline-none transition-all duration-300";
+    "w-full h-[var(--control-height)] rounded-[var(--radius-input)] px-5 text-[13px] font-body text-slate placeholder:text-steel/40 outline-none transition-all duration-300";
   const thinking = savedConnection.thinking;
   const thinkingLabel = (level: string) => level.charAt(0).toUpperCase() + level.slice(1);
   const thinkingAdjustable = thinking?.kind === "configurable" || thinking?.kind === "mandatory";
