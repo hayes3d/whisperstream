@@ -57,6 +57,7 @@ export function ShortcutCapture({
     setLiveKeys("");
     send({ type: "shortcut.capture.stop" });
     console.log("[Hotkey] capture mode cancelled");
+    buttonRef.current?.focus();
   }, [send]);
 
   useEffect(() => {
@@ -84,6 +85,7 @@ export function ShortcutCapture({
         setCapturing(false);
         setLiveKeys("");
         setCaptureFailed(true);
+        buttonRef.current?.focus();
         return;
       }
       // Ignore events meant for a different capture target. The backend echoes
@@ -101,6 +103,9 @@ export function ShortcutCapture({
           setLiveKeys("");
           console.log(`[Hotkey] capture mode exited key=${event.keys}`);
           onChange(event.keys);
+          // Capture start blurred the trigger; hand focus back so a keyboard
+          // user isn't dropped on <body> after binding.
+          buttonRef.current?.focus();
         }
       }
     });
@@ -143,11 +148,13 @@ export function ShortcutCapture({
 
   const keyPills = liveKeys ? shortcutDisplayParts(liveKeys) : [];
   const chips = SHORTCUT_DISPLAY_STYLE === "chips" && !capturing;
-  const showClear = clearable && value !== "" && capturing;
+  // Clearing a binding is a first-class need, so the button exists at rest
+  // (revealed on hover/focus), not only during capture.
+  const showClear = clearable && value !== "";
 
   return (
     <div className="inline-flex flex-col items-stretch">
-      <div className="relative inline-flex items-center">
+      <div className="group relative inline-flex items-center">
         <button
           ref={buttonRef}
           onClick={capturing ? stopCapture : startCapture}
@@ -269,13 +276,19 @@ export function ShortcutCapture({
             type="button"
             onClick={clearShortcut}
             aria-label={clearAriaLabel ?? "Clear shortcut"}
-            className="absolute right-1 top-1/2 z-20 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-lg text-[18px] leading-none text-steel/60 transition-colors hover:text-rose cursor-pointer"
+            className={`absolute right-1 top-1/2 z-20 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-lg text-[18px] leading-none text-steel/60 transition-[color,opacity] hover:text-rose cursor-pointer ${
+              capturing ? "" : "opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
+            }`}
           >
             {"\u00d7"}
           </button>
         )}
       </div>
 
+      {/* Spoken mirror of the live key chips, which are visual-only. */}
+      <span aria-live="polite" className="sr-only">
+        {capturing && liveKeys ? formatShortcut(liveKeys) : ""}
+      </span>
       {capturing && (
         <span className="mt-1 text-center text-[11px] leading-none text-steel/60">
           Esc to cancel

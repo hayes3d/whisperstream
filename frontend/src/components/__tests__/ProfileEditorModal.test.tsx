@@ -459,10 +459,11 @@ describe("ProfileEditorModal — hotkey card", () => {
     expect(screen.getByText("Press to switch to this profile.")).toBeInTheDocument();
   });
 
-  it("renders the captured shortcut without a resting clear action", () => {
+  it("renders the captured shortcut with its clear action present at rest", () => {
     render(<ProfileEditorModal {...makeProps({ hotkey: "ctrl+alt+1" })} />);
     expect(screen.getByText("Ctrl+Alt+1")).toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "Clear shortcut" })).toBeNull();
+    // In the DOM at rest; CSS reveals it on hover/focus.
+    expect(screen.getByRole("button", { name: "Clear shortcut" })).toBeInTheDocument();
   });
 
   it("reveals Clear during capture and clicking it fires onHotkeyChange('')", () => {

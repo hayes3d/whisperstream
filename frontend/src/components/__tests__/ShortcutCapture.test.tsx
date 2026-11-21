@@ -2,8 +2,8 @@
  * Vitest + Testing Library coverage for ShortcutCapture (hotkey-cancel iteration 01).
  *
  * Tests cover:
- *   - Resting controls never show persistent clear chrome.
- *   - Capturing an existing binding reveals the integrated clear action.
+ *   - A bound shortcut renders its clear action at rest (CSS-revealed on
+ *     hover/focus) and while capturing.
  *   - Clear exits capture and unbinds; click-again and Escape only cancel.
  *   - Empty and non-clearable captures never show the clear action.
  *   - A completed capture replaces the existing value.
@@ -67,15 +67,16 @@ describe("ShortcutCapture — entry-only clear action", () => {
     const events = captureEvents();
     const p = makeProps({ value: "shift_r", subscribe: events.subscribe });
     render(<ShortcutCapture {...p} />);
-    fireEvent.click(screen.getByRole("button"));
+    fireEvent.click(screen.getAllByRole("button")[0]);
     act(() => events.emit({ type: "shortcut.capture.failed", target: "primary" }));
     expect(screen.queryByText("Press shortcut")).toBeNull();
     expect(screen.getByRole("status")).toHaveTextContent("Your shortcut isn't ready. Try again.");
     expect(p.onChange).not.toHaveBeenCalled();
   });
-  it("shows no clear action while a bound shortcut is resting", () => {
+  it("renders the clear action at rest for a bound shortcut", () => {
     render(<ShortcutCapture {...makeProps({ value: "ctrl+alt+1" })} />);
-    expect(screen.queryByRole("button", { name: "Clear shortcut" })).toBeNull();
+    // Present in the DOM at rest; CSS reveals it on hover/focus.
+    expect(screen.getByRole("button", { name: "Clear shortcut" })).toBeInTheDocument();
     expect(screen.getByText("Ctrl+Alt+1")).toBeInTheDocument();
   });
 

@@ -146,6 +146,7 @@ export function Sidebar({ activeTab, onTabChange, status, devEnabled = false, at
             <button
               key={id}
               onClick={() => onTabChange(id)}
+              aria-current={isActive ? "page" : undefined}
               aria-describedby={attention?.[id] ? `sidebar-attention-${id}` : undefined}
               className="relative flex items-center gap-2.5 px-3.5 py-2 rounded-full text-[13px] font-medium text-left transition-colors duration-200 cursor-pointer group"
             >
