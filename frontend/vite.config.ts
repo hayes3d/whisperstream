@@ -122,6 +122,7 @@ export default defineConfig(() => {
     ],
     resolve: {
       alias: {
+        "@": fileURLToPath(new URL("./src", import.meta.url)),
         "@whisperstream/native-ui-test-guest": nativeUiTestGuest,
         ...editionAliases(edition),
       },

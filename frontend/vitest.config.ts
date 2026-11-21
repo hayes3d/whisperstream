@@ -10,6 +10,7 @@ export default defineConfig({
   plugins: [editionDependencies(edition), react()],
   resolve: {
     alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
       "@whisperstream/native-ui-test-guest": new URL("./src/lib/nativeUiTestGuest.disabled.ts", import.meta.url).pathname,
       ...editionAliases(edition),
     },

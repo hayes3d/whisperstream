@@ -18,7 +18,10 @@
     "noUncheckedSideEffectImports": true,
     // Type-check against the no-op updater; vite.config.ts points the alias
     // at an edition's module when the build supplies one (see edition.ts).
-    "paths": { "@edition/updater": ["./src/lib/officialUpdaterStub.ts"] }
+    "paths": {
+      "@edition/updater": ["./src/lib/officialUpdaterStub.ts"],
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src"]
 }

@@ -525,6 +525,62 @@
   --radius-input: 12px;
 }
 
+/* ---------------------------------------------------------------------------
+   shadcn/ui bridge — maps shadcn's token contract onto the Glacier tokens
+   above, so shadcn components render in the existing look. Every value is a
+   var() reference, so the [data-theme] blocks re-theme these automatically.
+   Geometry: --radius tracks --radius-input (12px); shadcn's rounded-lg
+   therefore equals the app's field radius.
+   --------------------------------------------------------------------------- */
+:root {
+  --radius: var(--radius-input);
+  --background: var(--color-canvas);
+  --foreground: var(--color-slate);
+  --card: var(--surface-card);
+  --card-foreground: var(--color-slate);
+  --popover: var(--surface-overlay);
+  --popover-foreground: var(--color-slate);
+  --primary: var(--color-frost-deep);
+  --primary-foreground: #ffffff;
+  --secondary: var(--surface-control);
+  --secondary-foreground: var(--color-slate);
+  --muted: var(--surface-control);
+  --muted-foreground: var(--color-steel);
+  --accent: var(--surface-hover);
+  --accent-foreground: var(--color-slate);
+  --destructive: var(--color-rose);
+  --destructive-foreground: #ffffff;
+  --border: var(--border-hairline-steel);
+  --input: var(--surface-control);
+  --ring: var(--color-frost);
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
 @layer base {
   html, body, #root {
     width: 100%;
