@@ -132,7 +132,8 @@ describe("SttModelPicker options", () => {
     // Radix mounts (and portals) the bubble only while the icon is hovered.
     const icon = option.querySelector<HTMLElement>('span[aria-hidden="true"] > span');
     expect(icon).not.toBeNull();
-    await userEvent.setup().hover(icon!);
+    const user = userEvent.setup();
+    await user.hover(icon!);
     const tooltip = await screen.findByRole("tooltip", { hidden: true });
     expect(tooltip).toHaveTextContent("Download Qwen3 ASR");
     expect(
@@ -141,7 +142,9 @@ describe("SttModelPicker options", () => {
       }),
     ).toBeNull();
 
-    fireEvent.click(option);
+    // After the pointer has hovered the row Radix selects on pointerup, so use
+    // a real pointer click.
+    await user.click(option);
     expect(onChange).toHaveBeenCalledWith("qwen");
   });
 

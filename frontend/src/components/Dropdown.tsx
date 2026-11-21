@@ -753,8 +753,13 @@ export function Dropdown<T extends string | number>({
                           disabled={isDisabled}
                           onClick={(event) => {
                             // Synthetic/keyboard clicks only; pointer and
-                            // Enter/Space selection are Radix's.
-                            if (event.detail === 0) selectOption(opt);
+                            // Enter/Space selection are Radix's. Radix's own
+                            // item click already reports a changed value via
+                            // onValueChange, so only handle re-selecting the
+                            // current value here, or onChange fires twice.
+                            if (event.detail === 0 && String(opt.value) === String(value)) {
+                              selectOption(opt);
+                            }
                           }}
                           onKeyDown={(event) =>
                             handleOptionKeyDown(event, opt, index)

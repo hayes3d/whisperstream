@@ -130,12 +130,17 @@ swapped components.
 8. **Test setup**: the Radix jsdom stubs in `src/test/setup.ts` are guarded on
    `typeof Element` (node-environment suites crashed with "Element is not
    defined").
+9. **Dropdown double-fire** (follow-up fix): a keyboard/synthetic click on an
+   option ran both the row handler and Radix's own item click, so `onChange`
+   fired twice for a changed value (visible as two speech-status refreshes in
+   HudConfigModal). The row click handler now only handles re-selecting the
+   current value (Radix does not report that); changed values go through
+   `onValueChange` alone. Props unchanged.
 
 ## Verification
 
 - `npx tsc -b` clean.
-- Dialog batch 2: `src/components` + `src/pages` run is 583/606 passing, identical to the pre-batch baseline; the same 23 failures (Lockdown/RecoveryStep/Home.modelSelection/Transcripts.copy/…) exist on the branch before these swaps and are unrelated.
-- Full `npx vitest run` green (as of the first batch) (Dropdown suite 33/33, Toggle 3/3,
+- Dialog batch 2 + Radix-test follow-up: full `npx vitest run` is 2336/2336 (exit 0, read from the JSON reporter, not the rtk wrapper summary). The earlier "full suite green" was wrong: the wrapper hid failures from the tooltip/select swaps. (Dropdown suite 33/33, Toggle 3/3,
   HoverTooltip 4/4 after adaptation to Radix semantics).
 - Dev preview (`npm run dev`, port 1420) not exercised in this session —
   visual pass in the real app still recommended before building on this.

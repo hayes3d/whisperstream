@@ -9,6 +9,7 @@ import {
   within,
   waitFor,
 } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import * as api_speech from "../lib/api/speech";
 import * as api_agents from "../lib/api/agents";
@@ -168,7 +169,7 @@ async function openVoicePicker(triggerName: string) {
 }
 
 describe("HudConfigModal adaptive voice controls", () => {
-  it("keeps idle unloading advanced and defaults legacy snapshots to 30 minutes", () => {
+  it("keeps idle unloading advanced and defaults legacy snapshots to 30 minutes", async () => {
     const props = renderModal(makeConfig({ agent_speech_enabled: true }));
     const advanced = screen.getByRole("button", { name: "Advanced" });
     expect(advanced).toHaveAttribute("aria-expanded", "false");
@@ -178,7 +179,11 @@ describe("HudConfigModal adaptive voice controls", () => {
     expect(advanced).toHaveAttribute("aria-expanded", "true");
     const helpLabel = screen.getByText("Unload voice model when idle", { exact: true });
     expect(helpLabel).toHaveAttribute("tabindex", "0");
-    expect(helpLabel).toHaveAccessibleDescription("Free memory after speech is inactive. The next reply may take a moment to start.");
+    // Radix mounts the help bubble (the aria-describedby target) on hover/focus.
+    await userEvent.setup().hover(helpLabel);
+    await waitFor(() =>
+      expect(helpLabel).toHaveAccessibleDescription("Free memory after speech is inactive. The next reply may take a moment to start."),
+    );
     fireEvent.click(screen.getByRole("button", { name: "Unload voice model when idle: 30 min" }));
     const listbox = screen.getByRole("listbox", { name: "Unload voice model when idle" });
     expect(within(listbox).getAllByRole("option").map((option) => option.textContent)).toEqual([
@@ -204,7 +209,7 @@ describe("HudConfigModal adaptive voice controls", () => {
     expect(props.onConfigChange).not.toHaveBeenCalled();
   });
 
-  it("offers Automatic beside both models, with an info tooltip for the current choice", () => {
+  it("offers Automatic beside both models, with an info tooltip for the current choice", async () => {
     const props = renderModal(
       makeConfig({ agent_speech_enabled: true, agent_speech_engine: "auto" }),
     );
@@ -213,9 +218,9 @@ describe("HudConfigModal adaptive voice controls", () => {
       name: "Voice model: Automatic",
     });
     expect(trigger).toHaveAttribute("aria-haspopup", "listbox");
-    expect(
-      screen.getByRole("button", { name: "Voice model information" }),
-    ).toHaveAccessibleDescription(VOICE_MODEL_INFO.auto);
+    const info = screen.getByRole("button", { name: "Voice model information" });
+    await userEvent.setup().hover(info);
+    await waitFor(() => expect(info).toHaveAccessibleDescription(VOICE_MODEL_INFO.auto));
     fireEvent.click(trigger);
 
     expect(screen.getByRole("option", { name: "Automatic" })).toBeInTheDocument();
@@ -227,13 +232,13 @@ describe("HudConfigModal adaptive voice controls", () => {
     });
   });
 
-  it("explains the chosen model and switches back to Automatic", () => {
+  it("explains the chosen model and switches back to Automatic", async () => {
     const props = renderModal(
       makeConfig({ agent_speech_enabled: true, agent_speech_engine: "kokoro" }),
     );
-    expect(
-      screen.getByRole("button", { name: "Voice model information" }),
-    ).toHaveAccessibleDescription(VOICE_MODEL_INFO.kokoro);
+    const info = screen.getByRole("button", { name: "Voice model information" });
+    await userEvent.setup().hover(info);
+    await waitFor(() => expect(info).toHaveAccessibleDescription(VOICE_MODEL_INFO.kokoro));
     fireEvent.click(screen.getByRole("button", { name: "Voice model: Higher quality" }));
     fireEvent.click(screen.getByRole("option", { name: "Automatic" }));
     expect(props.onConfigChange).toHaveBeenCalledWith({ agent_speech_engine: "auto" });
@@ -808,13 +813,18 @@ describe("HudConfigModal adaptive voice controls", () => {
         name: "Kokoro may use too much memory",
       }),
     ).toBeInTheDocument();
-    const dialogs = screen.getAllByRole("dialog");
+    // The Radix memory dialog aria-hides the HUD dialog behind it.
+    const dialogs = screen.getAllByRole("dialog", { hidden: true });
     expect(dialogs).toHaveLength(2);
+    // Stacking: the memory dialog portals to body after the HUD modal (both
+    // z-50), so it paints on top.
+    const memoryDialog = screen
+      .getByRole("heading", { name: "Kokoro may use too much memory" })
+      .closest('[role="dialog"]') as HTMLElement;
+    const hudDialog = dialogs.find((dialog) => dialog !== memoryDialog)!;
     expect(
-      screen
-        .getByRole("heading", { name: "Kokoro may use too much memory" })
-        .closest('[role="dialog"]')?.parentElement,
-    ).toHaveClass("z-[60]");
+      hudDialog.compareDocumentPosition(memoryDialog) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
     expect(props.onRefreshSpeechStatus).toHaveBeenCalledTimes(1);
     expect(
       screen.getByRole("button", { name: "Continue anyway" }),
@@ -1125,23 +1135,24 @@ function renderModal(
 }
 
 describe("HudConfigModal locked Agent HUD settings", () => {
-  it.each(["light", "dark"])("uses backend-selected dev commands in %s", (theme) => {
+  it.each(["light", "dark"])("uses backend-selected dev commands in %s", async (theme) => {
     document.documentElement.dataset.theme = theme;
     renderModal(makeConfig({ agent_speech_enabled: true }), {
       speechStatus: makeSpeechStatus({ plugin_variant: "dev" }),
     });
     // The selected option's hint is both the row description and its pill
-    // tooltip.
-    expect(screen.getAllByText(
-      "Use /whisperstream-dev:speak in Claude Code or $speak-dev in Codex for that session.",
-    )).toHaveLength(2);
+    // tooltip (the tooltip only mounts while the pill is hovered).
+    const devHint = "Use /whisperstream-dev:speak in Claude Code or $speak-dev in Codex for that session.";
+    expect(screen.getAllByText(devHint)).toHaveLength(1);
+    await userEvent.setup().hover(screen.getByRole("button", { name: "When I ask" }));
+    expect(await screen.findByRole("tooltip")).toHaveTextContent(devHint);
     expect(screen.queryByText(
       "Use /whisperstream:speak in Claude Code or $speak in Codex for that session.",
     )).not.toBeInTheDocument();
     delete document.documentElement.dataset.theme;
   });
 
-  it("puts one tooltip on each activation option and marks the QA hover target", () => {
+  it("puts one tooltip on each activation option and marks the QA hover target", async () => {
     renderModal(
       makeConfig({
         agent_speech_enabled: true,
@@ -1154,15 +1165,19 @@ describe("HudConfigModal locked Agent HUD settings", () => {
     // owner split it (2026-08-13): each half now hangs on the pill it defines,
     // and the `Speak in` label carries no tooltip at all.
     // The selected option's hint also shows as the row description (owner,
-    // 2026-10-25), so pick the tooltip copy out by role.
-    const perSession = screen
-      .getAllByText(
-        "Use /whisperstream:speak in Claude Code or $speak in Codex for that session.",
-      )
-      .find((node) => node.getAttribute("role") === "tooltip");
-    const alwaysOn = screen.getByText(/Speaks in every session/i);
-    expect(perSession).toHaveAttribute("role", "tooltip");
-    expect(alwaysOn).toHaveAttribute("role", "tooltip");
+    // 2026-10-25); the tooltips mount only while their pill is hovered, so
+    // hover each pill and read the single open bubble.
+    const user = userEvent.setup();
+    const whenIAsk = screen.getByRole("button", { name: "When I ask" });
+    await user.hover(whenIAsk);
+    expect(await screen.findByRole("tooltip")).toHaveTextContent(
+      "Use /whisperstream:speak in Claude Code or $speak in Codex for that session.",
+    );
+    await user.unhover(whenIAsk);
+    await user.hover(screen.getByRole("button", { name: "Every session" }));
+    await waitFor(() =>
+      expect(screen.getByRole("tooltip")).toHaveTextContent(/Speaks in every session/i),
+    );
     // The old concatenated one-hint-for-both string is gone entirely.
     expect(
       screen.queryByText(/you want spoken\. Every session:/),
@@ -1405,7 +1420,7 @@ describe("HudConfigModal locked Agent HUD settings", () => {
     });
   });
 
-  it("persists activation and exposes the exact contextual help", () => {
+  it("persists activation and exposes the exact contextual help", async () => {
     const props = renderModal(
       makeConfig({
         agent_speech_enabled: true,
@@ -1413,12 +1428,13 @@ describe("HudConfigModal locked Agent HUD settings", () => {
       }),
     );
 
-    // The selected option's help is the row description and its pill tooltip.
-    expect(
-      screen.getAllByText(
-        "Use /whisperstream:speak in Claude Code or $speak in Codex for that session.",
-      ),
-    ).toHaveLength(2);
+    // The selected option's help is the row description and its pill tooltip
+    // (mounted only while the pill is hovered).
+    const perSessionHint =
+      "Use /whisperstream:speak in Claude Code or $speak in Codex for that session.";
+    expect(screen.getAllByText(perSessionHint)).toHaveLength(1);
+    await userEvent.setup().hover(screen.getByRole("button", { name: "When I ask" }));
+    expect(await screen.findByRole("tooltip")).toHaveTextContent(perSessionHint);
 
     fireEvent.click(screen.getByRole("button", { name: "Every session" }));
 
@@ -1432,10 +1448,15 @@ describe("HudConfigModal locked Agent HUD settings", () => {
         agent_speech_activation: "always_on",
       }),
     );
-    // Selected, the always-on hint is the row description and its tooltip.
+    // Selected, the always-on hint is the row description and (on hover) its
+    // tooltip.
     expect(
-      screen.getAllByText(/Speaks in every session\. No command needed\./),
-    ).toHaveLength(2);
+      screen.getAllByText(/Speaks in every session. No command needed./),
+    ).toHaveLength(1);
+    await userEvent.setup().hover(screen.getByRole("button", { name: "Every session" }));
+    expect(await screen.findByRole("tooltip")).toHaveTextContent(
+      /Speaks in every session. No command needed./,
+    );
   });
 
   it("no longer shows the Summary source row at all", () => {
@@ -1463,10 +1484,10 @@ describe("HudConfigModal locked Agent HUD settings", () => {
     expect(
       within(heartList).getByRole("button", { name: "Play Heart sample" }),
     ).toBeInTheDocument();
-    fireEvent.change(screen.getByRole("slider", { name: "Speech speed" }), {
+    fireEvent.change(screen.getByRole("slider", { name: "Speech speed", hidden: true }), {
       target: { value: "1.4" },
     });
-    fireEvent.change(screen.getByRole("slider", { name: "Speech volume" }), {
+    fireEvent.change(screen.getByRole("slider", { name: "Speech volume", hidden: true }), {
       target: { value: "0.65" },
     });
 

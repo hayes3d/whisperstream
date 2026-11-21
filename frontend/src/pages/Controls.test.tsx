@@ -1,4 +1,5 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { AppConfig } from "../lib/api/config";
 import { Controls } from "./Controls";
@@ -186,11 +187,13 @@ describe("Live Preview control", () => {
 });
 
 describe("Input Style compatibility copy", () => {
-  it("uses the approved conditional keystroke hint", () => {
+  it("uses the approved conditional keystroke hint", async () => {
     renderControls(makeConfig());
 
+    // Radix mounts the hint bubble only while the Keystroke option is hovered.
+    await userEvent.setup().hover(screen.getByText("Keystroke"));
     expect(
-      screen.getByRole("tooltip", {
+      await screen.findByRole("tooltip", {
         name: "Can help when pasting is blocked.",
       }),
     ).toBeInTheDocument();
