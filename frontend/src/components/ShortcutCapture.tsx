@@ -152,7 +152,7 @@ export function ShortcutCapture({
           ref={buttonRef}
           onClick={capturing ? stopCapture : startCapture}
           onKeyDown={(e) => { if (capturing) { e.preventDefault(); e.stopPropagation(); } }}
-          className={`relative min-w-[120px] rounded-xl cursor-pointer flex items-center justify-center gap-1.5 ${chips ? "h-[33.5px] pl-2" : "py-1.5 pl-4"}${showClear ? " pr-10" : chips ? " pr-2" : " pr-4"}`}
+          className={`relative min-w-[120px] h-[34px] rounded-xl cursor-pointer flex items-center justify-center gap-1.5 ${chips ? "pl-2" : "pl-4"}${showClear ? " pr-10" : chips ? " pr-2" : " pr-4"}`}
           style={{
             background: capturing || chips
               ? "var(--surface-control)"
