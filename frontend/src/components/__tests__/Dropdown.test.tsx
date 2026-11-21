@@ -84,7 +84,11 @@ describe("Dropdown option descriptions", () => {
     expect(
       screen.getAllByText("1.2B · Review candidate · Artifact available"),
     ).toHaveLength(2);
-    expect(screen.getByRole("button", { name: /Artifact available/ })).toHaveAttribute(
+    // Radix aria-hides the page behind the open panel, so include hidden
+    // elements when asserting on the trigger while the panel is open.
+    expect(
+      screen.getByRole("button", { name: /Artifact available/, hidden: true }),
+    ).toHaveAttribute(
       "aria-label",
       expect.stringContaining("w2wrap1p2b-s3"),
     );
