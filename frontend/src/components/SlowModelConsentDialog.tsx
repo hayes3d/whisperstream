@@ -1,5 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { startBenchmark } from "../lib/api/enhancement";
 import type { AppEvent } from "../lib/socket/events";
 import { LOCAL_MODEL_DISPLAY_LABEL } from "../lib/localModels";
@@ -18,20 +23,6 @@ import {
    spelled in theme tokens. This is the ONLY manual "switch up to a slow
    fine-tune" consent surface (design.md round 01, Decision 5). Against-advice
    action = SECONDARY glass pill; the safe path = PRIMARY gradient pill. */
-const dialogShellStyle = {
-  background: "var(--surface-modal)",
-  backdropFilter: "blur(24px)",
-  WebkitBackdropFilter: "blur(24px)",
-  border: "1px solid var(--border-emphasis)",
-  boxShadow: "var(--shadow-glass)",
-};
-
-const backdropStyle = {
-  background: "var(--backdrop-strong)",
-  backdropFilter: "blur(40px)",
-  WebkitBackdropFilter: "blur(40px)",
-};
-
 const glassPillStyle = {
   background: "var(--surface-modal)",
   border: "1px solid var(--border-hairline-steel)",
@@ -163,20 +154,6 @@ export function SlowModelConsentDialog({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, variant, modelId, subscribe]);
 
-  // Esc dismisses to the safe path (keep current model), but NOT while a bench
-  // is in flight (measuring) — an accidental key must not abandon it silently.
-  useEffect(() => {
-    if (!open || phase === "measuring") return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        onKeep();
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, phase, onKeep]);
-
   // Focus the safe button when a consent / blocked card appears (read-first).
   useEffect(() => {
     if (phase === "consent" || phase === "blocked") {
@@ -184,40 +161,29 @@ export function SlowModelConsentDialog({
     }
   }, [phase]);
 
-  if (!open) return null;
-
+  // Esc and a scrim press keep the current model, but NOT while a bench is in
+  // flight (measuring): an accidental key or click must not abandon it
+  // silently. Initial focus goes to the safe button once a consent / blocked
+  // card is showing (read-first).
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        className="absolute inset-0"
-        style={backdropStyle}
-        // Backdrop dismiss (keep) only once measuring is done; an accidental
-        // click must not abort an in-flight bench.
-        onClick={phase === "measuring" ? undefined : onKeep}
-      />
-
+    <Dialog open={open} onOpenChange={(next) => !next && phase !== "measuring" && onKeep()}>
       {/* Glass card — 420px, family A shell. */}
-      <motion.div
-        initial={{ scale: 0.92, opacity: 0, y: 12 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 400, damping: 30, delay: 0.08 }}
-        className="relative w-[420px] rounded-[var(--radius-card)] p-7"
-        style={dialogShellStyle}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="slow-consent-heading"
+      <DialogContent
+        className="w-[420px]"
+        // Only the consent / blocked cards carry a description paragraph.
+        {...(phase === "measuring" ? { "aria-describedby": undefined } : {})}
+        onOpenAutoFocus={(event) => {
+          if (safeBtnRef.current) {
+            event.preventDefault();
+            safeBtnRef.current.focus();
+          }
+        }}
       >
         {phase === "measuring" && (
           <>
-            <h2
-              id="slow-consent-heading"
-              className="font-display text-[18px] font-normal text-slate mb-2"
-            >
+            <DialogTitle className="mb-2">
               Checking how fast it runs
-            </h2>
+            </DialogTitle>
 
             <div className="mt-4 mb-3">
               <SpeedBar
@@ -233,17 +199,14 @@ export function SlowModelConsentDialog({
 
         {phase === "consent" && (
           <>
-            <h2
-              id="slow-consent-heading"
-              className="font-display text-[18px] font-normal text-slate text-center mb-3"
-            >
+            <DialogTitle className="text-center mb-3">
               {name} runs slowly here
-            </h2>
+            </DialogTitle>
 
-            <p className="text-[13px] text-steel mb-5 leading-relaxed text-center">
+            <DialogDescription className="text-[13px] text-steel mb-5 leading-relaxed text-center">
               Your speed check found it slow. Cleanup will take a moment longer
               after each dictation.
-            </p>
+            </DialogDescription>
 
             {/* Caution receipt bar. Cached: a representative caution-band fill
                 with the "From your last speed check" caption (no fabricated
@@ -282,16 +245,13 @@ export function SlowModelConsentDialog({
 
         {phase === "blocked" && (
           <>
-            <h2
-              id="slow-consent-heading"
-              className="font-display text-[18px] font-normal text-slate text-center mb-3"
-            >
+            <DialogTitle className="text-center mb-3">
               {name} is too slow here
-            </h2>
+            </DialogTitle>
 
-            <p className="text-[13px] text-steel mb-6 leading-relaxed text-center">
+            <DialogDescription className="text-[13px] text-steel mb-6 leading-relaxed text-center">
               This model is too slow to run cleanup on this computer.
-            </p>
+            </DialogDescription>
 
             <div className="flex justify-center">
               <button
@@ -305,7 +265,7 @@ export function SlowModelConsentDialog({
             </div>
           </>
         )}
-      </motion.div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }

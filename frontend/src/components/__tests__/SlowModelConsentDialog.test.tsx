@@ -34,7 +34,7 @@ describe("SlowModelConsentDialog fresh benchmark", () => {
     });
     const harness = benchmarkHarness();
 
-    const { container } = render(
+    render(
       <SlowModelConsentDialog
         open
         modelId="stream-1-mini"
@@ -46,7 +46,7 @@ describe("SlowModelConsentDialog fresh benchmark", () => {
     );
 
     expect(
-      container.querySelector('[data-speed-mode="marquee"]'),
+      document.querySelector('[data-speed-mode="marquee"]'),
     ).toBeInTheDocument();
 
     harness.emit({
@@ -57,15 +57,15 @@ describe("SlowModelConsentDialog fresh benchmark", () => {
     });
 
     expect(
-      container.querySelector(
+      document.querySelector(
         '[data-speed-mode="fill"][data-speed-tone="rose"]',
       ),
     ).toBeInTheDocument();
-    expect(container.querySelector('[data-speed-fill="solid"]')).toHaveStyle({
+    expect(document.querySelector('[data-speed-fill="solid"]')).toHaveStyle({
       background: "var(--color-rose)",
     });
     expect(
-      container.querySelector("[data-speed-fill-shimmer]"),
+      document.querySelector("[data-speed-fill-shimmer]"),
     ).not.toBeInTheDocument();
   });
 });
