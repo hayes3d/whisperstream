@@ -1,12 +1,15 @@
-import { useEffect, useRef } from "react";
-import { MotionConfig, motion } from "framer-motion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 /**
  * Targeted speech-model deletion confirm.
  *
- * Hand-rolled overlay + card: the dialog family deliberately shares no base
- * component, so the family-A tokens below are copied
- * on purpose. The destructive primary follows `TranscriptConfirmDialog`, the
+ * Built on the shared shadcn Dialog (card + backdrop + Esc/backdrop dismissal
+ * from Radix); Esc and backdrop are ignored while `busy`. The destructive primary follows `TranscriptConfirmDialog`, the
  * app's canonical delete confirm.
  *
  * Copy is locked. The
@@ -18,20 +21,6 @@ import { MotionConfig, motion } from "framer-motion";
  * are refused) and in the picker (no trash on the active model), so this only
  * ever opens for a removable one.
  */
-
-const dialogShellStyle = {
-  background: "var(--surface-modal)",
-  backdropFilter: "blur(24px)",
-  WebkitBackdropFilter: "blur(24px)",
-  border: "1px solid var(--border-emphasis)",
-  boxShadow: "var(--shadow-glass)",
-};
-
-const backdropStyle = {
-  background: "var(--backdrop-strong)",
-  backdropFilter: "blur(40px)",
-  WebkitBackdropFilter: "blur(40px)",
-};
 
 const glassPillStyle = {
   background: "var(--surface-modal)",
@@ -65,93 +54,39 @@ export function DeleteSttModelDialog({
   onConfirm,
   onCancel,
 }: DeleteSttModelDialogProps) {
-  const keepButtonRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && !busy) {
-        event.preventDefault();
-        onCancel();
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [open, busy, onCancel]);
-
-  useEffect(() => {
-    if (open) keepButtonRef.current?.focus();
-  }, [open]);
-
-  if (!open) return null;
-
   return (
-    <MotionConfig reducedMotion="user">
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
-        <motion.div
-          aria-hidden="true"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4 }}
-          className="absolute inset-0"
-          style={backdropStyle}
-          onClick={busy ? undefined : onCancel}
-        />
+    <Dialog open={open} onOpenChange={(next) => !next && !busy && onCancel()}>
+      <DialogContent className="w-[420px]" aria-modal="true">
+        <DialogTitle className="mb-3 text-center font-display text-[18px] font-normal text-slate">
+          Delete {modelName}?
+        </DialogTitle>
 
-        <motion.div
-          initial={{ scale: 0.92, opacity: 0, y: 12 }}
-          animate={{ scale: 1, opacity: 1, y: 0 }}
-          transition={{
-            type: "spring",
-            stiffness: 400,
-            damping: 30,
-            delay: 0.08,
-          }}
-          className="relative w-[420px] rounded-[var(--radius-card)] p-7"
-          style={dialogShellStyle}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="delete-stt-model-heading"
-          aria-describedby="delete-stt-model-description"
-        >
-          <h2
-            id="delete-stt-model-heading"
-            className="mb-3 text-center font-display text-[18px] font-normal text-slate"
+        <DialogDescription className="mb-6 text-center text-[13px] leading-relaxed text-steel">
+          This deletes the downloaded model from this device. You can download
+          it again anytime.
+        </DialogDescription>
+
+        <div className="flex items-center justify-center gap-2.5">
+          <button
+            type="button"
+            onClick={onCancel}
+            disabled={busy}
+            className="cursor-pointer rounded-full px-5 py-2 text-[13px] font-medium text-slate transition-all duration-200 disabled:cursor-default disabled:opacity-60"
+            style={glassPillStyle}
           >
-            Delete {modelName}?
-          </h2>
-
-          <p
-            id="delete-stt-model-description"
-            className="mb-6 text-center text-[13px] leading-relaxed text-steel"
+            Keep model
+          </button>
+          <button
+            type="button"
+            onClick={onConfirm}
+            disabled={busy}
+            className="cursor-pointer rounded-full px-5 py-2 text-[13px] font-medium transition-all duration-200 disabled:cursor-default disabled:opacity-60"
+            style={destructivePillStyle}
           >
-            This deletes the downloaded model from this device. You can download
-            it again anytime.
-          </p>
-
-          <div className="flex items-center justify-center gap-2.5">
-            <button
-              ref={keepButtonRef}
-              type="button"
-              onClick={onCancel}
-              disabled={busy}
-              className="cursor-pointer rounded-full px-5 py-2 text-[13px] font-medium text-slate transition-all duration-200 disabled:cursor-default disabled:opacity-60"
-              style={glassPillStyle}
-            >
-              Keep model
-            </button>
-            <button
-              type="button"
-              onClick={onConfirm}
-              disabled={busy}
-              className="cursor-pointer rounded-full px-5 py-2 text-[13px] font-medium transition-all duration-200 disabled:cursor-default disabled:opacity-60"
-              style={destructivePillStyle}
-            >
-              Delete model
-            </button>
-          </div>
-        </motion.div>
-      </div>
-    </MotionConfig>
+            Delete model
+          </button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
