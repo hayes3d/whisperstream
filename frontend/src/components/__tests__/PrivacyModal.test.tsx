@@ -32,7 +32,7 @@ describe("PrivacyModal recipient evidence", () => {
     render(<PrivacyModal provider="custom" onConfirm={confirm} onCancel={cancel} />);
     expect(screen.getByRole("button", { name: "Allow connection" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Cancel" })).toHaveFocus();
-    fireEvent.keyDown(window, { key: "Escape" });
+    fireEvent.keyDown(document, { key: "Escape" });
     expect(cancel).toHaveBeenCalledOnce();
     expect(confirm).not.toHaveBeenCalled();
   });
