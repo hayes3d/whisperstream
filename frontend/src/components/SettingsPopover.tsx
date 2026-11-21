@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Dropdown } from "./Dropdown";
 import { Toggle } from "./Toggle";
@@ -105,6 +105,7 @@ export function SettingsPopover({
   onRecoverySettings,
 }: SettingsPopoverProps) {
   const [open, setOpen] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   // Dependent settings (Save audio + retention) dim when history is off.
   const settingsDisabled = historyDisabled || !historyEnabled;
@@ -153,8 +154,17 @@ export function SettingsPopover({
         align="end"
         sideOffset={GAP}
         collisionPadding={MARGIN}
-        className="w-64 rounded-[var(--radius-card)] p-3 space-y-2.5 overflow-y-auto"
+        className="w-64 rounded-[var(--radius-card)] p-3 space-y-2.5 overflow-y-auto focus-visible:outline-none"
         style={{ maxHeight: "var(--radix-popover-content-available-height)" }}
+        // Focus the panel, not its first control: Radix would land on the
+        // "Save transcripts" switch, where a stray Space turns saving off.
+        // Tab still moves straight into the controls from here.
+        ref={panelRef}
+        tabIndex={-1}
+        onOpenAutoFocus={(event) => {
+          event.preventDefault();
+          panelRef.current?.focus();
+        }}
       >
         {historyDisabled && (
           <p id="history-policy-note" className="text-[12px] text-steel leading-relaxed">

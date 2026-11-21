@@ -34,6 +34,14 @@ describe("SettingsPopover (Radix Popover)", () => {
     await waitFor(() => expect(screen.queryByRole("menu")).toBeNull());
   });
 
+  it("focuses the panel on open, not the Save transcripts switch", async () => {
+    renderPopover();
+    fireEvent.click(gear());
+    const menu = await screen.findByRole("menu", { name: "Transcript settings" });
+    await waitFor(() => expect(menu).toHaveFocus());
+    expect(screen.getByRole("switch", { name: "Save transcripts" })).not.toHaveFocus();
+  });
+
   it("closes on Escape and on an outside press", async () => {
     renderPopover();
     fireEvent.click(gear());
