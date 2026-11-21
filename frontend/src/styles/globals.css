@@ -315,6 +315,9 @@
   --radius-card: 28px;
   --radius-row: 18px;
   --radius-input: 12px;
+  /* One height for every value-column control (shortcut fields, dropdowns,
+     slider fields, status pills). Change it here, never per component. */
+  --control-height: 34px;
 }
 /* ---------------------------------------------------------------------------
    Light (default) — restated for symmetry; identical to the `@theme` block.
@@ -417,6 +420,9 @@
   --radius-card: 28px;
   --radius-row: 18px;
   --radius-input: 12px;
+  /* One height for every value-column control (shortcut fields, dropdowns,
+     slider fields, status pills). Change it here, never per component. */
+  --control-height: 34px;
 }
 
 /* ---------------------------------------------------------------------------
@@ -526,6 +532,9 @@
   --radius-card: 28px;
   --radius-row: 18px;
   --radius-input: 12px;
+  /* One height for every value-column control (shortcut fields, dropdowns,
+     slider fields, status pills). Change it here, never per component. */
+  --control-height: 34px;
 }
 
 @layer base {
@@ -658,9 +667,9 @@ input[type="range"]:focus-visible {
   display: flex;
   align-items: center;
   gap: 12px;
-  /* 2px vertical seats the 28px inner value box at 34px total, matching the
-     shortcut capture fields' height. */
-  padding: 2px 6px 2px 14px;
+  height: var(--control-height);
+  box-sizing: border-box;
+  padding: 0 6px 0 14px;
   border-radius: var(--radius-input);
   background: var(--surface-control);
   border: 1px solid var(--border-hairline-steel);

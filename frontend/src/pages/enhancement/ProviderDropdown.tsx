@@ -176,12 +176,14 @@ export function ProviderDropdown(
           customHost,
           ollamaEndpoint,
         )}`}
-        className="w-full h-11 px-5 rounded-full text-[13px] text-left text-slate flex items-center justify-between cursor-pointer transition-all duration-200"
+        // Field grammar: selectors are 34px radius-input rects (same as the
+        // Model dropdown beside it), not pills — pills are actions.
+        className="w-full h-[var(--control-height)] px-3 rounded-[var(--radius-input)] text-[13px] text-left text-slate flex items-center justify-between cursor-pointer transition-all duration-200"
         style={{
           background: "var(--surface-control)",
           border: open
             ? "1px solid var(--border-accent)"
-            : "1px solid var(--border-emphasis)",
+            : "1px solid var(--border-hairline-steel)",
           boxShadow: "inset 0 2px 4px rgba(0, 0, 0, 0.02)",
         }}
       >
@@ -310,10 +312,10 @@ export function ProviderDropdown(
                       opt.value === "custom" ? customHost : undefined,
                       ollamaEndpoint,
                     )}`}
-                    // pl-5 / pr-10 mirror the trigger's px-5 + chevron column, so
+                    // pl-3 / pr-10 mirror the trigger's px-3 + chevron column, so
                     // the data glyph lands in the same vertical column as the
-                    // trigger's glyph (label at 20px, glyph right edge at 40px).
-                    className={`w-full pl-5 pr-10 py-2 text-[13px] text-left flex items-center justify-between gap-2 transition-colors duration-100 ${
+                    // trigger's glyph.
+                    className={`w-full pl-3 pr-10 py-2 text-[13px] text-left flex items-center justify-between gap-2 transition-colors duration-100 ${
                       isDisabledByLockdown || isDisabledByCapability
                         ? "opacity-40 cursor-not-allowed text-steel"
                         : isSelected

@@ -125,8 +125,7 @@ function PillDot({ state }: { state: HudLightState }) {
 }
 
 const PILL =
-  // h-[34px] matches the value-column fields (shortcut capture, slider-field).
-  "flex h-[34px] select-none items-center gap-1.5 rounded-full border border-[var(--border-hairline-steel)] px-3 text-[11px] leading-4 text-steel transition-colors duration-200";
+  "flex h-[var(--control-height)] select-none items-center gap-1.5 rounded-full border border-[var(--border-hairline-steel)] px-3 text-[11px] leading-4 text-steel transition-colors duration-200";
 
 export function StatusLight({ state, ariaLabel, onActivate, activateLabel }: StatusLightProps) {
   const inner = (

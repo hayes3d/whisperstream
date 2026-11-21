@@ -589,7 +589,7 @@ export function Dropdown<T extends string | number>({
             ? `${ariaLabel}: ${currentLabel}${triggerDescription ? `. ${triggerDescription}` : ""}`
             : undefined
         }
-        className={`${triggerClassName} px-3 py-1.5 rounded-[var(--radius-input)] text-[13px] text-left text-slate flex items-center justify-between transition-all duration-200 ${
+        className={`${triggerClassName} h-[var(--control-height)] px-3 rounded-[var(--radius-input)] text-[13px] text-left text-slate flex items-center justify-between transition-all duration-200 ${
           disabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer"
         }`}
         style={{
