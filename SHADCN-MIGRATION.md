@@ -41,6 +41,18 @@ design language and every component's public props. Upstream
 | `VoiceModelMemoryDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
 | `DeleteSttModelDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
 | `DeleteUnusedSttModelsDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
+| `LockdownScopeReviewDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
+| `MultilingualLanguageSwitchDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
+| `DownloadDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
+| `LowDiskSpaceDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
+| `DataLeavesDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
+| `PrivacyModal.tsx` | shadcn `Dialog` (Radix) | unchanged |
+| `ReportBugDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
+| `StartFreshDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
+| `SlowModelConsentDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
+| `LockdownManageDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
+| `AnchoredPopover.tsx` | shadcn `Popover` (Radix, virtual anchor) | unchanged |
+| `SettingsPopover.tsx` | shadcn `Popover` (Radix) | unchanged |
 
 All shadcn `ui/*` files are re-skinned to Glacier (switch = 48×26
 accent-fill pill; tooltip = frost-glass overlay bubble; dialog =
@@ -51,10 +63,9 @@ swapped components.
 
 ## Remains (hand-rolled)
 
-- ~17 other dialogs/modals (`AddAppModal`, `HudConfigModal`,
+- ~7 other dialogs/modals (`AddAppModal`, `HudConfigModal`,
   `ProfileEditorModal`, `LockdownSetupModal`, the Delete*/Recovery*/
   Download* family, …) — same swap recipe as `CustomPromptDialog`.
-- `AnchoredPopover`, `SettingsPopover` → shadcn Popover.
 - `CustomCheckbox` → Checkbox; `RangeInput`/`SliderField` → Slider;
   `Badge`, `PrimaryButton`/`SecondaryButton` → Badge/Button variants.
 - Onboarding/spotlight/HUD surfaces untouched.
@@ -137,9 +148,68 @@ swapped components.
    current value (Radix does not report that); changed values go through
    `onValueChange` alone. Props unchanged.
 
+## Batch 3 (10 dialogs + 2 popovers): findings
+
+**ui/* API additions** (both additive, defaults unchanged)
+- `DialogContent` / `DialogOverlay` take `backdrop?: "strong" | "soft"`
+  (default `strong`). `soft` is the 8px `--backdrop-soft` scrim that only
+  DownloadDialog uses; the two stay distinct.
+- `DialogContent` now sets `aria-modal="true"` (Radix omits it; the app and its
+  a11y tests expect it). The per-dialog copies from batch 2 are now redundant.
+- New `ui/popover.tsx` (Popover/Trigger/Anchor/Content), Glacier-skinned
+  (overlay surface, hairline border, glass shadow, 24px blur, `--radius-row`)
+  using arbitrary-property classes so callers override each cleanly through
+  tailwind-merge. Written by hand with the `@/lib/utils` import: the shadcn CLI
+  was NOT run, so the bogus `cn` npm package was not installed
+  (`"cn"` is absent from package.json).
+
+**Dismissal parity (original behavior -> now)**
+
+| Dialog | Esc | Scrim press | While busy |
+|---|---|---|---|
+| LockdownScopeReviewDialog | blocked (required review) | blocked | n/a; Continue self-disables while submitting. `onEscapeKeyDown`/`onInteractOutside` preventDefault, no onOpenChange |
+| MultilingualLanguageSwitchDialog | dismiss | dismiss | n/a |
+| DownloadDialog | cancel (no-op while cancelling) | cancel ONLY in error phase, never mid-download | handled in custom Esc/outside handlers, no onOpenChange |
+| LowDiskSpaceDialog | dismiss | dismiss | n/a |
+| DataLeavesDialog | cancel | cancel | n/a |
+| PrivacyModal | cancel unless saving | cancel unless saving | blocked while saving |
+| ReportBugDialog | close unless preparing | close unless preparing | blocked while preparing |
+| StartFreshDialog | cancel unless deleting | cancel unless deleting | blocked while deleting |
+| SlowModelConsentDialog | keep model unless measuring | keep model unless measuring | blocked while measuring |
+| LockdownManageDialog | close | close | n/a |
+
+**Focus**: LowDiskSpaceDialog, SlowModelConsentDialog, PrivacyModal and
+LockdownScopeReviewDialog redirect Radix initial focus (`onOpenAutoFocus`) to
+the safe/primary button they focused before; the rest rely on first-tabbable.
+SlowModelConsentDialog and others no longer focus in an effect because the
+Radix portal mounts the card one commit later than the old inline DOM.
+
+**Nesting check**: none of the 10 render a child dialog. Callers open them
+sequentially (LockdownManageDialog closes before the next Lockdown dialog
+opens; DataLeaves -> PrivacyModal is close-then-open). LowDiskSpaceDialog is
+also rendered inside the still hand-rolled OnboardingOverlay (excluded); it is a
+portaled sibling there, so the overlay simply sits behind it, not inside it.
+No skips were needed. LockdownManageDialog hosts a Radix Select (DurationSelect)
+inside a Radix Dialog; covered only by jsdom tests, not visually checked.
+
+**Popovers**
+- `AnchoredPopover`: anchor passed as a Radix `virtualRef`; Radix does the
+  positioning/flip/clamp. Dismissal and focus movement are disabled
+  (`onInteractOutside`/`onEscapeKeyDown`/`onOpenAutoFocus` preventDefault)
+  because the content owns outside-click. Radix still `preventDefault`s nothing
+  extra, but its Escape listener marks the event default-prevented.
+- `SettingsPopover`: Radix Trigger/Content (`align="end"`, `collisionPadding`
+  8). Behavior changes: opening now moves focus into the menu and closing returns
+  it to the gear (Radix default; previously focus stayed on the gear); the
+  open/close animation is gone; scroll/resize still close it. No fight with the
+  API, so no stop.
+- Test setup changes: scrim presses are tested with `userEvent.click` (a bare
+  `fireEvent.pointerDown` never reaches Radix in jsdom); Escape is dispatched on
+  `document`; portaled content is queried via `document`, not `container`.
+
 ## Verification
 
 - `npx tsc -b` clean.
-- Dialog batch 2 + Radix-test follow-up: full `npx vitest run` is 2336/2336 (exit 0, read from the JSON reporter, not the rtk wrapper summary). The earlier "full suite green" was wrong: the wrapper hid failures from the tooltip/select swaps.
+- Dialog batch 2 + Radix-test follow-up: full `npx vitest run` is 2339/2339 after batch 3 (exit 0, read from the JSON reporter, not the rtk wrapper summary). The earlier "full suite green" was wrong: the wrapper hid failures from the tooltip/select swaps.
 - Dev preview (`npm run dev`, port 1420) not exercised in this session —
   visual pass in the real app still recommended before building on this.
