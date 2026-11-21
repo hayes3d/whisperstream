@@ -289,8 +289,11 @@ describe("existing Lockdown scope review", () => {
     expect(screen.queryByText(/Claude Code/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/provider/i)).not.toBeInTheDocument();
 
-    fireEvent.keyDown(window, { key: "Escape" });
-    fireEvent.click(screen.getByTestId("lockdown-scope-review-backdrop"));
+    // Required review: neither Escape nor an outside press may dismiss it.
+    fireEvent.keyDown(document, { key: "Escape" });
+    fireEvent.pointerDown(
+      document.querySelector('[data-slot="dialog-overlay"]') as HTMLElement,
+    );
     expect(onContinue).not.toHaveBeenCalled();
     expect(onTurnOff).not.toHaveBeenCalled();
     expect(dialog).toBeInTheDocument();
@@ -300,9 +303,10 @@ describe("existing Lockdown scope review", () => {
       name: "Turn off Lockdown Mode",
     });
     await waitFor(() => expect(continueButton).toHaveFocus());
-    fireEvent.keyDown(window, { key: "Tab" });
+    // Radix FocusScope wraps Tab from the event target inside the dialog.
+    fireEvent.keyDown(continueButton, { key: "Tab" });
     expect(turnOffButton).toHaveFocus();
-    fireEvent.keyDown(window, { key: "Tab", shiftKey: true });
+    fireEvent.keyDown(turnOffButton, { key: "Tab", shiftKey: true });
     expect(continueButton).toHaveFocus();
 
     fireEvent.click(turnOffButton);

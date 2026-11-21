@@ -33,14 +33,22 @@ function DialogClose({
 
 function DialogOverlay({
   className,
+  backdrop = "strong",
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
+}: React.ComponentProps<typeof DialogPrimitive.Overlay> & {
+  backdrop?: "strong" | "soft"
+}) {
   return (
     <DialogPrimitive.Overlay
       data-slot="dialog-overlay"
       className={cn(
-        // Glacier family-A/B backdrop: frosted canvas scrim + 40px blur.
-        "fixed inset-0 z-50 [background:var(--backdrop-strong)] backdrop-blur-[40px]",
+        "fixed inset-0 z-50",
+        backdrop === "soft"
+          ? // Family-C (DownloadDialog): lighter 8px scrim, deliberately
+            // distinct from the strong one (see globals.css).
+            "[background:var(--backdrop-soft)] backdrop-blur-[8px]"
+          : // Glacier family-A/B backdrop: frosted canvas scrim + 40px blur.
+            "[background:var(--backdrop-strong)] backdrop-blur-[40px]",
         className
       )}
       {...props}
@@ -52,13 +60,16 @@ function DialogContent({
   className,
   children,
   showCloseButton = false,
+  backdrop = "strong",
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean
+  /** Scrim behind the card: "strong" (40px, default) or "soft" (8px). */
+  backdrop?: "strong" | "soft"
 }) {
   return (
     <DialogPortal data-slot="dialog-portal">
-      <DialogOverlay />
+      <DialogOverlay backdrop={backdrop} />
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(

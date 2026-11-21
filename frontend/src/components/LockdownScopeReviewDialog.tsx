@@ -1,20 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { LOCKDOWN_ACK_VERSION } from "./LockdownSetupModal";
-
-const dialogShellStyle: React.CSSProperties = {
-  background: "var(--surface-modal)",
-  backdropFilter: "blur(24px)",
-  WebkitBackdropFilter: "blur(24px)",
-  border: "1px solid var(--border-emphasis)",
-  boxShadow: "var(--shadow-glass)",
-};
-
-const backdropStyle: React.CSSProperties = {
-  background: "var(--backdrop-strong)",
-  backdropFilter: "blur(40px)",
-  WebkitBackdropFilter: "blur(40px)",
-};
 
 const glassPillStyle: React.CSSProperties = {
   background: "var(--surface-control)",
@@ -59,46 +50,10 @@ export function LockdownScopeReviewDialog({
 }: LockdownScopeReviewDialogProps) {
   const [submitting, setSubmitting] = useState(false);
   const primaryRef = useRef<HTMLButtonElement>(null);
-  const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!open) return;
-    setSubmitting(false);
-    const focusId = setTimeout(() => primaryRef.current?.focus(), 60);
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        return;
-      }
-      if (event.key !== "Tab") return;
-
-      const buttons = Array.from(
-        dialogRef.current?.querySelectorAll<HTMLButtonElement>(
-          "button:not([disabled])",
-        ) ?? [],
-      );
-      if (buttons.length === 0) return;
-
-      const first = buttons[0];
-      const last = buttons[buttons.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      clearTimeout(focusId);
-      window.removeEventListener("keydown", onKeyDown);
-    };
+    if (open) setSubmitting(false);
   }, [open]);
-
-  if (!open) return null;
 
   const handleContinue = async () => {
     if (submitting) return;
@@ -113,27 +68,19 @@ export function LockdownScopeReviewDialog({
     }
   };
 
+  // This review is REQUIRED: Escape and backdrop click never dismiss it (the
+  // original swallowed Escape and had no backdrop handler), so there is no
+  // onOpenChange. Radix supplies the Tab trap; focus lands on Continue.
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        className="absolute inset-0"
-        style={backdropStyle}
-        data-testid="lockdown-scope-review-backdrop"
-      />
-
-      <motion.div
-        ref={dialogRef}
-        initial={{ scale: 0.92, opacity: 0, y: 12 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 400, damping: 30, delay: 0.08 }}
-        className="relative w-[420px] rounded-[var(--radius-card)] p-7"
-        style={dialogShellStyle}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="lockdown-scope-review-heading"
+    <Dialog open={open}>
+      <DialogContent
+        className="w-[420px]"
+        onEscapeKeyDown={(event) => event.preventDefault()}
+        onInteractOutside={(event) => event.preventDefault()}
+        onOpenAutoFocus={(event) => {
+          event.preventDefault();
+          primaryRef.current?.focus();
+        }}
         // The authority sentence is part of what this review says, so it joins
         // the accessible description instead of being announced only if the
         // user happens to read past the focused Continue button.
@@ -143,13 +90,8 @@ export function LockdownScopeReviewDialog({
             : "lockdown-scope-review-description"
         }
       >
-        <h2
-          id="lockdown-scope-review-heading"
-          className="font-display text-[18px] font-normal text-slate text-center mb-3"
-        >
-          Review Lockdown Mode
-        </h2>
-        <p
+        <DialogTitle className="text-center mb-3">Review Lockdown Mode</DialogTitle>
+        <DialogDescription
           id="lockdown-scope-review-description"
           className={`text-[13px] text-steel leading-relaxed text-center ${
             // The authority line belongs to this paragraph, not to the action
@@ -161,7 +103,7 @@ export function LockdownScopeReviewDialog({
           Lockdown applies to Whisperstream transcription, cleanup, and saved
           history. Safe diagnostic logs stay local unless you export and share
           them.
-        </p>
+        </DialogDescription>
 
         {managed && (
           <p
@@ -192,8 +134,8 @@ export function LockdownScopeReviewDialog({
             Continue
           </button>
         </div>
-      </motion.div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 
