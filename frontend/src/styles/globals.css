@@ -318,6 +318,9 @@
   /* One height for every value-column control (shortcut fields, dropdowns,
      slider fields, status pills). Change it here, never per component. */
   --control-height: 34px;
+  /* One horizontal inset for every radius-row surface (list rows, inline
+     cards, banners). Change it here, never per component. */
+  --row-inset: 16px;
 }
 /* ---------------------------------------------------------------------------
    Light (default) — restated for symmetry; identical to the `@theme` block.
@@ -423,6 +426,9 @@
   /* One height for every value-column control (shortcut fields, dropdowns,
      slider fields, status pills). Change it here, never per component. */
   --control-height: 34px;
+  /* One horizontal inset for every radius-row surface (list rows, inline
+     cards, banners). Change it here, never per component. */
+  --row-inset: 16px;
 }
 
 /* ---------------------------------------------------------------------------
@@ -535,6 +541,9 @@
   /* One height for every value-column control (shortcut fields, dropdowns,
      slider fields, status pills). Change it here, never per component. */
   --control-height: 34px;
+  /* One horizontal inset for every radius-row surface (list rows, inline
+     cards, banners). Change it here, never per component. */
+  --row-inset: 16px;
 }
 
 @layer base {

@@ -348,7 +348,7 @@ export function OnboardingOverlay({
                   {(!modelLifecycle.enabled || !selectedLanguageAvailable) && (
                     <div
                       role="status"
-                      className="mt-4 mx-auto max-w-md rounded-[var(--radius-row)] px-4 py-3 text-[12px] text-steel text-center"
+                      className="mt-4 mx-auto max-w-md rounded-[var(--radius-row)] px-[var(--row-inset)] py-3 text-[12px] text-steel text-center"
                       style={{
                         background: "var(--surface-control)",
                         border: "1px solid var(--border-standard)",

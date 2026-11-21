@@ -547,7 +547,7 @@ export function Agents({
       {!config.agent_speak_setup_completed ? (
         <section
           aria-labelledby={`${introId}-heading`}
-          className={`rounded-[var(--radius-row)] border px-5 shadow-glass-sm ${hasConfiguredProvider ? "py-4" : "py-5"}`}
+          className={`rounded-[var(--radius-row)] border px-[var(--row-inset)] shadow-glass-sm ${hasConfiguredProvider ? "py-4" : "py-5"}`}
           style={{
             background: "var(--surface-control)",
             borderColor: "var(--border-emphasis)",

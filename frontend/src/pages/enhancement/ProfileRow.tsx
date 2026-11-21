@@ -60,7 +60,7 @@ export function ProfileRow({
         type="button"
         onClick={onOpenEditor}
         aria-label={`Edit ${profile.name}`}
-        className="w-full rounded-[var(--radius-row)] px-3.5 min-h-[44px] flex items-center gap-3 text-left cursor-pointer transition-colors duration-200"
+        className="w-full rounded-[var(--radius-row)] px-[var(--row-inset)] min-h-[44px] flex items-center gap-3 text-left cursor-pointer transition-colors duration-200"
         style={{ background: restBg, border: `1px solid ${restBorder}` }}
         onMouseEnter={(e) => (e.currentTarget.style.background = hoverBg)}
         onMouseLeave={(e) => (e.currentTarget.style.background = restBg)}

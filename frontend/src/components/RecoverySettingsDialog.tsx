@@ -252,7 +252,7 @@ export function RecoverySettingsDialog({
         {heading("Recovery")}
         <div className="mt-4 space-y-2.5">
           <div
-            className="flex items-center justify-between gap-3 rounded-[var(--radius-row)] px-4 py-3"
+            className="flex items-center justify-between gap-3 rounded-[var(--radius-row)] px-[var(--row-inset)] py-3"
             style={rowStyle}
           >
             <span className="text-[13px] text-slate">Recovery key</span>
@@ -261,7 +261,7 @@ export function RecoverySettingsDialog({
             </SecondaryButton>
           </div>
           <div
-            className="flex items-center justify-between gap-3 rounded-[var(--radius-row)] px-4 py-3"
+            className="flex items-center justify-between gap-3 rounded-[var(--radius-row)] px-[var(--row-inset)] py-3"
             style={rowStyle}
           >
             <span className="flex flex-col">

@@ -570,7 +570,7 @@ export function LockdownSetupModal({
                       style={{ overflow: "hidden" }}
                     >
                       <div
-                        className="mt-2 rounded-[var(--radius-row)] px-4 py-3 space-y-3"
+                        className="mt-2 rounded-[var(--radius-row)] px-[var(--row-inset)] py-3 space-y-3"
                         style={{
                           background: "var(--surface-raised)",
                           border: "1px solid var(--border-standard)",
@@ -742,7 +742,7 @@ export function LockdownSetupModal({
             {/* B8 abandon prompt (Esc / backdrop on the recovery step). */}
             {abandonPrompt && (
               <div
-                className="mt-5 rounded-[var(--radius-row)] px-4 py-3"
+                className="mt-5 rounded-[var(--radius-row)] px-[var(--row-inset)] py-3"
                 style={{
                   background: "var(--surface-raised)",
                   border: "1px solid var(--border-standard)",
@@ -839,7 +839,7 @@ function ChoiceCard({
       type="button"
       aria-pressed={selected}
       onClick={onSelect}
-      className="w-full text-left rounded-[var(--radius-row)] px-4 py-3 cursor-pointer transition-all duration-200"
+      className="w-full text-left rounded-[var(--radius-row)] px-[var(--row-inset)] py-3 cursor-pointer transition-all duration-200"
       style={{
         // Selected lifts to the hover surface (denser) with a frost accent
         // edge + ring; unselected rests on the raised surface. Both flip per

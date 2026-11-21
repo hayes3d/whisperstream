@@ -98,7 +98,7 @@ export function ConnectionSection({
             aria-label={`${providerLabel}${
               summaryModelLabel ? `, ${summaryModelLabel}` : ""
             }. ${providerDataTooltip(provider, customHost, ollamaEndpoint)}`}
-            className="w-full flex items-center gap-2 px-5 h-12 text-left cursor-pointer"
+            className="w-full flex items-center gap-2 px-[var(--row-inset)] h-12 text-left cursor-pointer"
           >
             <ProviderDataGlyph
               value={provider}
@@ -159,7 +159,7 @@ export function ConnectionSection({
                 }
                 style={{ overflow: "hidden" }}
               >
-                <div className="px-5 pb-5 pt-1">
+                <div className="px-[var(--row-inset)] pb-5 pt-1">
                   {controls}
                   <div className="flex justify-end mt-3">
                     <button

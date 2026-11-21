@@ -1658,7 +1658,7 @@ export function Enhancement({
           transition={{ delay: 0.5 * 0.03, type: "spring", stiffness: 400, damping: 30 }}
         >
           <div
-            className="flex items-center gap-2.5 rounded-[var(--radius-row)] px-4 py-2.5"
+            className="flex items-center gap-2.5 rounded-[var(--radius-row)] px-[var(--row-inset)] py-2.5"
             style={{
               // Mirrors this file's themed cardStyle: control surface + standard
               // border, with the caught-light top rim left literal.
@@ -1687,7 +1687,7 @@ export function Enhancement({
       {!capabilityForProvider(currentProvider).enabled && (
         <div
           role="status"
-          className="rounded-[var(--radius-row)] px-4 py-2.5 text-[11px] text-steel"
+          className="rounded-[var(--radius-row)] px-[var(--row-inset)] py-2.5 text-[11px] text-steel"
           style={{
             background: "var(--surface-control)",
             border: "1px solid var(--border-standard)",

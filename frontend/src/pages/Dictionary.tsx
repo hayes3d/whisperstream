@@ -528,7 +528,7 @@ function EntryRow({
       aria-label={rowLabel}
     >
       <div
-        className="flex items-center gap-3 h-8 px-4 rounded-[var(--radius-row)] transition-[background-color,box-shadow] duration-200"
+        className="flex items-center gap-3 h-8 px-[var(--row-inset)] rounded-[var(--radius-row)] transition-[background-color,box-shadow] duration-200"
         style={{
           background: isEditing
             ? "var(--surface-entry-hover)"

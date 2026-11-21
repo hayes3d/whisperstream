@@ -1203,7 +1203,7 @@ function TranscriptCard({
           ? { delay: entranceDelay, type: "spring", stiffness: 400, damping: 30 }
           : { duration: 0 }
       }
-      className="group/transcript-card relative rounded-[var(--radius-row)] px-4 py-3 transition-colors duration-200"
+      className="group/transcript-card relative rounded-[var(--radius-row)] px-[var(--row-inset)] py-3 transition-colors duration-200"
       style={{
         background: expanded ? "var(--surface-tile-expanded)" : "var(--surface-tile)",
         // Defined edge + frost lift so each entry reads as a distinct tile
@@ -1466,7 +1466,7 @@ function SecurityUnavailableState({
   return (
     <div
       role="status"
-      className="rounded-[var(--radius-row)] px-4 py-3 text-[12px] text-steel"
+      className="rounded-[var(--radius-row)] px-[var(--row-inset)] py-3 text-[12px] text-steel"
       style={{
         background: "var(--surface-raised)",
         border: "1px solid var(--border-hairline)",
@@ -2259,7 +2259,7 @@ function QueueRow({
   const sublabel = queueSublabel(item);
   return (
     <div
-      className="flex items-center gap-3 rounded-[var(--radius-row)] px-4 py-2.5"
+      className="flex items-center gap-3 rounded-[var(--radius-row)] px-[var(--row-inset)] py-2.5"
       style={{
         background: "var(--surface-raised)",
         border: "1px solid var(--border-hairline)",
@@ -2449,7 +2449,7 @@ function MintNote({ children }: { children: ReactNode }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 400, damping: 30 }}
       role="status"
-      className="flex items-start gap-2 rounded-[var(--radius-row)] px-4 py-2.5 text-[12px] text-slate leading-relaxed"
+      className="flex items-start gap-2 rounded-[var(--radius-row)] px-[var(--row-inset)] py-2.5 text-[12px] text-slate leading-relaxed"
       style={{
         background: "color-mix(in srgb, var(--color-mint) 10%, transparent)",
         border: "1px solid color-mix(in srgb, var(--color-mint) 30%, transparent)",

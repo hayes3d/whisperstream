@@ -315,7 +315,7 @@ function MasterPanel({
 }) {
   return (
     <>
-      <div className="flex items-center justify-between gap-6 rounded-[var(--radius-row)] border border-[var(--border-hairline-steel)] bg-[var(--surface-raised)] px-4 py-3.5">
+      <div className="flex items-center justify-between gap-6 rounded-[var(--radius-row)] border border-[var(--border-hairline-steel)] bg-[var(--surface-raised)] px-[var(--row-inset)] py-3.5">
         <div className="min-w-0">
           <h3 id={headingId} className="text-[13px] font-medium text-slate">{title}</h3>
           <p id={descriptionId} className="mt-0.5 text-[11px] leading-relaxed text-steel">{description}</p>

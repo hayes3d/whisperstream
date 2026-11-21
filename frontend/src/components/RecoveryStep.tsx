@@ -232,7 +232,7 @@ export function RecoveryStep({
     <div data-component="RecoveryStep">
       {/* GOLD recovery block: the only gold on this surface. */}
       <div
-        className="rounded-[var(--radius-row)] px-5 py-4 text-center"
+        className="rounded-[var(--radius-row)] px-[var(--row-inset)] py-4 text-center"
         style={{
           background: "var(--color-gold-mist)",
           border: "1px solid color-mix(in srgb, var(--color-gold) 35%, transparent)",
@@ -288,7 +288,7 @@ export function RecoveryStep({
                 expanded ? null : { password: "", confirm: "" },
               )
             }
-            className="w-full flex items-center justify-between gap-2.5 px-3.5 py-2.5 text-left cursor-pointer rounded-[var(--radius-row)]"
+            className="w-full flex items-center justify-between gap-2.5 px-[var(--row-inset)] py-2.5 text-left cursor-pointer rounded-[var(--radius-row)]"
           >
             <span className="text-[12.5px] font-medium text-slate">
               Also add a recovery password{" "}
@@ -424,7 +424,7 @@ export function RecoveryAbandonPrompt({
   return (
     <div
       role="alert"
-      className="mt-5 rounded-[var(--radius-row)] px-4 py-3"
+      className="mt-5 rounded-[var(--radius-row)] px-[var(--row-inset)] py-3"
       style={{ background: "var(--surface-raised)", border: "1px solid var(--border-standard)" }}
     >
       <p className="text-[12px] text-slate mb-3 text-center leading-relaxed">{message}</p>
