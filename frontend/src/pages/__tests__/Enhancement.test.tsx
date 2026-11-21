@@ -399,7 +399,7 @@ function makeConfig(overrides: Partial<AppConfig> = {}): AppConfig {
     enhancement_local_idle_timeout: 600,
     enhancement_local_gpu_verdicts: {},
     enhancement_local_gpu_device: "",
-    enhancement_local_nudge_seen: false,
+    enhancement_local_nudge_seen: true,
     history_enabled: true,
     save_audio: true,
     transcript_retention_days: 7,
