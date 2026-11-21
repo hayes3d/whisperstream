@@ -211,5 +211,20 @@ inside a Radix Dialog; covered only by jsdom tests, not visually checked.
 
 - `npx tsc -b` clean.
 - Dialog batch 2 + Radix-test follow-up: full `npx vitest run` is 2339/2339 after batch 3 (exit 0, read from the JSON reporter, not the rtk wrapper summary). The earlier "full suite green" was wrong: the wrapper hid failures from the tooltip/select swaps.
-- Dev preview (`npm run dev`, port 1420) not exercised in this session —
-  visual pass in the real app still recommended before building on this.
+- Visual pass (2026-11-21, `npm run dev` in a browser against a live local
+  backend, read-only: nothing selected, toggled or saved), light and dark:
+  - OK: Switch resting states; Dropdown trigger + frost-glass panel (selected
+    row accent, badges), Escape closes and refocuses the trigger; Radix
+    tooltip bubbles on the model and Lockdown info glyphs; SettingsPopover
+    panel; Radix Select nested inside it (panel stacks above, Escape closes
+    only the Select); ReportBugDialog card + strong scrim, portaled to body,
+    `aria-modal`, initial focus on the primary pill, Escape closes;
+    AnchoredPopover provider panel.
+  - Pre-existing, not regressions (old code behaved the same): closing
+    ReportBugDialog leaves focus on `<body>` instead of the "Report a bug"
+    trigger; the Enhancement provider popover does not close on Escape.
+  - Watch: SettingsPopover now focuses its first control on open, which is
+    the "Save transcripts" switch — a stray Space turns saving off.
+  - Not reached (needs state changes on a live install): LockdownManageDialog
+    with its nested DurationSelect, DownloadDialog's soft scrim, the
+    consent dialogs' blocked-dismissal paths, the Tauri-only windows.
