@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
-import { MotionConfig, motion } from "framer-motion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { exportLogs } from "../lib/api/diagnostics";
 
 /**
@@ -15,20 +19,6 @@ import { exportLogs } from "../lib/api/diagnostics";
  */
 
 type Step = "ask" | "preparing" | "saved" | "error" | "denied";
-
-const dialogShellStyle = {
-  background: "var(--surface-modal)",
-  backdropFilter: "blur(24px)",
-  WebkitBackdropFilter: "blur(24px)",
-  border: "1px solid var(--border-emphasis)",
-  boxShadow: "var(--shadow-glass)",
-};
-
-const backdropStyle = {
-  background: "var(--backdrop-strong)",
-  backdropFilter: "blur(40px)",
-  WebkitBackdropFilter: "blur(40px)",
-};
 
 const primaryPillStyle = {
   background: "var(--accent-fill)",
@@ -114,25 +104,11 @@ export function ReportBugDialog({ open, onOpenIssues, onEmail, onClose, initialS
     if (open) setStep(initialStep);
   }, [open, initialStep]);
 
-  useEffect(() => {
-    if (!open) return;
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && !preparing) {
-        event.preventDefault();
-        onClose();
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [open, preparing, onClose]);
-
   // Focus follows the step's primary action. Nothing leaves the device
   // without a second, deliberate click, so the primary is a safe target.
   useEffect(() => {
     if (open && step !== "preparing") primaryRef.current?.focus();
   }, [open, step]);
-
-  if (!open) return null;
 
   const handleExport = async () => {
     if (preparing) return;
@@ -149,110 +125,86 @@ export function ReportBugDialog({ open, onOpenIssues, onEmail, onClose, initialS
   const title =
     step === "saved" ? "Logs saved" : failed ? "Couldn't export logs" : "Include your logs";
 
-  return createPortal(
-    <MotionConfig reducedMotion="user">
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
-        <motion.div
-          data-testid="report-bug-backdrop"
-          aria-hidden="true"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4 }}
-          className="absolute inset-0"
-          style={backdropStyle}
-          onClick={preparing ? undefined : onClose}
-        />
+  // Esc and scrim press close, except while the export is preparing (the
+  // original ignored both then).
+  return (
+    <Dialog open={open} onOpenChange={(next) => !next && !preparing && onClose()}>
+      <DialogContent className="flex w-[420px] flex-col items-center text-center">
+        <StepIcon tone={step === "saved" ? "mint" : failed ? "gold" : "frost"} />
 
-        <motion.div
-          initial={{ scale: 0.92, opacity: 0, y: 12 }}
-          animate={{ scale: 1, opacity: 1, y: 0 }}
-          transition={{ type: "spring", stiffness: 400, damping: 30, delay: 0.08 }}
-          className="relative flex w-[420px] flex-col items-center rounded-[var(--radius-card)] p-7 text-center"
-          style={dialogShellStyle}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="report-bug-heading"
-          aria-describedby="report-bug-description"
-        >
-          <StepIcon tone={step === "saved" ? "mint" : failed ? "gold" : "frost"} />
+        <DialogTitle className="mb-3">{title}</DialogTitle>
 
-          <h2 id="report-bug-heading" className="mb-3 font-display text-[18px] font-normal text-slate">
-            {title}
-          </h2>
+        <DialogDescription className="mb-6 max-w-[330px] text-[13px] leading-relaxed text-steel">
+          {step === "saved"
+            ? "Attach the ZIP to your issue. GitHub attachments are public, so email them instead if you'd rather keep them private."
+            : step === "denied"
+              ? "Log export is unavailable in Lockdown Mode."
+              : step === "error"
+                ? "Try again, or continue and describe the problem without them."
+                : "Logs are usually the only way I can see what went wrong. Export them first, then attach the ZIP to your issue."}
+        </DialogDescription>
 
-          <p id="report-bug-description" className="mb-6 max-w-[330px] text-[13px] leading-relaxed text-steel">
-            {step === "saved"
-              ? "Attach the ZIP to your issue. GitHub attachments are public, so email them instead if you'd rather keep them private."
-              : step === "denied"
-                ? "Log export is unavailable in Lockdown Mode."
-                : step === "error"
-                  ? "Try again, or continue and describe the problem without them."
-                  : "Logs are usually the only way I can see what went wrong. Export them first, then attach the ZIP to your issue."}
-          </p>
-
-          {(step === "ask" || preparing) && (
-            <>
-              <button
-                ref={primaryRef}
-                type="button"
-                onClick={handleExport}
-                disabled={preparing}
-                className={primaryClass}
-                style={primaryPillStyle}
-              >
-                {preparing ? "Preparing…" : "Export logs"}
-              </button>
-              <button type="button" onClick={onOpenIssues} disabled={preparing} className={`${linkClass} disabled:cursor-default disabled:opacity-60`}>
-                Continue without logs
-              </button>
-              <p className="mt-4 text-[11px] text-steel">Whisperstream never uploads your logs.</p>
-            </>
-          )}
-
-          {step === "saved" && (
-            <>
-              <button ref={primaryRef} type="button" onClick={onOpenIssues} className={primaryClass} style={primaryPillStyle}>
-                <span className="inline-flex items-center gap-2">
-                  Continue to GitHub Issues
-                  <ExternalLinkIcon />
-                </span>
-              </button>
-              <button
-                type="button"
-                onClick={onEmail}
-                className="mt-2.5 h-10 w-full rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
-                style={glassPillStyle}
-              >
-                Email logs instead
-              </button>
-            </>
-          )}
-
-          {step === "error" && (
-            <>
-              <button ref={primaryRef} type="button" onClick={handleExport} className={primaryClass} style={primaryPillStyle}>
-                Try again
-              </button>
-              <button type="button" onClick={onOpenIssues} className={linkClass}>
-                Continue without logs
-              </button>
-            </>
-          )}
-
-          {step === "denied" && (
+        {(step === "ask" || preparing) && (
+          <>
             <button
               ref={primaryRef}
               type="button"
-              onClick={onClose}
-              className="h-10 w-full rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+              onClick={handleExport}
+              disabled={preparing}
+              className={primaryClass}
+              style={primaryPillStyle}
+            >
+              {preparing ? "Preparing…" : "Export logs"}
+            </button>
+            <button type="button" onClick={onOpenIssues} disabled={preparing} className={`${linkClass} disabled:cursor-default disabled:opacity-60`}>
+              Continue without logs
+            </button>
+            <p className="mt-4 text-[11px] text-steel">Whisperstream never uploads your logs.</p>
+          </>
+        )}
+
+        {step === "saved" && (
+          <>
+            <button ref={primaryRef} type="button" onClick={onOpenIssues} className={primaryClass} style={primaryPillStyle}>
+              <span className="inline-flex items-center gap-2">
+                Continue to GitHub Issues
+                <ExternalLinkIcon />
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={onEmail}
+              className="mt-2.5 h-10 w-full rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
               style={glassPillStyle}
             >
-              Close
+              Email logs instead
             </button>
-          )}
-        </motion.div>
-      </div>
-    </MotionConfig>,
-    document.body,
+          </>
+        )}
+
+        {step === "error" && (
+          <>
+            <button ref={primaryRef} type="button" onClick={handleExport} className={primaryClass} style={primaryPillStyle}>
+              Try again
+            </button>
+            <button type="button" onClick={onOpenIssues} className={linkClass}>
+              Continue without logs
+            </button>
+          </>
+        )}
+
+        {step === "denied" && (
+          <button
+            ref={primaryRef}
+            type="button"
+            onClick={onClose}
+            className="h-10 w-full rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+            style={glassPillStyle}
+          >
+            Close
+          </button>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }

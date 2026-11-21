@@ -1,4 +1,5 @@
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ReportBugDialog } from "./ReportBugDialog";
 
@@ -116,11 +117,13 @@ describe("ReportBugDialog", () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  it("closes on Escape and backdrop click", () => {
+  it("closes on Escape and backdrop click", async () => {
     const { onClose } = renderDialog();
 
-    fireEvent.keyDown(window, { key: "Escape" });
-    fireEvent.click(screen.getByTestId("report-bug-backdrop"));
+    fireEvent.keyDown(document, { key: "Escape" });
+    await userEvent
+      .setup({ pointerEventsCheck: 0 })
+      .click(document.querySelector('[data-slot="dialog-overlay"]') as HTMLElement);
 
     expect(onClose).toHaveBeenCalledTimes(2);
   });
