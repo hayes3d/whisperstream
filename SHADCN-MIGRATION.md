@@ -33,6 +33,14 @@ design language and every component's public props. Upstream
 | `HoverTooltip.tsx` | shadcn `Tooltip` (Radix) | unchanged (all 7 props accepted) |
 | `Dropdown.tsx` | Radix `Select` primitives (the layer shadcn's Select wraps) | unchanged (`DropdownOption` + all 19 props) |
 | `CustomPromptDialog.tsx` | shadcn `Dialog` (Radix) | unchanged (`open/initialPrompt/onSave/onCancel`) |
+| `EnableLocalConfirmDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
+| `LowRamDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
+| `LocalNudgeDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
+| `EnhancementRecoveryDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
+| `TranscriptConfirmDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
+| `VoiceModelMemoryDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
+| `DeleteSttModelDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
+| `DeleteUnusedSttModelsDialog.tsx` | shadcn `Dialog` (Radix) | unchanged |
 
 All shadcn `ui/*` files are re-skinned to Glacier (switch = 48×26
 accent-fill pill; tooltip = frost-glass overlay bubble; dialog =
@@ -43,7 +51,7 @@ swapped components.
 
 ## Remains (hand-rolled)
 
-- ~25 other dialogs/modals (`AddAppModal`, `HudConfigModal`,
+- ~17 other dialogs/modals (`AddAppModal`, `HudConfigModal`,
   `ProfileEditorModal`, `LockdownSetupModal`, the Delete*/Recovery*/
   Download* family, …) — same swap recipe as `CustomPromptDialog`.
 - `AnchoredPopover`, `SettingsPopover` → shadcn Popover.
@@ -86,10 +94,33 @@ swapped components.
 4. **Per-instance `TooltipProvider`** inside HoverTooltip keeps 20+ call
    sites untouched; hoist one app-level provider if instance count matters.
 
+5. **Dialog batch 2 (8 dialogs)**: manual Escape/backdrop handlers and
+   focus-the-safe-button effects were removed. Radix handles Esc (listening
+   on `document`, so tests dispatch `keyDown(document, …)` not `window`),
+   focus trap, restore-focus, and focuses the first tabbable on open, which
+   is the safe button in every one of these.
+   - `LocalNudgeDialog` and `EnhancementRecoveryDialog` have no `open` prop
+     (parents mount them conditionally), so they render `<Dialog open …>`;
+     public props are unchanged.
+   - `DeleteSttModelDialog` / `DeleteUnusedSttModelsDialog` ignore Esc and
+     backdrop while `busy` (gated in `onOpenChange`) and pass
+     `aria-modal="true"` explicitly because Radix omits it and their tests
+     assert it.
+   - `VoiceModelMemoryDialog` used `z-[60]`; shadcn content/overlay are
+     `z-50`. It portals to `document.body` last, so it still stacks on top
+     of the non-portaled z-50 shells; revisit if it is ever opened over
+     another Radix dialog.
+   - Radix `aria-hidden`s the page behind an open dialog, so the Enhancement
+     page test default now sets `enhancement_local_nudge_seen: true` (the
+     nudge otherwise opens in unrelated tests); the two nudge tests set false
+     explicitly.
+   - Not touched: `MemoryRingIcon` export (still used by VoiceModelMemoryDialog).
+
 ## Verification
 
 - `npx tsc -b` clean.
-- Full `npx vitest run` green (Dropdown suite 33/33, Toggle 3/3,
+- Dialog batch 2: `src/components` + `src/pages` run is 583/606 passing, identical to the pre-batch baseline; the same 23 failures (Lockdown/RecoveryStep/Home.modelSelection/Transcripts.copy/…) exist on the branch before these swaps and are unrelated.
+- Full `npx vitest run` green (as of the first batch) (Dropdown suite 33/33, Toggle 3/3,
   HoverTooltip 4/4 after adaptation to Radix semantics).
 - Dev preview (`npm run dev`, port 1420) not exercised in this session —
   visual pass in the real app still recommended before building on this.
