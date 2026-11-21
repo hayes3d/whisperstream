@@ -109,7 +109,7 @@ describe("DataLeavesDialog — interactions", () => {
   it("Escape key triggers onCancel", () => {
     const onCancel = vi.fn();
     render(<DataLeavesDialog {...makeProps({ onCancel })} />);
-    fireEvent.keyDown(window, { key: "Escape" });
+    fireEvent.keyDown(document, { key: "Escape" });
     expect(onCancel).toHaveBeenCalledOnce();
   });
 

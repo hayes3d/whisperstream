@@ -1,5 +1,10 @@
-import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 /* ---------- Provider display map ----------
    Duplicates a subset of PROVIDER_META[].label in PrivacyModal.tsx. Dialog B
@@ -123,88 +128,35 @@ export function DataLeavesDialog({
   onContinue,
   onCancel,
 }: DataLeavesDialogProps) {
-  const cancelBtnRef = useRef<HTMLButtonElement>(null);
-
-  // Esc cancels (reverts the dropdown). Enter is intentionally NOT bound —
-  // the user must affirmatively click Continue to chain into PrivacyModal.
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        onCancel();
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, onCancel]);
-
-  // Focus the Cancel button on mount per dialog-design.md: B is an
-  // interruption to a forward action, safer default is "user reads first."
-  useEffect(() => {
-    if (!open) return;
-    cancelBtnRef.current?.focus();
-  }, [open]);
-
-  if (!open) return null;
-
   const providerLabel =
     provider === "custom"
       ? (customHost || PROVIDER_DISPLAY.custom)
       : (PROVIDER_DISPLAY[provider] ?? provider);
 
+  // Esc and backdrop click both cancel via Radix (reverts the dropdown): the
+  // user picked a provider, the dialog asks "are you sure," so silent
+  // dismissal must undo the pick. Enter is intentionally NOT bound — the user
+  // must affirmatively click Continue. Radix focuses the first tabbable
+  // (Cancel) on open: B is an interruption to a forward action, so the safer
+  // default is "user reads first."
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        className="absolute inset-0"
-        style={{
-          background: "var(--backdrop-strong)",
-          backdropFilter: "blur(40px)",
-          WebkitBackdropFilter: "blur(40px)",
-        }}
-        // Backdrop click is NOT a no-op — the user picked a provider, the
-        // dialog asks "are you sure," silent dismissal must undo the pick.
-        onClick={onCancel}
-      />
-
+    <Dialog open={open} onOpenChange={(next) => !next && onCancel()}>
       {/* Glass card — 440px wide, halfway between LowRamDialog (420) and
           PrivacyModal (460). Bullets benefit from a touch more horizontal
-          room than Dialog A's single paragraph. Shell glass treatment is
-          duplicated literally per design.md. */}
-      <motion.div
-        initial={{ scale: 0.92, opacity: 0, y: 12 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 400, damping: 30, delay: 0.08 }}
-        className="relative w-[440px] rounded-[var(--radius-card)] p-7"
-        style={{
-          background: "var(--surface-modal)",
-          backdropFilter: "blur(24px)",
-          WebkitBackdropFilter: "blur(24px)",
-          border: "1px solid var(--border-emphasis)",
-          boxShadow: "var(--shadow-glass)",
-        }}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="data-leaves-dialog-heading"
-      >
+          room than Dialog A's single paragraph. */}
+      <DialogContent className="w-[440px]">
         <GlobeIcon />
 
-        <h2
-          id="data-leaves-dialog-heading"
-          className="font-display text-[18px] font-normal text-slate text-center mb-1"
-        >
+        <DialogTitle className="text-center mb-1">
           Review where your text goes
-        </h2>
+        </DialogTitle>
         <p className="text-[12px] text-steel/70 text-center mb-3">
           Going to {providerLabel}
         </p>
 
-        <p className="text-[13px] text-steel mb-4 leading-relaxed">
+        <DialogDescription className="text-[13px] text-steel mb-4 leading-relaxed">
           Review the privacy notice before using this connection.
-        </p>
+        </DialogDescription>
 
         <ul className="text-[12px] text-steel leading-relaxed space-y-1.5 pl-4 mb-5">
           <li className="list-disc marker:text-steel/50">
@@ -222,7 +174,6 @@ export function DataLeavesDialog({
             path the user is already taking. */}
         <div className="flex items-center justify-end gap-2.5 mb-4">
           <button
-            ref={cancelBtnRef}
             onClick={onCancel}
             className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
             style={{
@@ -248,7 +199,7 @@ export function DataLeavesDialog({
         <p className="text-[11px] text-steel/60 text-center leading-relaxed">
           Review the privacy notice before enabling this connection.
         </p>
-      </motion.div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
