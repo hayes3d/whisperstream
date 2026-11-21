@@ -80,7 +80,7 @@ const ChevronGlyph = () => (
     height="8"
     viewBox="0 0 8 8"
     aria-hidden="true"
-    className="-translate-x-[3px] text-steel opacity-0 transition duration-150 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100"
+    className="text-steel opacity-60 transition duration-150 group-hover:opacity-100 group-focus-visible:opacity-100"
   >
     <path d="M2.5 1l3 3-3 3" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
@@ -125,7 +125,8 @@ function PillDot({ state }: { state: HudLightState }) {
 }
 
 const PILL =
-  "flex select-none items-center gap-1.5 rounded-full border border-[var(--border-hairline-steel)] px-2.5 py-[3px] text-[11px] leading-4 text-steel transition-colors duration-200";
+  // h-[26px] matches the Toggle it shares a card-header row with.
+  "flex h-[26px] select-none items-center gap-1.5 rounded-full border border-[var(--border-hairline-steel)] px-2.5 text-[11px] leading-4 text-steel transition-colors duration-200";
 
 export function StatusLight({ state, ariaLabel, onActivate, activateLabel }: StatusLightProps) {
   const inner = (
