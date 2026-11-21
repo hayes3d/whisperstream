@@ -140,7 +140,6 @@ swapped components.
 ## Verification
 
 - `npx tsc -b` clean.
-- Dialog batch 2 + Radix-test follow-up: full `npx vitest run` is 2336/2336 (exit 0, read from the JSON reporter, not the rtk wrapper summary). The earlier "full suite green" was wrong: the wrapper hid failures from the tooltip/select swaps. (Dropdown suite 33/33, Toggle 3/3,
-  HoverTooltip 4/4 after adaptation to Radix semantics).
+- Dialog batch 2 + Radix-test follow-up: full `npx vitest run` is 2336/2336 (exit 0, read from the JSON reporter, not the rtk wrapper summary). The earlier "full suite green" was wrong: the wrapper hid failures from the tooltip/select swaps.
 - Dev preview (`npm run dev`, port 1420) not exercised in this session —
   visual pass in the real app still recommended before building on this.
