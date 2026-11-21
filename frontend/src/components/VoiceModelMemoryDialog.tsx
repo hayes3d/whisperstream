@@ -1,5 +1,9 @@
-import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import type { SpeechStatus } from "../lib/api/speech";
 import { MemoryRingIcon } from "./LowRamDialog";
 
@@ -29,26 +33,7 @@ export function VoiceModelMemoryDialog({
   onUseLowerMemory,
   onDismiss,
 }: VoiceModelMemoryDialogProps) {
-  const secondaryButtonRef = useRef<HTMLButtonElement>(null);
   const blocked = tier === "blocked";
-
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        onDismiss();
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onDismiss, open]);
-
-  useEffect(() => {
-    if (open) secondaryButtonRef.current?.focus();
-  }, [open]);
-
-  if (!open) return null;
 
   const hasMemory =
     memory.total_mb !== null && memory.available_mb !== null;
@@ -64,54 +49,22 @@ export function VoiceModelMemoryDialog({
     : `${memorySentence} Kokoro may slow other apps or make speech stutter.`;
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        className="absolute inset-0"
-        style={{
-          background: "var(--backdrop-strong)",
-          backdropFilter: "blur(40px)",
-          WebkitBackdropFilter: "blur(40px)",
-        }}
-        onClick={onDismiss}
-      />
-
-      <motion.div
-        initial={{ scale: 0.92, opacity: 0, y: 12 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 400, damping: 30, delay: 0.08 }}
-        className="relative w-[420px] rounded-[var(--radius-card)] p-7"
-        style={{
-          background: "var(--surface-modal)",
-          backdropFilter: "blur(24px)",
-          WebkitBackdropFilter: "blur(24px)",
-          border: "1px solid var(--border-emphasis)",
-          boxShadow: "var(--shadow-glass)",
-        }}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="voice-model-memory-heading"
-      >
+    <Dialog open={open} onOpenChange={(next) => !next && onDismiss()}>
+      <DialogContent className="w-[420px]">
         <MemoryRingIcon />
 
-        <h2
-          id="voice-model-memory-heading"
-          className="font-display text-[18px] font-normal text-slate text-center mb-2"
-        >
+        <DialogTitle className="font-display text-[18px] font-normal text-slate text-center mb-2">
           {blocked
             ? "Not enough memory for Kokoro"
             : "Kokoro may use too much memory"}
-        </h2>
+        </DialogTitle>
 
-        <p className="text-[13px] text-steel mb-6 leading-relaxed text-center">
+        <DialogDescription className="text-[13px] text-steel mb-6 leading-relaxed text-center">
           {body}
-        </p>
+        </DialogDescription>
 
         <div className="flex items-center justify-center gap-2.5">
           <button
-            ref={secondaryButtonRef}
             onClick={blocked ? onDismiss : onContinue}
             className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
             style={{
@@ -133,7 +86,7 @@ export function VoiceModelMemoryDialog({
             Use lower memory
           </button>
         </div>
-      </motion.div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
