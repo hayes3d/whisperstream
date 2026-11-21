@@ -1,5 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { motion } from "framer-motion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 /* ---------- Disk drive icon ----------
    A single storage cylinder with a high fill level: the volume is nearly
@@ -101,76 +107,26 @@ export function LowDiskSpaceDialog({
 }: LowDiskSpaceDialogProps) {
   const dismissBtnRef = useRef<HTMLButtonElement>(null);
 
-  // Esc dismisses. Enter is intentionally NOT bound — matches LowRamDialog
-  // and PrivacyModal's affirmative-action convention.
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        onDismiss();
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, onDismiss]);
-
-  // Focus the secondary (Free up space) button on mount. Same focus spec
-  // as LowRamDialog: user must read before they can keyboard-confirm into
-  // cloud setup.
-  useEffect(() => {
-    if (!open) return;
-    dismissBtnRef.current?.focus();
-  }, [open]);
-
-  if (!open) return null;
-
+  // Esc / backdrop dismiss via Radix. Enter is intentionally NOT bound —
+  // matches LowRamDialog and PrivacyModal's affirmative-action convention.
+  // Initial focus goes to the tertiary "Free up space" button (not the first
+  // tabbable): same focus spec as LowRamDialog, read before you confirm.
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        className="absolute inset-0"
-        style={{
-          background: "var(--backdrop-strong)",
-          backdropFilter: "blur(40px)",
-          WebkitBackdropFilter: "blur(40px)",
+    <Dialog open={open} onOpenChange={(next) => !next && onDismiss()}>
+      <DialogContent
+        className="w-[420px]"
+        onOpenAutoFocus={(event) => {
+          event.preventDefault();
+          dismissBtnRef.current?.focus();
         }}
-        onClick={onDismiss}
-      />
-
-      {/* Glass card — same shell as LowRamDialog (420px, rounded-3xl, p-7,
-          identical glass / inset / shadow stack). The shell-level glass
-          treatment is duplicated verbatim from LowRamDialog /
-          PrivacyModal / DataLeavesDialog per design.md's "no shared base
-          component" decision. */}
-      <motion.div
-        initial={{ scale: 0.92, opacity: 0, y: 12 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 400, damping: 30, delay: 0.08 }}
-        className="relative w-[420px] rounded-[var(--radius-card)] p-7"
-        style={{
-          background: "var(--surface-modal)",
-          backdropFilter: "blur(24px)",
-          WebkitBackdropFilter: "blur(24px)",
-          border: "1px solid var(--border-emphasis)",
-          boxShadow: "var(--shadow-glass)",
-        }}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="low-disk-dialog-heading"
       >
         <DiskDriveIcon />
 
-        <h2
-          id="low-disk-dialog-heading"
-          className="font-display text-[18px] font-normal text-slate text-center mb-2"
-        >
+        <DialogTitle className="text-center mb-2">
           Not enough space to download
-        </h2>
+        </DialogTitle>
 
-        <p className="text-[13px] text-steel mb-5 leading-relaxed text-center">
+        <DialogDescription className="text-[13px] text-steel mb-5 leading-relaxed text-center">
           Whisperstream needs about{" "}
           <span style={{ fontVariantNumeric: "tabular-nums" }}>
             {requiredDiskGb}
@@ -180,7 +136,7 @@ export function LowDiskSpaceDialog({
             {freeDiskGb.toFixed(1)}
           </span>{" "}
           GB free.
-        </p>
+        </DialogDescription>
 
         {/* Vertical 3-action stack. Primary (gradient) is the folder choice —
             the recommended path for a user who wants on-device models.
@@ -224,7 +180,7 @@ export function LowDiskSpaceDialog({
             Free up space and retry
           </button>
         </div>
-      </motion.div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
