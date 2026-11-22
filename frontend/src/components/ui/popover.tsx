@@ -35,11 +35,9 @@ function PopoverContent({
         align={align}
         sideOffset={sideOffset}
         className={cn(
-          // Glacier floating panel, matching the Dropdown listbox look:
-          // overlay surface, hairline border, 24px blur, glass shadow, row
-          // radius. Arbitrary-property classes (not bg-*/shadow-*) so a caller
-          // can override each one cleanly through tailwind-merge.
-          "z-50 rounded-[var(--radius-row)] outline-hidden [background:var(--surface-overlay)] [border:1px_solid_var(--border-hairline)] [box-shadow:var(--shadow-glass)] [backdrop-filter:blur(24px)]",
+          // Stock shadcn panel. Width and padding stay with the callers
+          // (stock w-72 p-4 would override the provider list's own sizing).
+          "z-50 rounded-md border bg-popover text-popover-foreground shadow-md outline-hidden",
           className
         )}
         {...props}

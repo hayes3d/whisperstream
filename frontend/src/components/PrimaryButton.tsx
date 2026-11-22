@@ -15,23 +15,23 @@ import { motion } from "framer-motion";
 // disabled. Hover/press change only the shadow (no positional lift), so the
 // button gives feedback without jumping.
 //
+// Stock shadcn default Button: solid primary, primary-foreground text,
+// shadow-xs, rounded-md. Disabled is the stock 50% opacity of the same fill.
 const deepFrost = {
-  textClass: "text-white font-medium",
+  textClass: "text-[var(--accent-fill-fg)] font-medium",
   idle: {
     background: "var(--accent-fill)",
-    boxShadow:
-      "inset 0 1px 0 rgba(255,255,255,0.25), 0 0 10px color-mix(in srgb, var(--color-frost) 22%, transparent), 0 4px 14px color-mix(in srgb, var(--color-frost-deep) 38%, transparent)",
-    border: "1px solid var(--border-accent)",
+    boxShadow: "var(--shadow-glass-sm)",
+    border: "1px solid transparent",
   },
-  hoverShadow:
-    "inset 0 1px 0 rgba(255,255,255,0.4), 0 0 13px color-mix(in srgb, var(--color-frost) 28%, transparent), 0 6px 18px color-mix(in srgb, var(--color-frost-deep) 44%, transparent)",
-  pressShadow:
-    "inset 0 1px 2px rgba(0,0,0,0.12), 0 2px 8px color-mix(in srgb, var(--color-frost-deep) 34%, transparent)",
+  hoverShadow: "var(--shadow-glass-sm)",
+  pressShadow: "none",
   disabled: {
-    background: "rgba(126,140,153,0.18)",
-    color: "#8FA3B5",
+    background: "var(--accent-fill)",
+    color: "var(--accent-fill-fg)",
     boxShadow: "none",
-    border: "1px solid rgba(126,140,153,0.12)",
+    border: "1px solid transparent",
+    opacity: 0.5,
   },
 };
 
@@ -76,7 +76,7 @@ export function PrimaryButton({
       }
       transition={{ duration: 0.22, ease: [0.2, 0, 0, 1] }}
       className={[
-        "relative rounded-full transition-all duration-200",
+        "relative rounded-md transition-all duration-200 hover:opacity-90",
         isDisabled ? "cursor-not-allowed" : `cursor-pointer ${deepFrost.textClass}`,
         fullWidth ? "w-full" : "",
         className,
@@ -88,6 +88,7 @@ export function PrimaryButton({
               color: deepFrost.disabled.color,
               boxShadow: deepFrost.disabled.boxShadow,
               border: deepFrost.disabled.border,
+              opacity: deepFrost.disabled.opacity,
             }
           : { background: deepFrost.idle.background, boxShadow: deepFrost.idle.boxShadow, border: deepFrost.idle.border }
       }

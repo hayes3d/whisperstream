@@ -42,13 +42,12 @@ function DialogOverlay({
     <DialogPrimitive.Overlay
       data-slot="dialog-overlay"
       className={cn(
+        // Stock shadcn scrim (bg-black/50 via the backdrop tokens, no blur).
+        // `backdrop` still picks the token so the two scrims can diverge again.
         "fixed inset-0 z-50",
         backdrop === "soft"
-          ? // Family-C (DownloadDialog): lighter 8px scrim, deliberately
-            // distinct from the strong one (see globals.css).
-            "[background:var(--backdrop-soft)] backdrop-blur-[8px]"
-          : // Glacier family-A/B backdrop: frosted canvas scrim + 40px blur.
-            "[background:var(--backdrop-strong)] backdrop-blur-[40px]",
+          ? "[background:var(--backdrop-soft)]"
+          : "[background:var(--backdrop-strong)]",
         className
       )}
       {...props}
@@ -75,10 +74,10 @@ function DialogContent({
         // Radix omits aria-modal; the app's dialogs (and their a11y tests) expect it.
         aria-modal="true"
         className={cn(
-          // Glacier modal card: frost-glass surface, emphasis border, glass
-          // glow, card radius. The app's dialogs draw their own pills, so no
-          // default close button.
-          "fixed top-[50%] left-[50%] z-50 w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] rounded-[var(--radius-card)] p-7 outline-none [background:var(--surface-modal)] backdrop-blur-[24px] border border-[var(--border-emphasis)] [box-shadow:var(--shadow-glass)] sm:max-w-lg",
+          // Stock shadcn card. No `grid gap-4`: the app's dialogs space their
+          // own children, and stacking both doubles the gaps. No default
+          // close X either: every dialog already has its own Cancel.
+          "fixed top-[50%] left-[50%] z-50 w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] rounded-lg border bg-background p-6 shadow-lg outline-none sm:max-w-lg",
           className
         )}
         {...props}
@@ -143,7 +142,7 @@ function DialogTitle({
     <DialogPrimitive.Title
       data-slot="dialog-title"
       className={cn(
-        "font-display text-[18px] font-normal text-slate",
+        "text-lg leading-none font-semibold",
         className
       )}
       {...props}
@@ -158,7 +157,7 @@ function DialogDescription({
   return (
     <DialogPrimitive.Description
       data-slot="dialog-description"
-      className={cn("text-[12px] leading-relaxed text-steel", className)}
+      className={cn("text-sm text-muted-foreground", className)}
       {...props}
     />
   )

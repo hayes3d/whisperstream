@@ -37,6 +37,8 @@
 }
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 /* ============================================================================
    THEME TOKEN CONTRACT  (app-themes feature)
    ----------------------------------------------------------------------------
@@ -194,15 +196,15 @@
 
 @theme {
   /* Named-color + shadow tokens default to LIGHT / Glacier (see glacier.md §3/§5). */
-  --color-canvas: #EDF4FA;
-  --color-frost: #7FB2DE;
-  --color-frost-deep: #5590C4;
-  --color-frost-light: #B9D6EF;
-  --color-slate: #263849;
-  --color-steel: #607C97;
-  --color-obsidian: #111315;
-  --color-rose: #C48B8B;
-  --color-rose-text: #A85F5F;
+  --color-canvas: #ffffff;
+  --color-frost: #a3a3a3;
+  --color-frost-deep: #525252;
+  --color-frost-light: #f5f5f5;
+  --color-slate: #0a0a0a;
+  --color-steel: #737373;
+  --color-obsidian: #0a0a0a;
+  --color-rose: #e7000b;
+  --color-rose-text: #c10007;
   --status-check-ink: #0C141D;
   --color-mint: #54A876;
   --color-gold: #D4AF37;
@@ -222,7 +224,7 @@
   --color-amber-deep: #B8962F;
   --color-amber-light: #F3E5AB;
 
-  --font-display: 'Outfit', system-ui, sans-serif;
+  --font-display: 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
   /* Content-role aliases keep transcript and agent text independent of chrome. */
   --font-quote: 'Inter', system-ui, sans-serif;
@@ -232,50 +234,51 @@
 
   /* Glacier depth model: kept inset top light + a full-perimeter specular ring
      (inset 0 0 0 1px) + soft blue drop shadows layered underneath. */
-  --shadow-glass: inset 0 1px 0 rgba(255, 255, 255, 1), inset 0 0 0 1px rgba(255, 255, 255, 0.38), 0 20px 44px -12px rgba(85, 144, 196, 0.35), 0 2px 8px rgba(85, 144, 196, 0.12);
-  --shadow-glass-sm: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 0 0 1px rgba(255, 255, 255, 0.25), 0 8px 20px -8px rgba(85, 144, 196, 0.22);
-  --shadow-frost-glow: 0 0 24px rgba(127, 178, 222, 0.4);
-  --shadow-pearl: 0 0 12px rgba(255, 255, 255, 0.65), 0 2px 10px rgba(85, 144, 196, 0.3);
+  --shadow-glass: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-glass-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-frost-glow: 0 0 #0000;
+  --shadow-pearl: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 
   /* Accent fill: the AA-passing, text-bearing filled-control gradient. */
-  --accent-fill: linear-gradient(135deg, #4A7BA8, #2F5E86);
+  --accent-fill-fg: #fafafa;
+  --accent-fill: #171717;
 
   /* Surfaces (role-based elevation ladder, level in parens). */
-  --surface-card: rgba(255, 255, 255, 0.58);
-  --surface-sidebar: rgba(255, 255, 255, 0.42);
-  --surface-control: rgba(255, 255, 255, 0.45);
-  --surface-raised: rgba(255, 255, 255, 0.45);
-  --surface-overlay: rgba(255, 255, 255, 0.95);
-  --surface-modal: rgba(255, 255, 255, 0.96);   /* in-app dialog card fill */
-  --surface-popup: rgba(242, 247, 249, 0.96);   /* desktop-floating popup card fill; tinted so its edge survives over white windows */
-  --rim-specular: rgba(255, 255, 255, 1);
+  --surface-card: #ffffff;
+  --surface-sidebar: #fafafa;
+  --surface-control: #ffffff;
+  --surface-raised: #ffffff;
+  --surface-overlay: #ffffff;
+  --surface-modal: #ffffff;   /* in-app dialog card fill */
+  --surface-popup: #ffffff;   /* desktop-floating popup card fill; tinted so its edge survives over white windows */
+  --rim-specular: transparent;
   /* Hover/focus lift on a control or list row (resting surface -> this on hover).
      Dark drops to 0.10 so it does not flash bright white on #0C141D. */
-  --surface-hover: rgba(255, 255, 255, 0.6);
+  --surface-hover: #f5f5f5;
   /* Nested list rows (profiles) and tiles (transcript cards). */
-  --surface-row: rgba(255, 255, 255, 0.08);
-  --surface-row-hover: rgba(255, 255, 255, 0.18);
-  --surface-row-selected: rgba(255, 255, 255, 0.22);
-  --surface-row-selected-hover: rgba(255, 255, 255, 0.28);
-  --surface-tile: rgba(255, 255, 255, 0.12);
-  --surface-tile-expanded: rgba(255, 255, 255, 0.18);
-  --surface-tile-hover: rgba(255, 255, 255, 0.22);
+  --surface-row: transparent;
+  --surface-row-hover: #f5f5f5;
+  --surface-row-selected: #f5f5f5;
+  --surface-row-selected-hover: #e5e5e5;
+  --surface-tile: #ffffff;
+  --surface-tile-expanded: #ffffff;
+  --surface-tile-hover: #fafafa;
   /* Dictionary entry rows: the border matches the white fill, so rows read
      as fill alone. */
-  --surface-entry: rgba(255, 255, 255, 0.45);
-  --surface-entry-hover: rgba(255, 255, 255, 0.6);
-  --border-entry: rgba(255, 255, 255, 0.55);
+  --surface-entry: #ffffff;
+  --surface-entry-hover: #f5f5f5;
+  --border-entry: #e5e5e5;
   /* Selected sidebar tab. */
-  --nav-active-fill: rgba(255, 255, 255, 0.45);
-  --nav-active-border: rgba(255, 255, 255, 0.8);
-  --nav-active-glow: 0 0 24px rgba(127, 178, 222, 0.4);
+  --nav-active-fill: #f5f5f5;
+  --nav-active-border: transparent;
+  --nav-active-glow: none;
   /* Multiplier on every caught-light top edge (`inset 0 1px 0`). */
-  --rim-scale: 1;
+  --rim-scale: 0;
 
   /* Dialog backdrops (frosted-canvas scrim; blur handled at the callsite).
      -strong = 40px-blur family A/B, -soft = 8px-blur family C. Kept distinct. */
-  --backdrop-strong: rgba(242, 247, 249, 0.75);
-  --backdrop-soft: rgba(242, 247, 249, 0.7);
+  --backdrop-strong: rgb(0 0 0 / 0.5);
+  --backdrop-soft: rgb(0 0 0 / 0.5);
 
   /* Dialog-icon halo washes (the radial-gradient CENTER color; the gradient
      shape + scale live at the callsite). Light keeps these faint so the halo
@@ -287,33 +290,33 @@
   --halo-mint: color-mix(in srgb, var(--color-mint) 12%, transparent);
 
   /* Borders (three surface rungs + accent edge + etched divider). */
-  --border-emphasis: rgba(255, 255, 255, 0.8);
-  --border-standard: rgba(255, 255, 255, 0.6);
-  --border-hairline: rgba(255, 255, 255, 0.55);
-  --border-hairline-steel: rgba(107, 130, 153, 0.22);
-  --border-accent: rgba(127, 178, 222, 0.4);
-  --divider: rgba(255, 255, 255, 0.25);
-  --tab-rule: rgba(107, 130, 153, 0.18);
-  --range-track-inset: rgba(96, 124, 151, 0.22);
+  --border-emphasis: #e5e5e5;
+  --border-standard: #e5e5e5;
+  --border-hairline: #e5e5e5;
+  --border-hairline-steel: #e5e5e5;
+  --border-accent: #a3a3a3;
+  --divider: #e5e5e5;
+  --tab-rule: #e5e5e5;
+  --range-track-inset: #e5e5e5;
 
   /* Misc themeable literals. */
-  --scrollbar-thumb: rgba(127, 178, 222, 0.3);
-  --scrollbar-thumb-hover: rgba(127, 178, 222, 0.5);
-  --range-thumb-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 2px 6px rgba(85, 144, 196, 0.3);
-  --frost-mesh-1: rgba(127, 178, 222, 0.24);
-  --frost-mesh-2: rgba(150, 195, 232, 0.18);
-  --frost-mesh-3: rgba(127, 178, 222, 0.15);
-  --frost-muted: #5B7FA5;
+  --scrollbar-thumb: rgb(0 0 0 / 0.15);
+  --scrollbar-thumb-hover: rgb(0 0 0 / 0.3);
+  --range-thumb-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --frost-mesh-1: transparent;
+  --frost-mesh-2: transparent;
+  --frost-mesh-3: transparent;
+  --frost-muted: #a3a3a3;
 
   /* HUD expand/collapse pill (glance card, console, Live Preview). Light reads
      as the frost accent; dark stays neutral (owner decision 2026-10-23). */
-  --hud-expand-border: rgba(85, 144, 196, 0.45);
-  --hud-expand-icon: #3A6E9E;
+  --hud-expand-border: #e5e5e5;
+  --hud-expand-icon: #525252;
 
   /* Per-theme radii (concentric scale; pills stay rounded-full). */
-  --radius-card: 28px;
-  --radius-row: 18px;
-  --radius-input: 12px;
+  --radius-card: 14px;
+  --radius-row: 10px;
+  --radius-input: 8px;
 }
 /* ---------------------------------------------------------------------------
    Light (default) — restated for symmetry; identical to the `@theme` block.
@@ -322,15 +325,15 @@
    consistent place per theme.
    --------------------------------------------------------------------------- */
 [data-theme="light"] {
-  --color-canvas: #EDF4FA;
-  --color-frost: #7FB2DE;
-  --color-frost-deep: #5590C4;
-  --color-frost-light: #B9D6EF;
-  --color-slate: #263849;
-  --color-steel: #607C97;
-  --color-obsidian: #111315;
-  --color-rose: #C48B8B;
-  --color-rose-text: #A85F5F;
+  --color-canvas: #ffffff;
+  --color-frost: #a3a3a3;
+  --color-frost-deep: #525252;
+  --color-frost-light: #f5f5f5;
+  --color-slate: #0a0a0a;
+  --color-steel: #737373;
+  --color-obsidian: #0a0a0a;
+  --color-rose: #e7000b;
+  --color-rose-text: #c10007;
   --status-check-ink: #0C141D;
   --color-mint: #54A876;
   --color-gold: #D4AF37;
@@ -346,75 +349,76 @@
   --color-amber-deep: #B8962F;
   --color-amber-light: #F3E5AB;
 
-  --shadow-glass: inset 0 1px 0 rgba(255, 255, 255, 1), inset 0 0 0 1px rgba(255, 255, 255, 0.38), 0 20px 44px -12px rgba(85, 144, 196, 0.35), 0 2px 8px rgba(85, 144, 196, 0.12);
-  --shadow-glass-sm: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 0 0 1px rgba(255, 255, 255, 0.25), 0 8px 20px -8px rgba(85, 144, 196, 0.22);
-  --shadow-frost-glow: 0 0 24px rgba(127, 178, 222, 0.4);
-  --shadow-pearl: 0 0 12px rgba(255, 255, 255, 0.65), 0 2px 10px rgba(85, 144, 196, 0.3);
+  --shadow-glass: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-glass-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-frost-glow: 0 0 #0000;
+  --shadow-pearl: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 
-  --accent-fill: linear-gradient(135deg, #4A7BA8, #2F5E86);
+  --accent-fill-fg: #fafafa;
+  --accent-fill: #171717;
 
-  --surface-card: rgba(255, 255, 255, 0.58);
-  --surface-sidebar: rgba(255, 255, 255, 0.42);
-  --surface-control: rgba(255, 255, 255, 0.45);
-  --surface-raised: rgba(255, 255, 255, 0.45);
-  --surface-overlay: rgba(255, 255, 255, 0.95);
-  --surface-modal: rgba(255, 255, 255, 0.96);   /* in-app dialog card fill */
-  --surface-popup: rgba(242, 247, 249, 0.96);   /* desktop-floating popup card fill; tinted so its edge survives over white windows */
-  --rim-specular: rgba(255, 255, 255, 1);
-  --surface-hover: rgba(255, 255, 255, 0.6);
+  --surface-card: #ffffff;
+  --surface-sidebar: #fafafa;
+  --surface-control: #ffffff;
+  --surface-raised: #ffffff;
+  --surface-overlay: #ffffff;
+  --surface-modal: #ffffff;   /* in-app dialog card fill */
+  --surface-popup: #ffffff;   /* desktop-floating popup card fill; tinted so its edge survives over white windows */
+  --rim-specular: transparent;
+  --surface-hover: #f5f5f5;
   /* Nested list rows (profiles) and tiles (transcript cards). */
-  --surface-row: rgba(255, 255, 255, 0.08);
-  --surface-row-hover: rgba(255, 255, 255, 0.18);
-  --surface-row-selected: rgba(255, 255, 255, 0.22);
-  --surface-row-selected-hover: rgba(255, 255, 255, 0.28);
-  --surface-tile: rgba(255, 255, 255, 0.12);
-  --surface-tile-expanded: rgba(255, 255, 255, 0.18);
-  --surface-tile-hover: rgba(255, 255, 255, 0.22);
+  --surface-row: transparent;
+  --surface-row-hover: #f5f5f5;
+  --surface-row-selected: #f5f5f5;
+  --surface-row-selected-hover: #e5e5e5;
+  --surface-tile: #ffffff;
+  --surface-tile-expanded: #ffffff;
+  --surface-tile-hover: #fafafa;
   /* Dictionary entry rows: the border matches the white fill, so rows read
      as fill alone. */
-  --surface-entry: rgba(255, 255, 255, 0.45);
-  --surface-entry-hover: rgba(255, 255, 255, 0.6);
-  --border-entry: rgba(255, 255, 255, 0.55);
+  --surface-entry: #ffffff;
+  --surface-entry-hover: #f5f5f5;
+  --border-entry: #e5e5e5;
   /* Selected sidebar tab. */
-  --nav-active-fill: rgba(255, 255, 255, 0.45);
-  --nav-active-border: rgba(255, 255, 255, 0.8);
-  --nav-active-glow: 0 0 24px rgba(127, 178, 222, 0.4);
+  --nav-active-fill: #f5f5f5;
+  --nav-active-border: transparent;
+  --nav-active-glow: none;
   /* Multiplier on every caught-light top edge (`inset 0 1px 0`). */
-  --rim-scale: 1;
+  --rim-scale: 0;
 
-  --backdrop-strong: rgba(242, 247, 249, 0.75);
-  --backdrop-soft: rgba(242, 247, 249, 0.7);
+  --backdrop-strong: rgb(0 0 0 / 0.5);
+  --backdrop-soft: rgb(0 0 0 / 0.5);
 
   --halo-gold: color-mix(in srgb, var(--color-gold) 10%, transparent);
   --halo-caution: color-mix(in srgb, var(--color-caution) 10%, transparent);
   --halo-frost: color-mix(in srgb, var(--color-frost) 12%, transparent);
   --halo-mint: color-mix(in srgb, var(--color-mint) 12%, transparent);
 
-  --border-emphasis: rgba(255, 255, 255, 0.8);
-  --border-standard: rgba(255, 255, 255, 0.6);
-  --border-hairline: rgba(255, 255, 255, 0.55);
-  --border-hairline-steel: rgba(107, 130, 153, 0.22);
-  --border-accent: rgba(127, 178, 222, 0.4);
-  --divider: rgba(255, 255, 255, 0.25);
-  --tab-rule: rgba(107, 130, 153, 0.18);
-  --range-track-inset: rgba(96, 124, 151, 0.22);
+  --border-emphasis: #e5e5e5;
+  --border-standard: #e5e5e5;
+  --border-hairline: #e5e5e5;
+  --border-hairline-steel: #e5e5e5;
+  --border-accent: #a3a3a3;
+  --divider: #e5e5e5;
+  --tab-rule: #e5e5e5;
+  --range-track-inset: #e5e5e5;
 
-  --scrollbar-thumb: rgba(127, 178, 222, 0.3);
-  --scrollbar-thumb-hover: rgba(127, 178, 222, 0.5);
-  --range-thumb-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 2px 6px rgba(85, 144, 196, 0.3);
-  --frost-mesh-1: rgba(127, 178, 222, 0.24);
-  --frost-mesh-2: rgba(150, 195, 232, 0.18);
-  --frost-mesh-3: rgba(127, 178, 222, 0.15);
-  --frost-muted: #5B7FA5;
+  --scrollbar-thumb: rgb(0 0 0 / 0.15);
+  --scrollbar-thumb-hover: rgb(0 0 0 / 0.3);
+  --range-thumb-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --frost-mesh-1: transparent;
+  --frost-mesh-2: transparent;
+  --frost-mesh-3: transparent;
+  --frost-muted: #a3a3a3;
 
   /* HUD expand/collapse pill (glance card, console, Live Preview). Light reads
      as the frost accent; dark stays neutral (owner decision 2026-10-23). */
-  --hud-expand-border: rgba(85, 144, 196, 0.45);
-  --hud-expand-icon: #3A6E9E;
+  --hud-expand-border: #e5e5e5;
+  --hud-expand-icon: #525252;
 
-  --radius-card: 28px;
-  --radius-row: 18px;
-  --radius-input: 12px;
+  --radius-card: 14px;
+  --radius-row: 10px;
+  --radius-input: 8px;
 }
 
 /* ---------------------------------------------------------------------------
@@ -424,15 +428,15 @@
    the dark elevation cue; overlays go near-solid dark (NOT Light's white 0.95).
    --------------------------------------------------------------------------- */
 [data-theme="dark"] {
-  --color-canvas: #0C141D;
-  --color-frost: #7FB2DE;
-  --color-frost-deep: #5590C4;
-  --color-frost-light: #2C4258;
-  --color-slate: #E9F1F8;
-  --color-steel: #98AFC5;
-  --color-obsidian: #F7FAFC;
-  --color-rose: #D9A0A0;
-  --color-rose-text: #D9A0A0;
+  --color-canvas: #0a0a0a;
+  --color-frost: #737373;
+  --color-frost-deep: #d4d4d4;
+  --color-frost-light: #262626;
+  --color-slate: #fafafa;
+  --color-steel: #a1a1a1;
+  --color-obsidian: #fafafa;
+  --color-rose: #ff6467;
+  --color-rose-text: #ff6467;
   --status-check-ink: #0C141D;
   --color-mint: #6FC08D;
   --color-gold: #E3C25C;
@@ -448,50 +452,51 @@
   --color-amber-deep: #C9A83E;
   --color-amber-light: #F3E5AB;
 
-  --shadow-glass: inset 0 1px 0 rgba(255, 255, 255, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.07), 0 20px 44px -12px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.26);
-  --shadow-glass-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.06), 0 8px 20px -8px rgba(0, 0, 0, 0.36);
-  --shadow-frost-glow: 0 0 18px rgba(127, 178, 222, 0.18);
-  --shadow-pearl: 0 0 12px rgba(127, 178, 222, 0.2), 0 2px 10px rgba(0, 0, 0, 0.4);
+  --shadow-glass: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+  --shadow-glass-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-frost-glow: 0 0 #0000;
+  --shadow-pearl: 0 1px 2px 0 rgb(0 0 0 / 0.3);
 
   /* Kept verbatim: still AA, and it now reads as lit ice against the night. */
-  --accent-fill: linear-gradient(135deg, #4A7BA8, #2F5E86);
+  --accent-fill-fg: #171717;
+  --accent-fill: #e5e5e5;
 
-  --surface-card: rgba(255, 255, 255, 0.08);
-  --surface-sidebar: rgba(255, 255, 255, 0.05);
-  --surface-control: rgba(255, 255, 255, 0.07);
-  --surface-raised: rgba(255, 255, 255, 0.07);
-  --surface-overlay: rgba(19, 29, 40, 0.96);
-  --surface-modal: rgba(19, 29, 40, 0.96);
-  --surface-popup: rgba(19, 29, 40, 0.96);
-  --rim-specular: rgba(255, 255, 255, 0.14);
+  --surface-card: #171717;
+  --surface-sidebar: #171717;
+  --surface-control: rgb(255 255 255 / 0.045);
+  --surface-raised: #171717;
+  --surface-overlay: #171717;
+  --surface-modal: #171717;
+  --surface-popup: #171717;
+  --rim-specular: transparent;
   /* Smoked hover lift (bright white would blow out on #0C141D). */
-  --surface-hover: rgba(255, 255, 255, 0.1);
+  --surface-hover: #262626;
   /* Nested rows and tiles take a faint frost tint: neutral white over the
      blue-black canvas reads as gray. Selection is a frost tint, not more white. */
-  --surface-row: rgba(150, 190, 230, 0.06);
-  --surface-row-hover: rgba(150, 190, 230, 0.1);
-  --surface-row-selected: rgba(127, 178, 222, 0.12);
-  --surface-row-selected-hover: rgba(127, 178, 222, 0.16);
-  --surface-tile: rgba(150, 190, 230, 0.06);
-  --surface-tile-expanded: rgba(150, 190, 230, 0.09);
-  --surface-tile-hover: rgba(150, 190, 230, 0.1);
+  --surface-row: transparent;
+  --surface-row-hover: #262626;
+  --surface-row-selected: #262626;
+  --surface-row-selected-hover: #404040;
+  --surface-tile: #171717;
+  --surface-tile-expanded: #171717;
+  --surface-tile-hover: #1f1f1f;
   /* Dictionary rows sit 4px apart, so a visible edge on each turns the list
      into stacked capsules. Like Light, the edge nearly matches the fill. */
-  --surface-entry: rgba(150, 190, 230, 0.06);
-  --surface-entry-hover: rgba(150, 190, 230, 0.1);
-  --border-entry: rgba(255, 255, 255, 0.03);
-  --nav-active-fill: rgba(127, 178, 222, 0.12);
-  --nav-active-border: rgba(127, 178, 222, 0.28);
+  --surface-entry: #171717;
+  --surface-entry-hover: #262626;
+  --border-entry: rgb(255 255 255 / 0.1);
+  --nav-active-fill: #262626;
+  --nav-active-border: transparent;
   --nav-active-glow: none;
   /* Light's caught-light rims (0.6-1 white) become 5-8% here; at full strength
      they read as bright rings around every pill. */
-  --rim-scale: 0.08;
+  --rim-scale: 0;
 
   /* Near-solid glacial-night backdrop (light frosted scrim -> dark), following
      PR #241's overlay recipe. -strong (40px blur) reads a touch more opaque than
      -soft (8px blur) so both variants block the mesh behind the dialog. */
-  --backdrop-strong: rgba(8, 13, 20, 0.78);
-  --backdrop-soft: rgba(8, 13, 20, 0.72);
+  --backdrop-strong: rgb(0 0 0 / 0.5);
+  --backdrop-soft: rgb(0 0 0 / 0.5);
 
   /* Halos lean brighter in dark: a glow on a night canvas reads as emitted
      light, where the same strength on a white card reads as a stain. */
@@ -500,29 +505,29 @@
   --halo-frost: color-mix(in srgb, var(--color-frost) 26%, transparent);
   --halo-mint: color-mix(in srgb, var(--color-mint) 24%, transparent);
 
-  --border-emphasis: rgba(255, 255, 255, 0.11);
-  --border-standard: rgba(255, 255, 255, 0.08);
-  --border-hairline: rgba(255, 255, 255, 0.08);
-  --border-hairline-steel: rgba(255, 255, 255, 0.12);
-  --border-accent: rgba(127, 178, 222, 0.3);
-  --divider: rgba(255, 255, 255, 0.12);
-  --tab-rule: rgba(255, 255, 255, 0.12);
-  --range-track-inset: rgba(255, 255, 255, 0.14);
+  --border-emphasis: rgb(255 255 255 / 0.1);
+  --border-standard: rgb(255 255 255 / 0.1);
+  --border-hairline: rgb(255 255 255 / 0.1);
+  --border-hairline-steel: rgb(255 255 255 / 0.15);
+  --border-accent: rgb(255 255 255 / 0.25);
+  --divider: rgb(255 255 255 / 0.1);
+  --tab-rule: rgb(255 255 255 / 0.1);
+  --range-track-inset: #262626;
 
-  --scrollbar-thumb: rgba(127, 178, 222, 0.22);
-  --scrollbar-thumb-hover: rgba(127, 178, 222, 0.4);
-  --range-thumb-shadow: 0 0 12px rgba(127, 178, 222, 0.2), 0 2px 10px rgba(0, 0, 0, 0.4);
-  --frost-mesh-1: rgba(127, 178, 222, 0.14);
-  --frost-mesh-2: rgba(150, 195, 232, 0.1);
-  --frost-mesh-3: rgba(127, 178, 222, 0.08);
-  --frost-muted: #7FA3C9;
+  --scrollbar-thumb: rgb(255 255 255 / 0.15);
+  --scrollbar-thumb-hover: rgb(255 255 255 / 0.3);
+  --range-thumb-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+  --frost-mesh-1: transparent;
+  --frost-mesh-2: transparent;
+  --frost-mesh-3: transparent;
+  --frost-muted: #737373;
 
-  --hud-expand-border: rgba(255, 255, 255, 0.16);
-  --hud-expand-icon: #A6B9CC;
+  --hud-expand-border: rgb(255 255 255 / 0.15);
+  --hud-expand-icon: #a3a3a3;
 
-  --radius-card: 28px;
-  --radius-row: 18px;
-  --radius-input: 12px;
+  --radius-card: 14px;
+  --radius-row: 10px;
+  --radius-input: 8px;
 }
 
 /* ---------------------------------------------------------------------------
@@ -533,25 +538,25 @@
    therefore equals the app's field radius.
    --------------------------------------------------------------------------- */
 :root {
-  --radius: var(--radius-input);
+  --radius: 0.625rem;
   --background: var(--color-canvas);
   --foreground: var(--color-slate);
   --card: var(--surface-card);
   --card-foreground: var(--color-slate);
   --popover: var(--surface-overlay);
   --popover-foreground: var(--color-slate);
-  --primary: var(--color-frost-deep);
-  --primary-foreground: #ffffff;
-  --secondary: var(--surface-control);
+  --primary: var(--accent-fill);
+  --primary-foreground: var(--accent-fill-fg);
+  --secondary: var(--surface-hover);
   --secondary-foreground: var(--color-slate);
-  --muted: var(--surface-control);
+  --muted: var(--surface-hover);
   --muted-foreground: var(--color-steel);
   --accent: var(--surface-hover);
   --accent-foreground: var(--color-slate);
   --destructive: var(--color-rose);
   --destructive-foreground: #ffffff;
   --border: var(--border-hairline-steel);
-  --input: var(--surface-control);
+  --input: var(--border-hairline-steel);
   --ring: var(--color-frost);
 }
 
@@ -579,6 +584,17 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+}
+
+
+/* Stock-shadcn restyle: filled accent controls read the primary foreground,
+   not literal white (dark mode's primary is near-white).
+   ponytail: ~57 call sites hardcode text-white on --accent-fill; this one rule
+   covers them. Swap to per-site text-primary-foreground if it ever misfires. */
+[style*="--accent-fill"],
+[style*="--accent-fill"] .text-white,
+[style*="--accent-fill"].text-white {
+  color: var(--accent-fill-fg) !important;
 }
 
 @layer base {

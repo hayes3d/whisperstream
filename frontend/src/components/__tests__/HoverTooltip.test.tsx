@@ -6,7 +6,7 @@ import { HoverTooltip } from "../HoverTooltip";
 afterEach(cleanup);
 
 describe("HoverTooltip", () => {
-  it("shows the frost-glass bubble on hover", async () => {
+  it("shows the stock shadcn bubble on hover", async () => {
     const user = userEvent.setup();
     render(
       <HoverTooltip content="Helpful detail">
@@ -19,9 +19,8 @@ describe("HoverTooltip", () => {
 
     const bubble = await screen.findByRole("tooltip");
     expect(bubble).toHaveTextContent("Helpful detail");
-    // Glacier overlay styling lives on the shadcn TooltipContent classes.
-    expect(bubble.className).toContain("--surface-overlay");
-    expect(bubble.className).toContain("--border-emphasis");
+    expect(bubble.className).toContain("bg-foreground");
+    expect(bubble.className).toContain("text-background");
   });
 
   it("applies the caller's width class and stable bubble id", async () => {

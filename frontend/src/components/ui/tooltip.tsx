@@ -39,15 +39,13 @@ function TooltipContent({
         data-slot="tooltip-content"
         sideOffset={sideOffset}
         className={cn(
-          // Glacier frost-glass bubble: overlay surface + emphasis border +
-          // blur + frost glow, 11px slate text (matches HoverTooltip's look).
-          // No arrow — the app's bubbles never had one.
-          "z-50 rounded-xl px-3 py-2 text-[11px] leading-relaxed text-slate [background:var(--surface-overlay)] border border-[var(--border-emphasis)] backdrop-blur-[12px] [box-shadow:var(--shadow-frost-glow)]",
+          "z-50 w-fit rounded-md bg-foreground px-3 py-1.5 text-xs text-balance text-background",
           className
         )}
         {...props}
       >
         {children}
+        <TooltipPrimitive.Arrow className="z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px] bg-foreground fill-foreground" />
       </TooltipPrimitive.Content>
     </TooltipPrimitive.Portal>
   )
