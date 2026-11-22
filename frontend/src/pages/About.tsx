@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { open } from "@tauri-apps/plugin-shell";
-import { PrimaryButton } from "../components/PrimaryButton";
 import { SecondaryButton } from "../components/SecondaryButton";
 import { exportLogs } from "../lib/api/diagnostics";
 import { getVersion } from "../lib/api/system";
@@ -208,22 +207,22 @@ export function About({ onUpdateAvailable, lockdownEnabled, capabilities }: Abou
             {/* Action column — narrow, centered horizontally and vertically */}
             <div className="max-w-xs w-full mx-auto my-auto">
             {effectiveLockdown === false ? <>
-            {/* Get help — primary */}
+            {/* Get help — a peer of the other help actions, not the page's
+                primary: About should not give its strongest emphasis to failure. */}
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ ...spring, delay: 0.04 }}
             >
-              <PrimaryButton
+              <SecondaryButton
                 type="button"
                 aria-haspopup="dialog"
                 onClick={() => setReportOpen(true)}
-                fullWidth
-                className="flex items-center justify-center gap-2 h-11 text-[13px]"
+                className="flex items-center justify-center gap-2 w-full h-10 px-6 rounded-md text-[13px] font-medium text-slate"
               >
-                <HelpIcon className="text-white/80" />
+                <HelpIcon className="text-steel" />
                 Report a bug
-              </PrimaryButton>
+              </SecondaryButton>
             </motion.div>
 
             {/* Request a feature — secondary */}
