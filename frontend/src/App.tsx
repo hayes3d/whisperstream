@@ -1901,6 +1901,7 @@ function ReadyApp({ initialEulaStatus, onConsentRequired }: ReadyAppProps) {
         return (
           <Home
             config={config}
+            onNavigate={setTab}
             startupStatus={startupStatus}
             onStartupChange={handleStartupChange}
             onConfigChange={patchConfig}

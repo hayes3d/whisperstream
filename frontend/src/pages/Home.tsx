@@ -21,6 +21,9 @@ import { LockdownDisableDialog } from "../components/LockdownDisableDialog";
 import { LockdownManageDialog } from "../components/LockdownManageDialog";
 import { ChangePasswordDialog, ViewRecoveryCodeDialog } from "../components/ChangePasswordDialog";
 import { RelocateModelsDialog } from "../components/RelocateModelsDialog";
+import { HomeStatusHeader, type HomeStatusTarget } from "../components/HomeStatusHeader";
+import { LOCAL_MODEL_DISPLAY_LABEL } from "../lib/localModels";
+import { PROVIDERS } from "./enhancement/providerMetadata";
 import { BASE } from "../lib/api/client";
 import { startRegisteredRelocate, deleteSttModel, deleteUnusedSttModels, getSttStatus } from "../lib/api/models";
 import { chooseMacosModelStorage, releaseMacosNativeSelections } from "../lib/nativeFileWorkflows";
@@ -40,6 +43,7 @@ import {
   ALL_LANGUAGES,
   getFamilyFromModel,
   getPickerModelsForLanguage,
+  getSttArtifactDisplayName,
   normalizeSelectionMode,
   resolveActiveSttArtifact,
   sttArtifactBackend,
@@ -54,6 +58,18 @@ interface Stats {
   total_transcriptions: number;
   total_words: number;
   total_recording_ms: number;
+}
+
+/** One-line summary of the active cleanup ("enhancement") setup. */
+function cleanupLabel(config: AppConfig): string {
+  if (!config.enhancement_enabled) return "Off";
+  const provider = config.enhancement_provider;
+  if (provider === "local") {
+    return LOCAL_MODEL_DISPLAY_LABEL[config.enhancement_local_model] ?? "Local";
+  }
+  const label = PROVIDERS.find((p) => p.value === provider)?.label ?? provider;
+  const model = (config as unknown as Record<string, unknown>)[`enhancement_${provider}_model`];
+  return typeof model === "string" && model ? `${label} · ${model}` : label;
 }
 
 const THEME_OPTIONS: { value: string; label: string }[] = [
@@ -116,6 +132,9 @@ function formatDuration(ms: number): string {
 
 interface HomeProps {
   config: AppConfig;
+  /** Send the user to another settings page from the status header's links.
+   *  Optional so tests (and early mounts) can render Home without it. */
+  onNavigate?: (target: HomeStatusTarget) => void;
   startupStatus: LaunchAtLoginStatus;
   onStartupChange: (enabled: boolean) => void;
   onConfigChange: (patch: Partial<AppConfig>) => void;
@@ -175,6 +194,7 @@ interface HomeProps {
 }
 
 export function Home({
+  onNavigate,
   config,
   startupStatus,
   onStartupChange,
@@ -607,43 +627,30 @@ export function Home({
 
   return (
     <div className="absolute inset-0 flex flex-col pt-10">
-      {/* Stats row */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 400, damping: 30 }}
-        className="flex rounded-[var(--radius-card)] mb-5 shrink-0 mx-10"
-        style={{
-          background: "var(--surface-control)",
-          border: "1px solid var(--border-hairline)",
-          boxShadow: "var(--shadow-glass-sm)",
-        }}
-      >
-        {[
-          { label: "Words", value: stats ? stats.total_words.toLocaleString() : "\u2014" },
-          { label: "Time", value: stats ? formatDuration(stats.total_recording_ms) : "\u2014" },
-          { label: "Transcriptions", value: stats ? stats.total_transcriptions.toLocaleString() : "\u2014" },
-        ].map((stat, i) => (
-          <div key={stat.label} className="flex-1 py-5 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: i * 0.03,
-                type: "spring",
-                stiffness: 400,
-                damping: 30,
-              }}
-              className="font-display text-[30px] font-light text-slate"
-            >
-              {stat.value}
-            </motion.div>
-            <div className="text-xs text-steel mt-1 font-medium uppercase tracking-wider">
-              {stat.label}
-            </div>
-          </div>
-        ))}
-      </motion.div>
+      <HomeStatusHeader
+        connected={connected !== false}
+        speechModelDownloaded={
+          sttStatus === undefined
+            ? null
+            : !!sttStatus.artifacts.find((a) => a.id === sttStatus.configured_artifact_id)?.downloaded
+        }
+        switchingToModel={switchingToModel}
+        downloadInFlight={downloadInFlight}
+        speechModelName={currentArtifact ? getSttArtifactDisplayName(currentArtifact) : null}
+        cleanupLabel={cleanupLabel(config)}
+        pushToTalkShortcut={config.push_to_talk_shortcut}
+        toggleShortcut={config.toggle_shortcut}
+        stats={
+          stats
+            ? {
+                words: stats.total_words.toLocaleString(),
+                time: formatDuration(stats.total_recording_ms),
+                transcriptions: stats.total_transcriptions.toLocaleString(),
+              }
+            : null
+        }
+        onNavigate={onNavigate}
+      />
 
       {/* Settings — full-bleed inside the rounded pane: scrollbar hugs the
           right edge, pl-10 keeps content off the left edge, pr-5 keeps
