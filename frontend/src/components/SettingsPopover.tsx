@@ -212,7 +212,7 @@ export function SettingsPopover({
             className="w-full flex items-center justify-between text-left text-[13px] text-slate px-1 py-1 cursor-pointer transition-colors duration-150 hover:text-frost-deep"
           >
             Recovery settings
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-steel/60" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-steel" aria-hidden="true">
               <path d="M4.5 3l3 3-3 3" />
             </svg>
           </button>

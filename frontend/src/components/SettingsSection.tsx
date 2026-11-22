@@ -40,7 +40,7 @@ export function SettingsSection({
               className={dimmed === undefined ? "min-w-0" : `min-w-0 transition-opacity duration-200 ${dimmed ? "opacity-50" : ""}`}
             >
               <div className="text-[13px] font-medium text-slate">{title}</div>
-              {description && <div className="text-[11px] text-steel mt-0.5">{description}</div>}
+              {description && <div className="text-xs text-steel mt-0.5">{description}</div>}
             </div>
             <div className="shrink-0">{children}</div>
           </div>
@@ -50,7 +50,7 @@ export function SettingsSection({
         <>
           <div className="text-[13px] font-medium text-slate mb-1">{title}</div>
           {description && (
-            <div className="text-[11px] text-steel mb-3">{description}</div>
+            <div className="text-xs text-steel mb-3">{description}</div>
           )}
           {children}
         </>

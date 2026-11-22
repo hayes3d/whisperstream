@@ -142,7 +142,7 @@ export function InlineMeasuringPhase({
       <InlineChip id={modelId} status="active" size={modelSize} />
       <div className="mt-7">
         {deviceName ? (
-          <p className="text-[11px] text-steel mb-2 truncate" title={deviceName}>
+          <p className="text-xs text-steel mb-2 truncate" title={deviceName}>
             Testing on {deviceName}
           </p>
         ) : null}

@@ -403,7 +403,7 @@ export function AddAppModal({
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-4 right-4 w-6 h-6 rounded-md flex items-center justify-center text-steel/60 hover:text-slate transition-colors cursor-pointer"
+          className="absolute top-4 right-4 w-6 h-6 rounded-md flex items-center justify-center text-steel hover:text-slate transition-colors cursor-pointer"
         >
           <svg
             width="12"
@@ -529,7 +529,7 @@ export function AddAppModal({
                 placeholder="github.com"
                 aria-label="Website domain"
                 aria-describedby={hintId}
-                className="flex-1 min-w-0 h-10 rounded-2xl px-3.5 text-[13px] text-slate outline-none placeholder:text-steel/40"
+                className="flex-1 min-w-0 h-10 rounded-2xl px-3.5 text-[13px] text-slate outline-none placeholder:text-steel"
                 style={{
                   background: "var(--surface-control)",
                   border: "1px solid var(--border-emphasis)",
@@ -562,7 +562,7 @@ export function AddAppModal({
             {/* Locked hint: host-only — subdomains are separate sites */}
             <p
               id={hintId}
-              className="text-[11px] mt-2 leading-relaxed"
+              className="text-xs mt-2 leading-relaxed"
               style={{ color: "var(--color-steel)", opacity: 0.7 }}
             >
               Subdomains are separate sites (mail.google.com is not google.com).
@@ -642,7 +642,7 @@ export function AddAppModal({
                   type="button"
                   onClick={() => removePending(p.kind, p.key)}
                   aria-label={`Remove ${p.label}`}
-                  className="w-5 h-5 rounded-md flex items-center justify-center text-steel/60 hover:text-rose transition-colors duration-150 cursor-pointer"
+                  className="w-5 h-5 rounded-md flex items-center justify-center text-steel hover:text-rose transition-colors duration-150 cursor-pointer"
                 >
                   <XGlyph />
                 </button>

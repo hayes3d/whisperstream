@@ -81,7 +81,7 @@ export function AppIcon({
           onError={() => setFailed(true)}
         />
       ) : (
-        <span className="text-[10px] font-medium leading-none text-steel">{initial}</span>
+        <span className="text-xs font-medium leading-none text-steel">{initial}</span>
       )}
     </span>
   );
@@ -176,7 +176,7 @@ export function AppChip({
         type="button"
         onClick={onRemove}
         aria-label={`Remove ${label} from ${profileName}`}
-        className="w-5 h-5 rounded-md flex items-center justify-center text-steel/60 hover:text-rose transition-colors duration-150 cursor-pointer"
+        className="w-5 h-5 rounded-md flex items-center justify-center text-steel hover:text-rose transition-colors duration-150 cursor-pointer"
       >
         <XIcon />
       </button>
@@ -257,14 +257,14 @@ export function RunningAppList({
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search apps…"
         aria-label="Search apps"
-        className="w-full px-3 py-2 text-[13px] text-slate bg-transparent outline-none placeholder:text-steel/40 border-b border-white/40"
+        className="w-full px-3 py-2 text-[13px] text-slate bg-transparent outline-none placeholder:text-steel border-b border-white/40"
       />
 
       <div className={`${listMaxHeightClass} overflow-y-auto py-1`} aria-live="polite">
         {loading ? (
-          <div className="px-3 py-3 text-[12px] text-steel/60 text-center">Loading apps...</div>
+          <div className="px-3 py-3 text-[12px] text-steel text-center">Loading apps...</div>
         ) : filtered.length === 0 ? (
-          <div className="px-3 py-3 text-[12px] text-steel/60 text-center">
+          <div className="px-3 py-3 text-[12px] text-steel text-center">
             No apps found
           </div>
         ) : (
@@ -297,7 +297,7 @@ export function RunningAppList({
                     {displayName}
                   </span>
                   {!opaqueMacIdentity && (
-                    <span className="block text-[11px] text-steel/60 truncate">{a.process_name}</span>
+                    <span className="block text-xs text-steel truncate">{a.process_name}</span>
                   )}
                 </span>
               </button>
@@ -319,7 +319,7 @@ export function RunningAppList({
           }}
           placeholder="e.g. notepad.exe"
           aria-label="Type a process name"
-          className="flex-1 min-w-0 px-2 h-7 text-[12px] text-slate bg-transparent outline-none placeholder:text-steel/40"
+          className="flex-1 min-w-0 px-2 h-7 text-[12px] text-slate bg-transparent outline-none placeholder:text-steel"
         />
         <button
           type="button"

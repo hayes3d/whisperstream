@@ -929,11 +929,11 @@ function IntroPhase({
         <span className="min-w-0 flex-1">
           <span className="block text-[13px] font-medium text-slate">{name}</span>
           {description && (
-            <span className="block text-[11px] leading-4 text-steel">{description}</span>
+            <span className="block text-xs leading-4 text-steel">{description}</span>
           )}
         </span>
         {modelSize && (
-          <span className="shrink-0 text-[11px] text-steel/70 tabular-nums">{modelSize}</span>
+          <span className="shrink-0 text-xs text-steel tabular-nums">{modelSize}</span>
         )}
       </div>
 
@@ -1044,7 +1044,7 @@ function IndeterminatePhase({
           animate={{ opacity: [1, 0.4, 1] }}
           transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
         />
-        <p className="text-[11px] text-steel/60 italic">{status}</p>
+        <p className="text-xs text-steel italic">{status}</p>
       </div>
 
       {onCancel && (
@@ -1287,7 +1287,7 @@ function MeasuringPhase({
       </div>
 
       {deviceName ? (
-        <p className="text-[11px] text-steel mb-2 truncate" title={deviceName}>
+        <p className="text-xs text-steel mb-2 truncate" title={deviceName}>
           Testing on {deviceName}
         </p>
       ) : null}

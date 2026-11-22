@@ -638,7 +638,7 @@ export function Home({
             >
               {stat.value}
             </motion.div>
-            <div className="text-[11px] text-steel mt-1 font-medium uppercase tracking-wider">
+            <div className="text-xs text-steel mt-1 font-medium uppercase tracking-wider">
               {stat.label}
             </div>
           </div>
@@ -676,6 +676,7 @@ export function Home({
           <Toggle
             checked={config.clipboard_behavior ?? true}
             onChange={(next) => onConfigChange({ clipboard_behavior: next })}
+            ariaLabel="Restore clipboard after dictation"
           />
         </SettingRow>
 
@@ -727,7 +728,7 @@ export function Home({
               {switchingToModel && (
                 <span
                   role="status"
-                  className="inline-flex items-center gap-1.5 text-[11px] text-steel"
+                  className="inline-flex items-center gap-1.5 text-xs text-steel"
                 >
                   <SwitchingSpinner />
                   Switching to {switchingToModel}
@@ -795,7 +796,7 @@ export function Home({
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="text-steel/50 cursor-help shrink-0"
+                    className="text-steel cursor-help shrink-0"
                     aria-hidden="true"
                   >
                     <circle cx="12" cy="12" r="10" />
@@ -806,7 +807,7 @@ export function Home({
               </div>
               {/* Two sentences on their own lines (same prominence, pure line
                   break) so the row subtitle stays concise. */}
-              <div className="text-[11px] text-steel mt-0.5 leading-snug">
+              <div className="text-xs text-steel mt-0.5 leading-snug">
                 <span className="block">On-device transcription and cleanup. Saved history locked.</span>
                 <span className="block">Designed to support HIPAA-conscious workflows.</span>
               </div>
@@ -819,7 +820,7 @@ export function Home({
               {isManagedLockdown && (
                 <div
                   id="lockdown-managed-note"
-                  className="text-[11px] font-medium text-slate mt-1.5 leading-snug"
+                  className="text-xs font-medium text-slate mt-1.5 leading-snug"
                 >
                   Managed by your organization.
                 </div>
@@ -981,7 +982,7 @@ export function Home({
                     )}
                   </div>
                   {/* Description */}
-                  <div className="text-[11px] text-steel mt-0.5 mb-2.5">
+                  <div className="text-xs text-steel mt-0.5 mb-2.5">
                     {privateMacStorage
                       ? "Move the Parakeet Multilingual model. Other speech and cleanup models stay in app storage."
                       : modelLifecycle.enabled
@@ -1017,7 +1018,7 @@ export function Home({
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          className="text-steel/60 shrink-0"
+                          className="text-steel shrink-0"
                           aria-hidden="true"
                         >
                           <path d="M1 4.5A1.5 1.5 0 012.5 3h3.764a1 1 0 01.894.553L8 5H13.5A1.5 1.5 0 0115 6.5v6A1.5 1.5 0 0113.5 14h-11A1.5 1.5 0 011 12.5v-8z" />
@@ -1026,7 +1027,7 @@ export function Home({
                           {displayPath || "Default location"}
                         </span>
                         {!isCustomDir && !privateMacStorage && (
-                          <span className="text-[10px] uppercase tracking-wider text-steel/70 shrink-0">
+                          <span className="text-xs uppercase tracking-wider text-steel shrink-0">
                             Default
                           </span>
                         )}
@@ -1041,7 +1042,7 @@ export function Home({
                       Browse
                     </SecondaryButton>
                     {privateMacStorage && nativeStoragePickerError && (
-                      <span role="alert" className="text-[11px] text-rose">
+                      <span role="alert" className="text-xs text-rose">
                         Couldn't open the folder picker. Try again.
                       </span>
                     )}
@@ -1260,7 +1261,7 @@ function SettingRow({
         <div className="min-w-0">
           <div className="text-[13px] font-medium text-slate">{title}</div>
           {description && (
-            <div className="text-[11px] text-steel mt-0.5">{description}</div>
+            <div className="text-xs text-steel mt-0.5">{description}</div>
           )}
         </div>
         <div className="shrink-0">{children}</div>

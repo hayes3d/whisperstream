@@ -100,7 +100,7 @@ export const RecoveryPasswordFields = forwardRef<
     <div>
       <label
         htmlFor={confirmId}
-        className="block text-[11px] text-steel mb-1.5 ml-1"
+        className="block text-xs text-steel mb-1.5 ml-1"
       >
         {confirmLabel}
       </label>
@@ -120,7 +120,7 @@ export const RecoveryPasswordFields = forwardRef<
           style={fieldStyle("confirm")}
           onFocus={onInputFocus}
         />
-        <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel/40 pointer-events-none" />
+        <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel pointer-events-none" />
       </div>
     </div>
   );
@@ -131,7 +131,7 @@ export const RecoveryPasswordFields = forwardRef<
         <div>
           <label
             htmlFor={passwordId}
-            className="block text-[11px] text-steel mb-1.5 ml-1"
+            className="block text-xs text-steel mb-1.5 ml-1"
           >
             {label}
           </label>
@@ -151,7 +151,7 @@ export const RecoveryPasswordFields = forwardRef<
               style={fieldStyle("password")}
               onFocus={onInputFocus}
             />
-            <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel/40 pointer-events-none" />
+            <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel pointer-events-none" />
           </div>
         </div>
 
@@ -176,11 +176,11 @@ export const RecoveryPasswordFields = forwardRef<
       </div>
 
       {errorText ? (
-        <p id={messageId} role="alert" className="text-[11px] text-rose mt-3 ml-1">
+        <p id={messageId} role="alert" className="text-xs text-rose mt-3 ml-1">
           {errorText}
         </p>
       ) : (
-        <p id={messageId} className="text-[11px] text-steel mt-3 ml-1">
+        <p id={messageId} className="text-xs text-steel mt-3 ml-1">
           {hint}
         </p>
       )}

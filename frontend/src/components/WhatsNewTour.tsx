@@ -266,7 +266,7 @@ export function WhatsNewTour({ onComplete, initialStep = 1 }: WhatsNewTourProps)
             <div ref={contentRef}>
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div key={index} {...slide}>
-                  <span className="mb-2 inline-block font-display text-[10px] font-semibold uppercase tracking-[0.12em] text-frost-deep">
+                  <span className="mb-2 inline-block font-display text-xs font-semibold uppercase tracking-[0.12em] text-frost-deep">
                     {step.eyebrow}
                   </span>
                   <h2

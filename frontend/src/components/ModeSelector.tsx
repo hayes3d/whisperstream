@@ -69,7 +69,7 @@ export function ModeSelector<T extends string>({
             aria-label={option.ariaLabel}
             disabled={option.disabled}
             data-ui-qa-hover-target={option.uiQaHoverTarget ? "true" : undefined}
-            className={`rounded-full px-3 py-1.5 text-[12px] font-medium transition-all duration-200 ${
+            className={`rounded-md px-3 py-1.5 text-[12px] font-medium transition-all duration-200 ${
               option.disabled ? "cursor-not-allowed opacity-45" : "cursor-pointer"
             }`}
             style={{

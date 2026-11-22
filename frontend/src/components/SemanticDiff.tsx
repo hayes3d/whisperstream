@@ -68,7 +68,7 @@ export function SemanticDiffText({
       <span className="select-text">
         <span>{revised}</span>
         {fallback ?? (
-          <span className="mt-1 block text-[10px] text-steel/60">
+          <span className="mt-1 block text-xs text-steel">
             Diff too large. Showing clean text.
           </span>
         )}
@@ -84,7 +84,7 @@ export function SemanticDiffText({
 
 export function SemanticDiffLegend() {
   return (
-    <p className="flex items-center gap-4 text-[11px] text-steel">
+    <p className="flex items-center gap-4 text-xs text-steel">
       <span className="inline-flex items-center gap-1.5">
         <span aria-hidden="true" className="px-1" style={ADDED_STYLE}>
           +

@@ -239,7 +239,7 @@ export function RecoveryStep({
         }}
       >
         <span
-          className="block font-display text-[10px] font-semibold uppercase tracking-[0.12em] mb-1.5"
+          className="block font-display text-xs font-semibold uppercase tracking-[0.12em] mb-1.5"
           style={{ color: "var(--color-gold-deep)" }}
           aria-hidden="true"
         >
@@ -267,7 +267,7 @@ export function RecoveryStep({
         {announcement}
       </span>
       {downloadError && (
-        <p role="alert" className="text-[11px] text-rose mt-2 text-center">
+        <p role="alert" className="text-xs text-rose mt-2 text-center">
           Couldn't save the file. Try again.
         </p>
       )}
@@ -292,7 +292,7 @@ export function RecoveryStep({
           >
             <span className="text-[12.5px] font-medium text-slate">
               Also add a recovery password{" "}
-              <span className="text-[11px] font-normal text-steel">Optional</span>
+              <span className="text-xs font-normal text-steel">Optional</span>
             </span>
             <Chevron open={expanded} />
           </button>

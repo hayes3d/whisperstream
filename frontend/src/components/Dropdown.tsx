@@ -529,7 +529,7 @@ export function Dropdown<T extends string | number>({
             </span>
             {triggerDescription && (
               <span
-                className="mt-0.5 block text-[11px] leading-4 font-normal text-steel whitespace-normal"
+                className="mt-0.5 block text-xs leading-4 font-normal text-steel whitespace-normal"
                 style={{ overflowWrap: "anywhere" }}
               >
                 {triggerDescription}
@@ -666,7 +666,7 @@ export function Dropdown<T extends string | number>({
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="1.5"
-                  className="shrink-0 text-steel/60"
+                  className="shrink-0 text-steel"
                 >
                   <circle cx="7" cy="7" r="4.5" />
                   <path d="m10.5 10.5 3 3" strokeLinecap="round" />
@@ -680,7 +680,7 @@ export function Dropdown<T extends string | number>({
                   onKeyDown={handleSearchKeyDown}
                   aria-label={`Filter ${ariaLabel ?? "options"}`}
                   placeholder={searchPlaceholder}
-                  className="min-w-0 flex-1 bg-transparent py-2 text-[12px] text-slate outline-none placeholder:text-steel/50"
+                  className="min-w-0 flex-1 bg-transparent py-2 text-[12px] text-slate outline-none placeholder:text-steel"
                 />
                 {searchQuery && (
                   <button
@@ -690,7 +690,7 @@ export function Dropdown<T extends string | number>({
                       setSearchQuery("");
                       searchRef.current?.focus();
                     }}
-                    className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-[14px] text-steel/60 transition-colors hover:bg-[var(--surface-hover)] hover:text-slate"
+                    className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-[14px] text-steel transition-colors hover:bg-[var(--surface-hover)] hover:text-slate"
                   >
                     ×
                   </button>
@@ -798,8 +798,8 @@ export function Dropdown<T extends string | number>({
                             </span>
                             {(opt.descriptionContent ?? opt.description) && (
                               <span
-                                className={`mt-0.5 block text-[11px] leading-4 font-normal whitespace-normal ${
-                                  isDisabled ? "text-steel/60" : "text-steel"
+                                className={`mt-0.5 block text-xs leading-4 font-normal whitespace-normal ${
+                                  isDisabled ? "text-steel" : "text-steel"
                                 }`}
                                 style={{ overflowWrap: "anywhere" }}
                               >
@@ -853,7 +853,7 @@ export function Dropdown<T extends string | number>({
                 >
                   <div
                     id={groupHeadingId}
-                    className={`px-4 pt-2 pb-1 text-[11px] font-medium uppercase tracking-[0.08em] ${groupHeadingClassName}`}
+                    className={`px-4 pt-2 pb-1 text-xs font-medium uppercase tracking-[0.08em] ${groupHeadingClassName}`}
                   >
                     {run.groupLabel}
                   </div>
@@ -862,7 +862,7 @@ export function Dropdown<T extends string | number>({
               );
             })}
             {visibleOptions.length === 0 && (
-              <div className="px-4 py-5 text-center text-[12px] text-steel/60">
+              <div className="px-4 py-5 text-center text-[12px] text-steel">
                 No matching options
               </div>
             )}

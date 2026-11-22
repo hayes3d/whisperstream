@@ -210,7 +210,7 @@ function InfoDot({ label, content }: { label: string; content: string }) {
         type="button"
         aria-label={label}
         aria-describedby={bubbleId}
-        className="flex cursor-help select-none items-center justify-center text-steel/70 transition-colors hover:text-frost-deep"
+        className="flex cursor-help select-none items-center justify-center text-steel transition-colors hover:text-frost-deep"
       >
         <InfoGlyph />
       </button>
@@ -279,7 +279,7 @@ function SettingRow({
           )}
         </div>
         {description && (
-          <p id={descriptionId} className="mt-0.5 text-[11px] leading-relaxed text-steel">
+          <p id={descriptionId} className="mt-0.5 text-xs leading-relaxed text-steel">
             {description}
           </p>
         )}
@@ -318,7 +318,7 @@ function MasterPanel({
       <div className="flex items-center justify-between gap-6 rounded-[var(--radius-row)] border border-[var(--border-hairline-steel)] bg-[var(--surface-raised)] px-4 py-3.5">
         <div className="min-w-0">
           <h3 id={headingId} className="text-[13px] font-medium text-slate">{title}</h3>
-          <p id={descriptionId} className="mt-0.5 text-[11px] leading-relaxed text-steel">{description}</p>
+          <p id={descriptionId} className="mt-0.5 text-xs leading-relaxed text-steel">{description}</p>
         </div>
         {action}
       </div>
@@ -813,7 +813,7 @@ export function HudConfigModal({
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute right-4 top-4 flex h-6 w-6 cursor-pointer items-center justify-center rounded-md text-steel/60 transition-colors hover:text-slate"
+          className="absolute right-4 top-4 flex h-6 w-6 cursor-pointer items-center justify-center rounded-md text-steel transition-colors hover:text-slate"
         >
           <XGlyph />
         </button>
@@ -999,7 +999,7 @@ export function HudConfigModal({
                 advertisement, not a setting. agent_speech_summary_source keeps
                 its "agent" default. */}
             {!speechEnabled ? (
-              <p className="px-1 text-[11px] text-steel">
+              <p className="px-1 text-xs text-steel">
                 Turn this on to hear coding agent replies.
               </p>
             ) : (

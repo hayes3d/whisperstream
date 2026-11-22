@@ -589,7 +589,7 @@ export function ProfileEditorModal({
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-4 right-4 w-6 h-6 rounded-md flex items-center justify-center text-steel/60 hover:text-slate transition-colors cursor-pointer"
+          className="absolute top-4 right-4 w-6 h-6 rounded-md flex items-center justify-center text-steel hover:text-slate transition-colors cursor-pointer"
         >
           <XGlyph />
         </button>
@@ -719,7 +719,7 @@ export function ProfileEditorModal({
                       type="button"
                       onClick={() => onUnassign("app", t.processName)}
                       aria-label={`Remove ${t.label} from ${profile.name}`}
-                      className="w-5 h-5 rounded-md flex items-center justify-center text-steel/60 hover:text-rose transition-colors duration-150 cursor-pointer"
+                      className="w-5 h-5 rounded-md flex items-center justify-center text-steel hover:text-rose transition-colors duration-150 cursor-pointer"
                     >
                       <XGlyph />
                     </button>
@@ -751,7 +751,7 @@ export function ProfileEditorModal({
                       type="button"
                       onClick={() => onUnassign("site", t.domain)}
                       aria-label={`Remove ${t.domain} from ${profile.name}`}
-                      className="w-5 h-5 rounded-md flex items-center justify-center text-steel/60 hover:text-rose transition-colors duration-150 cursor-pointer"
+                      className="w-5 h-5 rounded-md flex items-center justify-center text-steel hover:text-rose transition-colors duration-150 cursor-pointer"
                     >
                       <XGlyph />
                     </button>
@@ -760,7 +760,7 @@ export function ProfileEditorModal({
               )}
             </AnimatePresence>
             {targets.length === 0 && (
-              <span className="text-[11px] text-steel/60">No apps or sites yet.</span>
+              <span className="text-xs text-steel">No apps or sites yet.</span>
             )}
           </div>
         </div>
@@ -807,7 +807,7 @@ export function ProfileEditorModal({
                 />
               )
             ) : isBuiltin ? (
-              <span className="inline-flex items-center gap-1 text-[11px] text-steel/70">
+              <span className="inline-flex items-center gap-1 text-xs text-steel">
                 <LockGlyph />
                 Built-in
               </span>
@@ -857,7 +857,7 @@ export function ProfileEditorModal({
                     aria-describedby={fixedGuidanceId}
                     title={profile.prompt.trim() ? profile.prompt : undefined}
                     className={`w-full truncate rounded-xl px-3 py-1.5 text-[12px] leading-relaxed cursor-not-allowed ${
-                      profile.prompt.trim() ? "text-steel/75" : "text-steel/55"
+                      profile.prompt.trim() ? "text-steel" : "text-steel"
                     }`}
                     style={{ background: "transparent", border: STEEL_BORDER_DASHED }}
                     data-fixed-prompt-preview
@@ -893,7 +893,7 @@ export function ProfileEditorModal({
               </>
             )
           ) : isBuiltin ? (
-            <p className="text-[12px] leading-relaxed text-steel/70 px-0.5 py-1">
+            <p className="text-[12px] leading-relaxed text-steel px-0.5 py-1">
               This profile uses Whisperstream's built-in {profile.name} cleanup
               style.
             </p>
@@ -904,7 +904,7 @@ export function ProfileEditorModal({
               onBlur={() => onPromptChange(promptDraft)}
               rows={4}
               aria-label={`${profile.name} cleanup prompt`}
-              className="w-full rounded-xl px-3.5 py-2.5 text-[12px] leading-relaxed font-body text-slate placeholder:text-steel/40 outline-none resize-none transition-all duration-200"
+              className="w-full rounded-xl px-3.5 py-2.5 text-[12px] leading-relaxed font-body text-slate placeholder:text-steel outline-none resize-none transition-all duration-200"
               style={insetStyle}
             />
           )}
@@ -936,7 +936,7 @@ export function ProfileEditorModal({
                 panelWidth={240}
               />
             </div>
-            <p className="text-[11px] text-steel/70 mt-1.5">
+            <p className="text-xs text-steel mt-1.5">
               {profile.language && sttArtifact && !isLanguageSupportedByArtifact(sttArtifact, profile.language)
                 ? "This language is not supported by the selected model. Your default language will be used."
                 : "Applies even when enhancement is off. Uses the selected speech model."}
@@ -969,7 +969,7 @@ export function ProfileEditorModal({
               ]}
             />
           </div>
-          <div className="text-[11px] text-steel/70 mt-1.5">
+          <div className="text-xs text-steel mt-1.5">
             {profile?.input_style === "keystroke"
               ? "Types each character for this app, even with cleanup off. Your clipboard stays untouched."
               : profile?.input_style === "clipboard"
@@ -994,10 +994,10 @@ export function ProfileEditorModal({
               onChange={(e) => setSignature(e.target.value)}
               rows={3}
               placeholder="e.g. Best, Alex"
-              className="mt-1.5 w-full rounded-[var(--radius-input)] px-4 py-2.5 text-[13px] leading-relaxed font-body text-slate placeholder:text-steel/40 outline-none resize-none transition-all duration-200"
+              className="mt-1.5 w-full rounded-[var(--radius-input)] px-4 py-2.5 text-[13px] leading-relaxed font-body text-slate placeholder:text-steel outline-none resize-none transition-all duration-200"
               style={insetStyle}
             />
-            <div className="text-[11px] text-steel/70 mt-1.5">
+            <div className="text-xs text-steel mt-1.5">
               Added to the end when this profile runs and you don't dictate a sign-off. Leave blank for none.
             </div>
           </div>
@@ -1031,7 +1031,7 @@ export function ProfileEditorModal({
             connected={connected}
             captureTarget={`profile:${profile.id}`}
           />
-          <span className="text-[12px] text-steel/60">
+          <span className="text-[12px] text-steel">
             Press to switch to this profile.
           </span>
         </div>
@@ -1043,7 +1043,7 @@ export function ProfileEditorModal({
               !isDraft &&
               (deletePending ? (
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[11px] font-medium" style={{ color: "var(--color-rose)" }}>
+                  <span className="text-xs font-medium" style={{ color: "var(--color-rose)" }}>
                     Delete?
                   </span>
                   <SecondaryButton

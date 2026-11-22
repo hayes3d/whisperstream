@@ -53,7 +53,7 @@ export function RecoverySetupGate({ platform, recordCount, onSetUp }: RecoverySe
           Set up recovery key
         </button>
         {recordCount !== null && (
-          <span className="inline-flex items-center gap-1.5 mt-4 text-[11px] text-steel">
+          <span className="inline-flex items-center gap-1.5 mt-4 text-xs text-steel">
             <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--color-mint)" }} />
             {recordCount === 1
               ? "Saving is on. 1 transcript saved."

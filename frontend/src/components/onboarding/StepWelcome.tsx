@@ -136,7 +136,7 @@ export function StepWelcome({
             height="10"
             viewBox="0 0 12 12"
             fill="none"
-            className="text-steel/60 shrink-0"
+            className="text-steel shrink-0"
           >
             <path
               d="M3 4.5L6 7.5L9 4.5"

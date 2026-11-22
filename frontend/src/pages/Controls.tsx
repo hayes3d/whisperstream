@@ -116,7 +116,7 @@ export function Controls({
         />
       </Section>
       {(currentShortcutConflict(config.push_to_talk_shortcut) || crossFieldConflict(config.push_to_talk_shortcut, [config.toggle_shortcut, config.paste_last_shortcut, config.paste_last_original_shortcut, config.claude_view_shortcut ?? "", config.agents_toggle_shortcut ?? ""])) && (
-        <div className="text-[11px] text-steel -mt-2 pb-3">
+        <div className="text-xs text-steel -mt-2 pb-3">
           {currentShortcutConflict(config.push_to_talk_shortcut) || crossFieldConflict(config.push_to_talk_shortcut, [config.toggle_shortcut, config.paste_last_shortcut, config.paste_last_original_shortcut, config.claude_view_shortcut ?? "", config.agents_toggle_shortcut ?? ""])}
         </div>
       )}
@@ -134,12 +134,12 @@ export function Controls({
         />
       </Section>
       {(currentShortcutConflict(config.toggle_shortcut) || crossFieldConflict(config.toggle_shortcut, [config.push_to_talk_shortcut, config.paste_last_shortcut, config.paste_last_original_shortcut, config.claude_view_shortcut ?? "", config.agents_toggle_shortcut ?? ""])) && (
-        <div className="text-[11px] text-steel -mt-2 pb-3">
+        <div className="text-xs text-steel -mt-2 pb-3">
           {currentShortcutConflict(config.toggle_shortcut) || crossFieldConflict(config.toggle_shortcut, [config.push_to_talk_shortcut, config.paste_last_shortcut, config.paste_last_original_shortcut, config.claude_view_shortcut ?? "", config.agents_toggle_shortcut ?? ""])}
         </div>
       )}
       {!config.push_to_talk_shortcut && !config.toggle_shortcut && (
-        <div className="text-[11px] text-steel -mt-2 pb-3">
+        <div className="text-xs text-steel -mt-2 pb-3">
           No recording shortcut is set. Set Push to Talk or Toggle to start dictating.
         </div>
       )}
@@ -157,7 +157,7 @@ export function Controls({
         />
       </Section>
       {(currentShortcutConflict(config.paste_last_shortcut) || crossFieldConflict(config.paste_last_shortcut, [config.push_to_talk_shortcut, config.toggle_shortcut, config.paste_last_original_shortcut, config.claude_view_shortcut ?? "", config.agents_toggle_shortcut ?? ""])) && (
-        <div className="text-[11px] text-steel -mt-2 pb-3">
+        <div className="text-xs text-steel -mt-2 pb-3">
           {currentShortcutConflict(config.paste_last_shortcut) || crossFieldConflict(config.paste_last_shortcut, [config.push_to_talk_shortcut, config.toggle_shortcut, config.paste_last_original_shortcut, config.claude_view_shortcut ?? "", config.agents_toggle_shortcut ?? ""])}
         </div>
       )}
@@ -175,7 +175,7 @@ export function Controls({
         />
       </Section>
       {(currentShortcutConflict(config.paste_last_original_shortcut) || crossFieldConflict(config.paste_last_original_shortcut, [config.push_to_talk_shortcut, config.toggle_shortcut, config.paste_last_shortcut, config.claude_view_shortcut ?? "", config.agents_toggle_shortcut ?? ""])) && (
-        <div className="text-[11px] text-steel -mt-2 pb-3">
+        <div className="text-xs text-steel -mt-2 pb-3">
           {currentShortcutConflict(config.paste_last_original_shortcut) || crossFieldConflict(config.paste_last_original_shortcut, [config.push_to_talk_shortcut, config.toggle_shortcut, config.paste_last_shortcut, config.claude_view_shortcut ?? "", config.agents_toggle_shortcut ?? ""])}
         </div>
       )}
@@ -213,7 +213,7 @@ export function Controls({
           a style and a screen reader has auto-selected keystroke. It explains the
           why; with no screen reader detected, the picker shows no caption. */}
       {showScreenReaderHint && (
-        <div className="text-[11px] text-steel -mt-2 pb-3">
+        <div className="text-xs text-steel -mt-2 pb-3">
           Keystroke is on automatically because a screen reader is detected. Pick a style to override.
         </div>
       )}

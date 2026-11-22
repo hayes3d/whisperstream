@@ -28,7 +28,7 @@ export function ModelDeleteConfirmation({ confirmBtnRef, setDeletePending, onDel
         onClick={(e) => e.stopPropagation()}
       >
         <span
-          className="text-[11px] font-medium"
+          className="text-xs font-medium"
           style={{ color: "var(--color-rose)" }}
         >
           Delete?

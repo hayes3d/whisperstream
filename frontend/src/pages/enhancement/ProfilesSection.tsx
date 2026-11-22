@@ -500,7 +500,7 @@ export function ProfilesSection({
             profile.override.clear message (the backend resets _manual_profile_id
             and broadcasts the cleared state, which this component subscribes to). */}
         {activeOverride && (
-          <div className="flex items-center gap-2 flex-wrap mb-3 text-[11px] text-slate">
+          <div className="flex items-center gap-2 flex-wrap mb-3 text-xs text-slate">
             <span>
               Manually switched to {activeOverride.name}. Auto-routing resumes when you switch apps.
             </span>
@@ -537,7 +537,7 @@ export function ProfilesSection({
         </div>
 
         {config.default_profile_id === "" && (
-          <p className="text-[11px] text-steel/70 mt-2.5">
+          <p className="text-xs text-steel mt-2.5">
             No default profile. Apps you haven't routed get raw text.
           </p>
         )}

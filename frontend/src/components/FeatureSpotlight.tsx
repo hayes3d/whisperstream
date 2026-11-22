@@ -180,7 +180,7 @@ export function FeatureSpotlight({ offer, onAct, onDismiss, benchmarkSlot }: Fea
             {/* Content */}
             <div className="px-7 pb-7 pt-6">
               <span
-                className="mb-2 inline-block font-display text-[10px] font-semibold uppercase tracking-[0.12em]"
+                className="mb-2 inline-block font-display text-xs font-semibold uppercase tracking-[0.12em]"
                 style={{ color: accentColor(offer.accent) }}
               >
                 {offer.eyebrow}

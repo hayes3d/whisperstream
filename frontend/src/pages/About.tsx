@@ -200,7 +200,7 @@ export function About({ onUpdateAvailable, lockdownEnabled, capabilities }: Abou
                   type="button"
                   aria-label="Source code, opens in your browser"
                   onClick={() => void withExternalAccess(() => open("https://github.com/lanreal-io/whisperstream"))}
-                  className="mt-1 text-[11px] font-medium text-steel hover:text-slate hover:underline cursor-pointer transition-colors"
+                  className="mt-1 text-xs font-medium text-steel hover:text-slate hover:underline cursor-pointer transition-colors"
                 >Source code</button>}
               </div>
             </motion.div>
@@ -240,7 +240,7 @@ export function About({ onUpdateAvailable, lockdownEnabled, capabilities }: Abou
                 className="flex items-center justify-center gap-1.5 w-full h-10 px-6 rounded-md text-[13px] font-medium text-steel"
               >
                 Request a feature
-                <ExternalLinkIcon className="text-steel/70" />
+                <ExternalLinkIcon className="text-steel" />
               </SecondaryButton>
             </motion.div>
 
@@ -286,7 +286,7 @@ export function About({ onUpdateAvailable, lockdownEnabled, capabilities }: Abou
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ ...spring, delay: 0.13 }}
-              className="flex items-center justify-center flex-wrap gap-x-1.5 text-[11px] leading-tight"
+              className="flex items-center justify-center flex-wrap gap-x-1.5 text-xs leading-tight"
             >
               <DocumentationExportButton />
               {LEGAL_DOCUMENTS.map(link => <button key={link.url} type="button"
@@ -295,19 +295,19 @@ export function About({ onUpdateAvailable, lockdownEnabled, capabilities }: Abou
                   try { await downloadLegalDocument(link); }
                   catch (err) { setLegalError(true); console.error(`[About] legal download failed error_type=${errorType(err)}`); }
                 }} aria-label={`Download ${link.label}`}
-                className="text-steel/70 hover:text-steel hover:underline cursor-pointer">{link.label}</button>)}
+                className="text-steel hover:text-steel hover:underline cursor-pointer">{link.label}</button>)}
               {effectiveLockdown === false && FOOTER_LINKS.map((link, i) => (
                 <span key={link.url} className="flex items-center gap-x-1.5">
                   <button
                     type="button"
                     onClick={() => void withExternalAccess(() => open(link.url))}
                     aria-label={`${link.label}, opens in your browser`}
-                    className="text-steel/70 hover:text-steel hover:underline cursor-pointer transition-colors"
+                    className="text-steel hover:text-steel hover:underline cursor-pointer transition-colors"
                   >
                     {link.label}
                   </button>
                   {i < FOOTER_LINKS.length - 1 && (
-                    <span className="text-steel/40" aria-hidden="true">
+                    <span className="text-steel" aria-hidden="true">
                       ·
                     </span>
                   )}

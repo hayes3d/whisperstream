@@ -58,7 +58,7 @@ function PermissionStatus({
           }}
         />
       </span>
-      <span className={`${summary ? "text-[12px]" : "text-[11.5px]"} ${tone === "steel" ? "text-steel" : "text-slate"} whitespace-nowrap`}>
+      <span className={`${summary ? "text-[12px]" : "text-xs"} ${tone === "steel" ? "text-steel" : "text-slate"} whitespace-nowrap`}>
         {label}
       </span>
     </span>
@@ -84,7 +84,7 @@ function PermissionButton({
       onClick={onClick}
       disabled={disabled}
       aria-busy={ariaBusy}
-      className="h-[26px] rounded-md px-3 text-[11.5px] font-medium whitespace-nowrap cursor-pointer disabled:cursor-default disabled:opacity-60 transition-colors duration-150"
+      className="h-[26px] rounded-md px-3 text-xs font-medium whitespace-nowrap cursor-pointer disabled:cursor-default disabled:opacity-60 transition-colors duration-150"
       style={{
         color: emphasized ? "var(--color-steel)" : "var(--color-slate)",
         background: "var(--surface-control)",
@@ -138,7 +138,7 @@ function PermissionRow({
       style={divided ? { borderTop: "1px solid var(--divider)" } : undefined}
     >
       <div className="flex items-center justify-between gap-4">
-        <span className="text-[11.5px] font-medium text-slate">{details.title}</span>
+        <span className="text-xs font-medium text-slate">{details.title}</span>
         <div className="flex shrink-0 items-center gap-4">
           <PermissionStatus
             label={presentation.label}
@@ -159,17 +159,17 @@ function PermissionRow({
       {actionState.caption ? (
         <div
           aria-live="polite"
-          className={`mt-1 text-[10.5px] leading-[1.45] ${actionState.caption.error ? "text-rose" : "text-steel"}`}
+          className={`mt-1 text-xs leading-[1.45] ${actionState.caption.error ? "text-rose" : "text-steel"}`}
         >
           {actionState.caption.text}
         </div>
       ) : presentation.caption ? (
-        <div className="mt-1 text-[10.5px] leading-[1.45] text-steel">
+        <div className="mt-1 text-xs leading-[1.45] text-steel">
           {presentation.caption}
         </div>
       ) : null}
       {actionState.guidance && (
-        <p aria-live="polite" className="mt-2 text-[10.5px] leading-[1.5] text-steel">
+        <p aria-live="polite" className="mt-2 text-xs leading-[1.5] text-steel">
           {restart ? "Already enabled? Restart to refresh access." : permissionGuidance(snapshot.kind)}
           {restart && <button type="button" onClick={onRecover} disabled={disabled}
             className="ml-2 text-slate underline disabled:opacity-50">Open System Settings</button>}
@@ -223,9 +223,9 @@ export function PermissionsSummary({ connected }: { connected: boolean }) {
         </div>
       </div>
 
-      {!connected && <p className="text-[11.5px] text-steel">Whisperstream isn't responding. Access can't be confirmed yet.</p>}
+      {!connected && <p className="text-xs text-steel">Whisperstream isn't responding. Access can't be confirmed yet.</p>}
       {connected && problems.length === 0 && recovery.loadState === "ready" && !recovery.checking && recovery.readiness.state !== "ready" && (
-        <div className="flex items-center justify-between gap-4 py-2 text-[11.5px] text-steel">
+        <div className="flex items-center justify-between gap-4 py-2 text-xs text-steel">
           <span>{recovery.readiness.state === "pending" ? "Getting your shortcut ready..." : "Access is allowed, but your shortcut isn't ready."}</span>
           <PermissionButton onClick={recovery.retryListener}>Try again</PermissionButton>
         </div>
@@ -236,8 +236,8 @@ export function PermissionsSummary({ connected }: { connected: boolean }) {
           {recovery.loadState === "failed" ? (
             <div className="flex items-center justify-between gap-4 py-[7px] pl-[9px]">
               <div>
-                <div className="text-[11.5px] font-medium text-slate">Couldn't check permissions. Try again.</div>
-                <div className="mt-0.5 text-[10.5px] text-steel">Access can't be confirmed yet.</div>
+                <div className="text-xs font-medium text-slate">Couldn't check permissions. Try again.</div>
+                <div className="mt-0.5 text-xs text-steel">Access can't be confirmed yet.</div>
               </div>
               <PermissionButton disabled={!connected} onClick={recovery.recheck}>Try again</PermissionButton>
             </div>

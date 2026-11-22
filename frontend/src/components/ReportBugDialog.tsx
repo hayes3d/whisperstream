@@ -159,7 +159,7 @@ export function ReportBugDialog({ open, onOpenIssues, onEmail, onClose, initialS
             <button type="button" onClick={onOpenIssues} disabled={preparing} className={`${linkClass} disabled:cursor-default disabled:opacity-60`}>
               Continue without logs
             </button>
-            <p className="mt-4 text-[11px] text-steel">Whisperstream never uploads your logs.</p>
+            <p className="mt-4 text-xs text-steel">Whisperstream never uploads your logs.</p>
           </>
         )}
 

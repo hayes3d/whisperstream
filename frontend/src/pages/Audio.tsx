@@ -114,6 +114,7 @@ export function Audio({ config, onConfigChange, capabilities }: AudioProps) {
         <Toggle
           checked={config.audio_feedback}
           onChange={(v) => onConfigChange({ audio_feedback: v })}
+          ariaLabel="Recording Chime"
         />
       </Section>
 

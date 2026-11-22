@@ -76,7 +76,7 @@ export function CustomPromptDialog({
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           placeholder="e.g., Clean up this transcription. Fix grammar. Keep the original meaning."
-          className="w-full min-h-[140px] max-h-[280px] resize-y rounded-2xl px-4 py-3 text-[13px] text-slate font-body placeholder:text-steel/40 outline-none transition-all duration-300"
+          className="w-full min-h-[140px] max-h-[280px] resize-y rounded-2xl px-4 py-3 text-[13px] text-slate font-body placeholder:text-steel outline-none transition-all duration-300"
           style={{
             background: "var(--surface-control)",
             border: "1px solid var(--border-hairline)",
@@ -110,7 +110,7 @@ export function CustomPromptDialog({
                 );
               }
             }}
-            className="text-[11px] text-steel/70 hover:text-frost-deep transition-colors cursor-pointer"
+            className="text-xs text-steel hover:text-frost-deep transition-colors cursor-pointer"
           >
             Reset to default
           </button>

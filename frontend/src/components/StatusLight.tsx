@@ -125,7 +125,7 @@ function PillDot({ state }: { state: HudLightState }) {
 }
 
 const PILL =
-  "flex select-none items-center gap-1.5 rounded-md border border-[var(--border-hairline-steel)] px-2.5 py-[3px] text-[11px] leading-4 text-steel transition-colors duration-200";
+  "flex select-none items-center gap-1.5 rounded-md border border-[var(--border-hairline-steel)] px-2.5 py-[3px] text-xs leading-4 text-steel transition-colors duration-200";
 
 export function StatusLight({ state, ariaLabel, onActivate, activateLabel }: StatusLightProps) {
   const inner = (

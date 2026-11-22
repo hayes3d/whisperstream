@@ -47,7 +47,7 @@ export function DocumentationExportButton() {
       focusVisibleClassName="group-focus-within:opacity-100 group-focus-within:visible"
     >
       <button type="button" onClick={save} disabled={state === "saving"}
-        aria-label={label} aria-describedby="documentation-save-help" className="text-steel/70 hover:text-steel hover:underline cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed">
+        aria-label={label} aria-describedby="documentation-save-help" className="text-steel hover:text-slate hover:underline cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed">
         <span role={state === "error" ? "alert" : "status"}>
           {label}
         </span>

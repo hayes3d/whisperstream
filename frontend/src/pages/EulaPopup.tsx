@@ -232,7 +232,7 @@ function FirstRunView({ payload, inline = false, onAccepted }: { payload: EulaEm
       <h2 id="eula-heading" className="font-display text-[18px] font-normal text-slate text-center mb-1.5">
         End User License Agreement
       </h2>
-      <p id="eula-subtitle" className="text-[12px] text-steel/80 text-center mb-4">
+      <p id="eula-subtitle" className="text-[12px] text-steel text-center mb-4">
         Review the Whisperstream End User License Agreement below, then choose.
       </p>
       <div className="mb-4" ref={wellRef}>
@@ -261,7 +261,7 @@ function FirstRunView({ payload, inline = false, onAccepted }: { payload: EulaEm
       {error ? (
         <p role="alert" className="text-[12px] text-red-600 text-center mb-2">{error}</p>
       ) : null}
-      <p className="text-[11px] text-steel/60 text-center leading-relaxed">
+      <p className="text-xs text-steel text-center leading-relaxed">
         {/mac/i.test(navigator.platform)
           ? "To remove Whisperstream after declining, move it from Applications to the Trash."
           : "If you chose Decline and want to remove Whisperstream, uninstall via Windows Settings > Apps."}
@@ -383,7 +383,7 @@ function SubstantiveUpdateView({
         This release requires your acceptance of updated terms before Whisperstream can process your content.
       </p>
       {payload.eulaVersion ? (
-        <p className="text-[11px] text-steel/70 text-center mb-4">
+        <p className="text-xs text-steel text-center mb-4">
           End User License Agreement, version {payload.eulaVersion}
         </p>
       ) : (
@@ -397,7 +397,7 @@ function SubstantiveUpdateView({
             ariaLabel="Summary of updated terms, scrollable"
           >
             <div>
-              <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-slate mb-2">
+              <p className="text-xs font-medium uppercase tracking-[0.12em] text-slate mb-2">
                 What changed
               </p>
               <ul className="space-y-1.5 mb-3">
@@ -408,7 +408,7 @@ function SubstantiveUpdateView({
                   </li>
                 ))}
               </ul>
-              <div className="space-y-2 text-[11px] leading-relaxed text-steel">
+              <div className="space-y-2 text-xs leading-relaxed text-steel">
                 <p>Until you accept, content features such as dictation, imports, enhancement, transcript access, and Agent Speak stay unavailable.</p>
                 <p>Accepting updated terms does not change the agreement that governed an earlier release or rights that already accrued.</p>
                 <p>Installing or relaunching this release does not accept the updated terms.</p>
@@ -465,11 +465,11 @@ function SubstantiveUpdateView({
         </button>
       </div>
 
-      <div aria-live="polite" aria-atomic="true" className="min-h-4 text-center text-[11px] text-steel">
+      <div aria-live="polite" aria-atomic="true" className="min-h-4 text-center text-xs text-steel">
         {saveStatus}
       </div>
-      {error ? <p role="alert" className="text-[11px] text-rose text-center mt-1">{error}</p> : null}
-      <p className="text-[11px] text-steel/70 text-center mt-2 leading-relaxed">
+      {error ? <p role="alert" className="text-xs text-rose text-center mt-1">{error}</p> : null}
+      <p className="text-xs text-steel text-center mt-2 leading-relaxed">
         Declining or closing Whisperstream does not accept these terms or create an acceptance record.
       </p>
     </div>
@@ -518,13 +518,13 @@ function ReacknowledgeView({ payload, inline = false, onAccepted }: { payload: E
       <h2 id="eula-heading" className="font-display text-[18px] font-normal text-slate text-center mb-1.5">
         We&apos;ve updated our terms
       </h2>
-      <p id="eula-subtitle" className="text-[12px] text-steel/80 text-center mb-4">
+      <p id="eula-subtitle" className="text-[12px] text-steel text-center mb-4">
         Please review and acknowledge the current terms to continue.
       </p>
 
       {hasBullets ? (
         <div className="mb-4">
-          <p className="text-[11px] uppercase tracking-wider text-steel/70 mb-2">
+          <p className="text-xs uppercase tracking-wider text-steel mb-2">
             What&apos;s changed
           </p>
           <ul className="space-y-2">
@@ -569,7 +569,7 @@ function ReacknowledgeView({ payload, inline = false, onAccepted }: { payload: E
       {error ? (
         <p role="alert" className="text-[12px] text-red-600 text-center mb-2">{error}</p>
       ) : null}
-      <p className="text-[11px] text-steel/60 text-center leading-relaxed">
+      <p className="text-xs text-steel text-center leading-relaxed">
         Declining closes Whisperstream; your current terms stay in effect, and we&apos;ll ask again next time you open it.
       </p>
     </div>

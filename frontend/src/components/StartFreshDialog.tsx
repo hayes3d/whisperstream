@@ -197,7 +197,7 @@ export function StartFreshDialog({
               className={inputBase}
               style={inputBaseStyle}
             />
-            {error && <p role="alert" className="text-[11px] text-rose mt-2 ml-1">{error}</p>}
+            {error && <p role="alert" className="text-xs text-rose mt-2 ml-1">{error}</p>}
             <div className="flex flex-col items-stretch gap-2.5 mt-4">
               <button
                 type="button"

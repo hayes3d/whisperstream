@@ -125,7 +125,7 @@ export const LifeSignStatus = memo(function LifeSignStatus({
             : { duration: 0.2, ease: "easeOut" }
         }
       />
-      <p className="text-[11px] text-steel/60 italic">
+      <p className="text-xs text-steel italic">
         {active ? <span className="sr-only">Live measurement. </span> : null}
         {status}
       </p>
@@ -222,7 +222,7 @@ export function ModelChip({
       )}
       <span className="text-[13px] font-medium text-slate relative">{name}</span>
       {sizeLabel && (
-        <span className="text-[11px] text-steel/70 tabular-nums relative">
+        <span className="text-xs text-steel tabular-nums relative">
           {sizeLabel}
         </span>
       )}
@@ -425,7 +425,7 @@ export function SpeedBar({
       <div className="h-4 mb-1 flex justify-end items-baseline gap-1">
         {mode === "fill" &&
           (caption != null ? (
-            <span className="text-[11px] text-steel leading-none">{caption}</span>
+            <span className="text-xs text-steel leading-none">{caption}</span>
           ) : (
             <>
               {settled ? (
@@ -437,7 +437,7 @@ export function SpeedBar({
                   {shown}
                 </motion.span>
               )}
-              <span className="text-[9px] uppercase tracking-wider text-steel">
+              <span className="text-xs uppercase tracking-wider text-steel">
                 words / sec
               </span>
             </>

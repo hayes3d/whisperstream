@@ -59,9 +59,9 @@ export function StepPermissions({ recovery, connected }: { recovery: Recovery; c
                 <div className="max-[600px]:col-start-2 max-[600px]:justify-self-start">
                   {restart ? <PermissionRestart compact disabled={busy} /> : showAction ? <SecondaryButton type="button" onClick={invoke} disabled={busy}
                     aria-label={action === "request" ? label : `${label} for ${details.title}`}
-                    className="rounded-md px-3 py-1.5 text-[11.5px] text-slate disabled:opacity-50">
+                    className="rounded-md px-3 py-1.5 text-xs text-slate disabled:opacity-50">
                     {actionState.busy ? status : label}
-                  </SecondaryButton> : <span className={`text-[11.5px] ${allowed ? "text-slate" : "text-steel"}`}>{status}</span>}
+                  </SecondaryButton> : <span className={`text-xs ${allowed ? "text-slate" : "text-steel"}`}>{status}</span>}
                 </div>
               </div>
               {!stale && !allowed && (actionState.caption || presentation?.caption) && <p className="mt-2 ml-8 text-[12px] leading-relaxed text-steel">{actionState.caption?.text ?? presentation?.caption}</p>}

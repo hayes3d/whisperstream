@@ -86,7 +86,7 @@ export function SpotlightBenchmark({ modelLabel, onBack, onUse, frozen = false }
         />
       </div>
       <div
-        className="mb-5 flex justify-between text-[11.5px] text-steel"
+        className="mb-5 flex justify-between text-xs text-steel"
         style={{ fontVariantNumeric: "tabular-nums" }}
       >
         <span>{phase === "download" ? `${Math.round(pct)}%` : "100%"}</span>

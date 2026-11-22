@@ -106,7 +106,7 @@ export function LogsAttachStep({
         onClick={onBack}
         className="flex items-center gap-1.5 text-[12px] text-steel hover:text-slate transition-colors cursor-pointer mb-6"
       >
-        <BackArrowIcon className="text-steel/70" />
+        <BackArrowIcon className="text-steel" />
         Back
       </button>
 

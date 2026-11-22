@@ -299,7 +299,7 @@ export function LockdownDisableDialog({
                 onBlurCapture={onInputBlur}
               />
             </div>
-            {error && <p className="text-[11px] text-rose mb-3">{error}</p>}
+            {error && <p className="text-xs text-rose mb-3">{error}</p>}
             <div className="flex flex-col items-stretch gap-2.5">
               <button
                 disabled={submitting || !resetArmed}
@@ -374,11 +374,11 @@ export function LockdownDisableDialog({
                 onFocus={onInputFocus}
                 onBlurCapture={onInputBlur}
               />
-              <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel/40 pointer-events-none" />
+              <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel pointer-events-none" />
             </div>
 
             {/* E5 wrong-password error line (rose). */}
-            {error && <p className="text-[11px] text-rose mb-3">{error}</p>}
+            {error && <p className="text-xs text-rose mb-3">{error}</p>}
           </>
         )}
 
@@ -434,7 +434,7 @@ export function LockdownDisableDialog({
                 setError(null);
                 setConfirmText("");
               }}
-              className="text-[11px] text-steel/60 hover:text-steel underline underline-offset-2 cursor-pointer transition-colors"
+              className="text-xs text-steel hover:text-steel underline underline-offset-2 cursor-pointer transition-colors"
             >
               I forgot my password
             </button>

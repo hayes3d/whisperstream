@@ -54,7 +54,7 @@ export function SettingsGroup({
           stiffness: 400,
           damping: 30,
         }}
-        className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate mb-0.5"
+        className="text-xs font-semibold uppercase tracking-[0.12em] text-slate mb-0.5"
       >
         {title}
       </motion.h3>

@@ -676,7 +676,7 @@ export function LockdownSetupModal({
             />
 
             {enableError && (
-              <p className="text-[11px] text-rose mt-2 ml-1">{enableError}</p>
+              <p className="text-xs text-rose mt-2 ml-1">{enableError}</p>
             )}
 
             <div className="flex items-center justify-center gap-2.5 mt-6">
@@ -799,7 +799,7 @@ export function LockdownSetupModal({
             </div>
 
             {enableError && (
-              <p className="text-[11px] text-rose mb-3 ml-1 text-center">
+              <p className="text-xs text-rose mb-3 ml-1 text-center">
                 {enableError}
               </p>
             )}

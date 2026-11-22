@@ -251,7 +251,7 @@ export function LanguagePopup({
           >
             {/* Header / search */}
             <div className="px-5 pt-5 pb-3 shrink-0">
-              <div className="text-[10px] tracking-[0.2em] uppercase text-steel/50 font-medium mb-2">
+              <div className="text-xs tracking-[0.2em] uppercase text-steel font-medium mb-2">
                 Pick a language
               </div>
               <input
@@ -260,7 +260,7 @@ export function LanguagePopup({
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search languages…"
-                className="w-full rounded-md px-4 py-2 text-[13px] text-slate outline-none placeholder:text-steel/40 transition-all duration-300"
+                className="w-full rounded-md px-4 py-2 text-[13px] text-slate outline-none placeholder:text-steel transition-all duration-300"
                 style={{
                   // Recessed input style (PillInput recipe) — see the
                   // textarea in StepTest for the same idiom.
@@ -288,7 +288,7 @@ export function LanguagePopup({
               style={{ minHeight: 0 }}
             >
               {rows.length === 0 ? (
-                <div className="px-3 py-6 text-center text-[12px] text-steel/60 italic">
+                <div className="px-3 py-6 text-center text-[12px] text-steel italic">
                   No matches.
                 </div>
               ) : (
@@ -297,7 +297,7 @@ export function LanguagePopup({
                     return (
                       <div
                         key={`header-${row.label}-${rowIdx}`}
-                        className="px-3 pt-3 pb-1 text-[10px] tracking-[0.18em] uppercase text-steel/45 font-medium"
+                        className="px-3 pt-3 pb-1 text-xs tracking-[0.18em] uppercase text-steel font-medium"
                       >
                         {row.label}
                       </div>

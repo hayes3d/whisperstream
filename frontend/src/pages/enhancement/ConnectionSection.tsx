@@ -79,7 +79,7 @@ export function ConnectionSection({
         // ---- Guided setup card (first-run / no key) ----
         <div className="rounded-[var(--radius-card)] p-5" style={cardStyle}>
           <div className="text-[13px] font-medium text-slate">Connect a cleanup model</div>
-          <div className="text-[11px] text-steel mt-0.5 mb-3">
+          <div className="text-xs text-steel mt-0.5 mb-3">
             Pick a provider and add its API key.
           </div>
           {controls}
@@ -116,15 +116,15 @@ export function ConnectionSection({
                   <span className="text-steel shrink-0 truncate max-w-[55%]">{customHost}</span>
                 )}
                 {customHost && summaryModelLabel && (
-                  <span className="text-steel/30 shrink-0" aria-hidden="true">·</span>
+                  <span className="text-steel shrink-0" aria-hidden="true">·</span>
                 )}
                 {summaryModelLabel && (
-                  <span className="text-steel/55 min-w-0 truncate">{summaryModelLabel}</span>
+                  <span className="text-steel min-w-0 truncate">{summaryModelLabel}</span>
                 )}
               </span>
             )}
             {!expanded && provider !== "custom" && summaryModelLabel && (
-              <span className="text-[12px] text-steel/80 truncate max-w-[40%]">
+              <span className="text-[12px] text-steel truncate max-w-[40%]">
                 {summaryModelLabel}
               </span>
             )}
@@ -165,7 +165,7 @@ export function ConnectionSection({
                     <button
                       type="button"
                       onClick={onToggleExpanded}
-                      className="inline-flex items-center gap-1 text-[11px] font-medium text-frost-deep hover:underline cursor-pointer"
+                      className="inline-flex items-center gap-1 text-xs font-medium text-frost-deep hover:underline cursor-pointer"
                     >
                       Done
                     </button>

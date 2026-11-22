@@ -266,7 +266,7 @@ export function RecoverySettingsDialog({
           >
             <span className="flex flex-col">
               <span className="text-[13px] text-slate whitespace-nowrap">Recovery password</span>
-              <span className="text-[11px] text-steel">{hasRecoveryPassword ? "Set" : "Not set"}</span>
+              <span className="text-xs text-steel">{hasRecoveryPassword ? "Set" : "Not set"}</span>
             </span>
             <span className="flex items-center gap-2">
               {hasRecoveryPassword ? (

@@ -90,7 +90,7 @@ function LocalRowAffordance({
           onDownload();
         }}
         aria-label="Download local model"
-        className="w-6 h-6 rounded-md flex items-center justify-center text-steel/70 hover:text-frost-deep opacity-0 group-hover/row:opacity-100 group-focus-within/row:opacity-100 transition-opacity cursor-pointer"
+        className="w-6 h-6 rounded-md flex items-center justify-center text-steel hover:text-frost-deep opacity-0 group-hover/row:opacity-100 group-focus-within/row:opacity-100 transition-opacity cursor-pointer"
       >
         <DownloadMiniIcon aria-hidden="true" />
       </button>
@@ -111,7 +111,7 @@ function LocalRowAffordance({
         setDeletePending(true);
       }}
       aria-label="Delete local model"
-      className="w-6 h-6 rounded-md flex items-center justify-center text-steel/70 hover:text-rose opacity-0 group-hover/row:opacity-100 group-focus-within/row:opacity-100 transition-opacity cursor-pointer"
+      className="w-6 h-6 rounded-md flex items-center justify-center text-steel hover:text-rose opacity-0 group-hover/row:opacity-100 group-focus-within/row:opacity-100 transition-opacity cursor-pointer"
     >
       <svg
         viewBox="0 0 12 12"

@@ -251,7 +251,7 @@ export function ChangePasswordDialog({
               <div>
                 <label
                   htmlFor="change-current-pw"
-                  className="block text-[11px] text-steel mb-1.5 ml-1"
+                  className="block text-xs text-steel mb-1.5 ml-1"
                 >
                   Current password
                 </label>
@@ -276,7 +276,7 @@ export function ChangePasswordDialog({
                     onFocus={onInputFocus}
                     onBlurCapture={onInputBlur}
                   />
-                  <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel/40 pointer-events-none" />
+                  <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel pointer-events-none" />
                 </div>
               </div>
             </div>
@@ -501,12 +501,12 @@ export function ViewRecoveryCodeDialog({
                 onFocus={onInputFocus}
                 onBlurCapture={onInputBlur}
               />
-              <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel/40 pointer-events-none" />
+              <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel pointer-events-none" />
             </div>
 
             {/* Wrong-password error (reuses E5 copy for consistency). */}
             {error && (
-              <p className="text-[11px] text-rose mb-3">{error}</p>
+              <p className="text-xs text-rose mb-3">{error}</p>
             )}
 
             <div className="flex items-center justify-center gap-2.5 mt-6">

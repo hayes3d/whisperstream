@@ -367,7 +367,7 @@ export function WaveformPlayer({ peaks, audioUrl, durationMs, onSave }: Waveform
           {playing ? <PauseIcon /> : <PlayIcon />}
         </button>
 
-        <span className="text-[11px] text-steel tabular-nums">
+        <span className="text-xs text-steel tabular-nums">
           {fmt(currentTime)} / {fmt(totalSeconds)}
         </span>
 

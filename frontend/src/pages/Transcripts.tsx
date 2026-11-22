@@ -151,7 +151,7 @@ function TranscriptVersionChip({
   const chip = (
     <span
       data-transcript-version={version}
-      className={`inline-flex items-center gap-1 rounded-full px-1.5 py-[1px] font-display text-[9px] font-semibold uppercase tracking-[0.08em] shrink-0 ${subtle ? "text-steel/70" : "text-steel"}`}
+      className={`inline-flex items-center gap-1 rounded-md px-1.5 py-[1px] font-display text-xs font-semibold uppercase tracking-[0.08em] shrink-0 text-steel`}
       style={{
         background: enhanced
           ? `color-mix(in srgb, var(--color-frost) ${subtle ? "8%" : "15%"}, transparent)`
@@ -596,14 +596,14 @@ function ReenhancementPanel({
         <div className="min-w-0">
           <h3 className="text-[13px] font-medium text-slate">Re-enhanced</h3>
           {result && (
-            <p className="mt-0.5 truncate text-[11px] text-steel">
+            <p className="mt-0.5 truncate text-xs text-steel">
               {result.provider} · {result.model_id || "Default model"} ·{" "}
               {result.profile_name || result.profile_id}
             </p>
           )}
         </div>
         <span
-          className={`shrink-0 text-[10px] font-medium uppercase tracking-wider ${
+          className={`shrink-0 text-xs font-medium uppercase tracking-wider ${
             error ? "text-rose" : result?.unchanged ? "text-steel" : "text-mint"
           }`}
         >
@@ -627,20 +627,20 @@ function ReenhancementPanel({
       )}
 
       {error && (
-        <p role="alert" className="text-[11px] leading-relaxed text-rose">
+        <p role="alert" className="text-xs leading-relaxed text-rose">
           {error}
         </p>
       )}
 
       {result && !running && (
         <div className="space-y-2">
-          <p className="text-[10px] text-steel/60">
+          <p className="text-xs text-steel">
             {`${executionLabel(result.mode)} · ${result.chunk_count} ${
               result.chunk_count === 1 ? "chunk" : "chunks"
             } · ${result.elapsed_ms} ms`}
           </p>
           {result.unchanged && (
-            <p className="text-[11px] leading-relaxed text-steel">
+            <p className="text-xs leading-relaxed text-steel">
               {result.unchanged_reason === "short_input"
                 ? "This transcript is short enough that production enhancement leaves it unchanged."
                 : "The provider returned the original text, or a production safeguard kept it unchanged."}
@@ -734,7 +734,7 @@ function CandidateModeSelector({
             disabled={disabled}
             onClick={() => onChange(option.value)}
             onKeyDown={(event) => moveSelection(event, index)}
-            className={`h-7 min-w-[72px] rounded-full px-3 text-[12px] font-medium transition-colors duration-150 disabled:cursor-default ${
+            className={`h-7 min-w-[72px] rounded-md px-3 text-[12px] font-medium transition-colors duration-150 disabled:cursor-default ${
               selected ? "text-white" : "text-steel hover:text-slate"
             }`}
             style={{
@@ -801,10 +801,10 @@ function ContractSpine({
     >
       {values.map((item) => (
         <div key={item.label} className="min-w-0">
-          <dt className="text-[9px] font-medium uppercase tracking-[0.08em] text-steel/60">
+          <dt className="text-xs font-medium uppercase tracking-[0.08em] text-steel">
             {item.label}
           </dt>
-          <dd className="mt-0.5 truncate text-[11px] font-medium text-slate">
+          <dd className="mt-0.5 truncate text-xs font-medium text-slate">
             {item.value}
           </dd>
         </div>
@@ -869,17 +869,17 @@ function CandidateTestPanel({
             >
               Candidate test
             </h3>
-            <p className="mt-0.5 break-all text-[11px] text-steel">
+            <p className="mt-0.5 break-all text-xs text-steel">
               Active: {activeModelId || "None"}
             </p>
           </div>
           {result && (
-            <span className="shrink-0 text-[10px] font-medium uppercase tracking-wider text-mint">
+            <span className="shrink-0 text-xs font-medium uppercase tracking-wider text-mint">
               Complete
             </span>
           )}
         </div>
-        <p id={helperId} className="text-[11px] leading-relaxed text-steel">
+        <p id={helperId} className="text-xs leading-relaxed text-steel">
           Uses this transcript&apos;s original text. Switch models in Enhancement
           to compare another candidate.
         </p>
@@ -914,7 +914,7 @@ function CandidateTestPanel({
       {visibleError && (
         <p
           id={errorId}
-          className="text-[11px] leading-relaxed text-rose"
+          className="text-xs leading-relaxed text-rose"
           aria-live="polite"
         >
           {visibleError}
@@ -924,10 +924,10 @@ function CandidateTestPanel({
       {result && (
         <div className="space-y-1.5">
           <div className="flex items-center justify-between gap-3">
-            <span className="text-[11px] uppercase tracking-wider text-steel">
+            <span className="text-xs uppercase tracking-wider text-steel">
               Candidate output
             </span>
-            <span className="text-[10px] text-steel/60">
+            <span className="text-xs text-steel">
               {`${result.profile_mode[0].toUpperCase()}${result.profile_mode.slice(
                 1,
               )} profile · ${result.chunk_count} ${
@@ -1250,7 +1250,7 @@ function TranscriptCard({
             the rail's own right-3 inset, so a long timestamp can never collide
             with the Bakeoff fire icon. */}
         <div className="flex items-center gap-2 pr-32">
-          <span className="text-[11px] text-steel/60">{timestampLabel}</span>
+          <span className="text-xs text-steel">{timestampLabel}</span>
           {!expanded && showCollapsedVersionChip && (
             <TranscriptVersionChip
               version={collapsedVersion}
@@ -1429,7 +1429,7 @@ function EmptyState({
       <motion.div
         animate={breathingAnimation}
         transition={breathingTransition}
-        className="w-[120px] h-[120px] rounded-[var(--radius-card)] flex items-center justify-center text-steel/50"
+        className="w-[120px] h-[120px] rounded-[var(--radius-card)] flex items-center justify-center text-steel"
         style={{
           background: "var(--surface-raised)",
           border: "1px solid var(--border-hairline)",
@@ -1507,7 +1507,7 @@ function DisabledState({
       <motion.div
         animate={breathingAnimation}
         transition={breathingTransition}
-        className="w-[120px] h-[120px] rounded-[var(--radius-card)] flex items-center justify-center text-steel/40"
+        className="w-[120px] h-[120px] rounded-[var(--radius-card)] flex items-center justify-center text-steel"
         style={{
           background: "var(--surface-control)",
           border: "1px solid var(--border-standard)",
@@ -1837,7 +1837,7 @@ function ListView({
             }}
           >
             <ShieldIcon />
-            <span className="text-[10px] font-medium uppercase tracking-wider">
+            <span className="text-xs font-medium uppercase tracking-wider">
               Encrypted
             </span>
           </span>
@@ -1864,7 +1864,7 @@ function ListView({
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search transcripts..."
             aria-label="Search transcripts"
-            className="flex-1 min-w-0 bg-transparent text-[13px] text-slate outline-none placeholder:text-steel/40"
+            className="flex-1 min-w-0 bg-transparent text-[13px] text-slate outline-none placeholder:text-steel"
           />
         </div>
 
@@ -2019,7 +2019,7 @@ function TextBlock({
     <div className="group/transcript-detail space-y-1.5">
       <div className="flex items-center justify-between gap-2 min-h-[24px]">
         <div className="flex items-center gap-2">
-          <span className="text-[11px] uppercase tracking-wider text-steel">
+          <span className="text-xs uppercase tracking-wider text-steel">
             {label}
           </span>
           {labelAccessory}
@@ -2142,7 +2142,7 @@ function CardDetail({
     <button
       onClick={() => setShowOriginal((v) => !v)}
       aria-describedby={provenanceDescriptionId}
-      className="text-[11px] text-steel hover:text-slate transition-colors duration-150 cursor-pointer"
+      className="text-xs text-steel hover:text-slate transition-colors duration-150 cursor-pointer"
     >
       {showingOriginal ? "Show enhanced" : "Show original"}
     </button>
@@ -2268,12 +2268,12 @@ function QueueRow({
       <div className="flex-1 min-w-0">
         <div className="text-[13px] text-slate truncate">{item.file}</div>
         {sublabel && (
-          <div className="text-[11px] text-steel/70 truncate">{sublabel}</div>
+          <div className="text-xs text-steel truncate">{sublabel}</div>
         )}
       </div>
 
       <span
-        className="shrink-0 inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider"
+        className="shrink-0 inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-medium uppercase tracking-wider"
         style={{ background: pill.bg, color: pill.color }}
       >
         {item.status === "transcribing" && <Spinner />}
@@ -2353,7 +2353,7 @@ function ImportView({
             : "2px dashed var(--border-accent)",
         }}
       >
-        <div className="text-steel/60">
+        <div className="text-steel">
           <UploadGlyph />
         </div>
         <p className="text-[14px] font-medium text-slate">
@@ -2369,18 +2369,18 @@ function ImportView({
       </div>
 
       {/* Supported-format caption (LOCKED). */}
-      <p className="text-[11px] text-steel/70 text-center leading-relaxed">
+      <p className="text-xs text-steel text-center leading-relaxed">
         WAV files always work. Other formats (like MP3 or M4A) may not import on
         every setup.
       </p>
 
       {pickerError && (
-        <p role="alert" className="text-[11px] text-rose text-center">
+        <p role="alert" className="text-xs text-rose text-center">
           Couldn't open the file picker. Try again.
         </p>
       )}
       {importUnavailable && (
-        <p role="alert" className="text-[11px] text-rose text-center">
+        <p role="alert" className="text-xs text-rose text-center">
           Saved transcript storage is unavailable. Return to the list for details.
         </p>
       )}

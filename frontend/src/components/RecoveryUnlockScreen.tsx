@@ -352,7 +352,7 @@ export function RecoveryUnlockScreen({
               Start fresh
             </button>
           )}
-          <span className="inline-flex items-center gap-1.5 mt-4 text-[11px] text-steel">
+          <span className="inline-flex items-center gap-1.5 mt-4 text-xs text-steel">
             <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--color-gold)" }} />
             Saving is paused until you restore or start fresh.
           </span>
@@ -413,7 +413,7 @@ export function RecoveryUnlockScreen({
                 type="button"
                 aria-pressed={mode === m}
                 onClick={() => switchMode(m)}
-                className={`px-3 py-1 rounded-full text-[11.5px] font-medium cursor-pointer transition-colors duration-200 ${
+                className={`px-3 py-1 rounded-md text-xs font-medium cursor-pointer transition-colors duration-200 ${
                   mode === m ? "text-slate" : "text-steel hover:text-slate"
                 }`}
                 style={
@@ -430,19 +430,19 @@ export function RecoveryUnlockScreen({
 
         <div className="relative w-full">
           {mode === "password" ? passwordField : keyField}
-          <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel/40 pointer-events-none" />
+          <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel pointer-events-none" />
         </div>
 
         {/* Wrong secret / restore failure: rose text always carries meaning. */}
         {error && !lockedOut && (
-          <p className="text-[11px] text-rose mt-2 self-start" role="alert">
+          <p className="text-xs text-rose mt-2 self-start" role="alert">
             {error}
           </p>
         )}
 
         {/* Live backoff countdown, announced politely and updated in place. */}
         {lockedOut && (
-          <p className="text-[11px] text-rose mt-2 self-start" role="status" aria-live="polite">
+          <p className="text-xs text-rose mt-2 self-start" role="status" aria-live="polite">
             {`Too many attempts. Try again in ${formatBackoff(remainingSecs)}.`}
           </p>
         )}
@@ -462,7 +462,7 @@ export function RecoveryUnlockScreen({
           <button
             type="button"
             onClick={() => switchMode("recovery")}
-            className="mt-3 text-[11px] text-steel/70 hover:text-slate transition-colors cursor-pointer"
+            className="mt-3 text-xs text-steel hover:text-slate transition-colors cursor-pointer"
           >
             Use recovery key instead
           </button>
@@ -473,14 +473,14 @@ export function RecoveryUnlockScreen({
           <button
             type="button"
             onClick={onStartFresh}
-            className="mt-3 text-[11px] text-steel/70 hover:text-slate transition-colors cursor-pointer"
+            className="mt-3 text-xs text-steel hover:text-slate transition-colors cursor-pointer"
           >
             {hasRecoveryPassword ? "Lost both? Start fresh" : "Lost your key? Start fresh"}
           </button>
         )}
 
         {missingKey && (
-          <span className="inline-flex items-center gap-1.5 mt-4 text-[11px] text-steel">
+          <span className="inline-flex items-center gap-1.5 mt-4 text-xs text-steel">
             <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--color-gold)" }} />
             Saving is paused until you restore or start fresh.
           </span>

@@ -196,7 +196,7 @@ const ArrowIcon = () => (
     height="14"
     viewBox="0 0 14 14"
     fill="none"
-    className="shrink-0 text-steel/40"
+    className="shrink-0 text-steel"
     aria-hidden="true"
   >
     <path
@@ -227,7 +227,7 @@ function TypeBadge({ type }: { type: EntryType }) {
         <Icon size={10} />
       </span>
       <span
-        className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-1.5 rounded-lg px-2 py-1 text-[10px] font-medium text-slate opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-30 whitespace-nowrap"
+        className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-1.5 rounded-lg px-2 py-1 text-xs font-medium text-slate opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-30 whitespace-nowrap"
         style={{
           background: "var(--surface-overlay)",
           border: "1px solid var(--border-emphasis)",
@@ -365,7 +365,7 @@ function AddRow({
         onKeyDown={handleKey}
         placeholder="Add a word..."
         aria-label="Dictionary entry word"
-        className="flex-1 min-w-0 bg-transparent text-[13px] text-slate border-none outline-none placeholder:text-steel/40 px-3 h-8 mr-4"
+        className="flex-1 min-w-0 bg-transparent text-[13px] text-slate border-none outline-none placeholder:text-steel px-3 h-8 mr-4"
       />
 
       <AnimatePresence initial={false}>
@@ -386,7 +386,7 @@ function AddRow({
               placeholder="Replace with"
               aria-label="Replacement word"
               autoFocus
-              className="flex-1 min-w-0 bg-transparent text-[13px] text-slate border-none outline-none placeholder:text-steel/40 px-2 h-8"
+              className="flex-1 min-w-0 bg-transparent text-[13px] text-slate border-none outline-none placeholder:text-steel px-2 h-8"
             />
           </motion.div>
         )}
@@ -540,7 +540,7 @@ function EntryRow({
               value={editWord}
               onChange={(e) => setEditWord(e.target.value)}
               onKeyDown={handleEditKey}
-              className="flex-1 min-w-0 bg-transparent text-[13px] font-medium text-slate border-none outline-none placeholder:text-steel/40"
+              className="flex-1 min-w-0 bg-transparent text-[13px] font-medium text-slate border-none outline-none placeholder:text-steel"
               aria-label="Edit word"
             />
             {entry.type === "replace" && (
@@ -550,7 +550,7 @@ function EntryRow({
                   value={editReplacement}
                   onChange={(e) => setEditReplacement(e.target.value)}
                   onKeyDown={handleEditKey}
-                  className="flex-1 min-w-0 bg-transparent text-[13px] font-medium text-slate border-none outline-none placeholder:text-steel/40"
+                  className="flex-1 min-w-0 bg-transparent text-[13px] font-medium text-slate border-none outline-none placeholder:text-steel"
                   aria-label="Edit replacement"
                 />
               </>
@@ -824,11 +824,11 @@ export function Dictionary({ config, onConfigChange, onImportConfig, onOpenEnhan
         }}
       >
         <AddRow onAdd={addEntry} reducedMotion={reducedMotion} />
-        <p className="text-[11px] text-steel mt-2 px-1">Boost helps AI enhancement choose the right spelling when it fits your dictation.</p>
+        <p className="text-xs text-steel mt-2 px-1">Boost helps AI enhancement choose the right spelling when it fits your dictation.</p>
       </motion.div>
       {config.word_boosts.length > 0 && (!config.enhancement_enabled || !config.enhancement_vocabulary_supported) && <div className="text-[12px] text-steel px-3 py-2.5 rounded-[var(--radius-input)]" style={{ background: "color-mix(in srgb, var(--color-gold) 7%, transparent)", border: "1px solid color-mix(in srgb, var(--color-gold) 25%, transparent)" }}>
         <p>{!config.enhancement_enabled ? "Boost is inactive while AI enhancement is off. You can still save words." : "Your selected enhancement model does not support Boost. Saved words will stay in your dictionary."}</p>
-        {onOpenEnhancement && <button onClick={onOpenEnhancement} className="text-[11px] underline mt-1 cursor-pointer">Open enhancement settings</button>}
+        {onOpenEnhancement && <button onClick={onOpenEnhancement} className="text-xs underline mt-1 cursor-pointer">Open enhancement settings</button>}
       </div>}
       {entries.length === 0 && <div className="text-center py-6 text-[12px] text-steel">Your dictionary is empty. Add a word or import a CSV.</div>}
       <div className="space-y-1">
@@ -847,7 +847,7 @@ export function Dictionary({ config, onConfigChange, onImportConfig, onOpenEnhan
           ))}
         </AnimatePresence>
       </div>
-      {entries.length > 100 && <div className="flex items-center justify-between gap-3 text-[11px] text-steel">
+      {entries.length > 100 && <div className="flex items-center justify-between gap-3 text-xs text-steel">
         <span>Showing {Math.min(visibleCount, entries.length)} of {entries.length} entries.</span>
         {visibleCount < entries.length && <SecondaryButton onClick={() => setVisibleCount(count => count + 100)} className="rounded-md px-3.5 py-1.5 text-[12px] text-slate">Load more</SecondaryButton>}
       </div>}

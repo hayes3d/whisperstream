@@ -209,7 +209,7 @@ export function Sidebar({ activeTab, onTabChange, status, devEnabled = false, at
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
                 transition={{ duration: 0.25 }}
-                className={`text-[11px] text-center leading-snug px-1 ${
+                className={`text-xs text-center leading-snug px-1 ${
                   status.isError ? "text-rose" : "text-mint"
                 }`}
               >

@@ -31,7 +31,7 @@ export function CardStatusLine({ status, id }: { status?: CardStatus | null; id?
   return (
     <p
       id={id}
-      className="min-h-[14px] text-[11px] leading-relaxed"
+      className="min-h-[14px] text-xs leading-relaxed"
       style={{ color }}
       role={status?.tone === "error" ? "alert" : "status"}
     >

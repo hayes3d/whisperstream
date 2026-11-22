@@ -202,7 +202,7 @@ describe("Transcripts version chips and Copy", () => {
       const tooltip = await getDescribedTooltip(header, view.container);
 
       expect(chip).toHaveTextContent("Original");
-      expect(chip).toHaveClass("text-steel/70");
+      expect(chip).toHaveClass("text-steel");
       expect(chip).not.toHaveAttribute("tabindex");
       expect(tooltip).toHaveTextContent(explanation);
       expect(tooltip).not.toHaveTextContent("Profile:");

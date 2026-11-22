@@ -68,14 +68,14 @@ export function CloudModelPicker({ value, catalog, saved, onChange }: Props) {
               if (event.key === "Escape") { setAdding(false); setDraft(""); }
             }}
             placeholder="Enter a model ID"
-            className="min-w-0 flex-1 h-9 rounded-[var(--radius-input)] px-3 text-[13px] text-slate placeholder:text-steel/40"
+            className="min-w-0 flex-1 h-9 rounded-[var(--radius-input)] px-3 text-[13px] text-slate placeholder:text-steel"
             style={{ background: "var(--surface-control)", border: "1px solid var(--border-hairline)" }}
           />
           <button type="button" onClick={add} disabled={!draft.trim()} className="text-[12px] text-frost-deep disabled:opacity-40 cursor-pointer">Add</button>
           <button type="button" onClick={() => { setAdding(false); setDraft(""); }} className="text-[12px] text-steel cursor-pointer">Cancel</button>
         </div>
       ) : (
-        <button type="button" onClick={() => setAdding(true)} className="text-[11px] text-steel hover:text-frost-deep transition-colors cursor-pointer">
+        <button type="button" onClick={() => setAdding(true)} className="text-xs text-steel hover:text-frost-deep transition-colors cursor-pointer">
           Add custom model
         </button>
       )}

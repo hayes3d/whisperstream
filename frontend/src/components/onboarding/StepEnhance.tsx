@@ -326,7 +326,7 @@ export function StepEnhance({
       <AnimatePresence mode="wait">
         {subPhase === "intro" && (
           <motion.div key="intro" {...fade} className="flex flex-1 flex-col">
-            <p className="mb-1.5 text-[10px] font-medium uppercase tracking-[0.2em] text-steel/70">
+            <p className="mb-1.5 text-xs font-medium uppercase tracking-[0.2em] text-steel">
               Optional
             </p>
             <h2 className={heroClass}>Polish your dictation</h2>
@@ -334,7 +334,7 @@ export function StepEnhance({
               Enhancement catches mid-sentence corrections and tidies punctuation and numbers. It runs on this computer, so your words stay private.
             </p>
             <EnhancePreviewCarousel cards={examples.intro} />
-            <p className="mt-auto pt-3 text-[11px] text-steel/75">
+            <p className="mt-auto pt-3 text-xs text-steel">
               {modelSize
                 ? `One-time download, ${modelSize}. You can change this anytime in Enhancement.`
                 : "You can change this anytime in Enhancement."}
@@ -484,7 +484,7 @@ function TryIt({
         <h2 ref={headingRef} tabIndex={-1} id="benchmark-heading" className={heroClass}>
           See what enhancement does
         </h2>
-        <span className="whitespace-nowrap text-[11px] tabular-nums text-steel/70">
+        <span className="whitespace-nowrap text-xs tabular-nums text-steel">
           {`Example ${index + 1} of ${examples.tryIt.length}`}
         </span>
       </div>

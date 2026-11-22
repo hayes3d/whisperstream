@@ -132,7 +132,7 @@ export function SetupExercise({
         {/* The state label's own polite region. Separate from the status line
             because the two say different things: this one is "where the
             exercise is", the line below is "what is wrong". */}
-        <div role="status" className="mt-1.5 text-[11px] text-steel/70">
+        <div role="status" className="mt-1.5 text-xs text-steel">
           {stateLabel}
         </div>
 

@@ -150,7 +150,7 @@ export function DataLeavesDialog({
         <DialogTitle className="text-center mb-1">
           Review where your text goes
         </DialogTitle>
-        <p className="text-[12px] text-steel/70 text-center mb-3">
+        <p className="text-[12px] text-steel text-center mb-3">
           Going to {providerLabel}
         </p>
 
@@ -196,7 +196,7 @@ export function DataLeavesDialog({
           </button>
         </div>
 
-        <p className="text-[11px] text-steel/60 text-center leading-relaxed">
+        <p className="text-xs text-steel text-center leading-relaxed">
           Review the privacy notice before enabling this connection.
         </p>
       </DialogContent>

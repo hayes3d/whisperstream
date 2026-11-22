@@ -62,7 +62,7 @@ function HipaaPdfLink() {
  *  copy-review.md (managed Manage-dialog option B). */
 function ManagedPolicyNote() {
   return (
-    <p className="text-[11px] text-steel leading-relaxed">
+    <p className="text-xs text-steel leading-relaxed">
       Your organization requires Lockdown Mode on this device.
     </p>
   );
@@ -142,7 +142,7 @@ export function LockdownManageDialog({
           <button
             onClick={onClose}
             aria-label="Close"
-            className="w-7 h-7 -mr-1 rounded-md flex items-center justify-center text-steel/60 hover:text-slate transition-colors cursor-pointer"
+            className="w-7 h-7 -mr-1 rounded-md flex items-center justify-center text-steel hover:text-slate transition-colors cursor-pointer"
           >
             <CloseIcon />
           </button>
@@ -167,7 +167,7 @@ export function LockdownManageDialog({
                 <div className="text-[13px] font-medium text-slate">
                   Lock transcripts after idle
                 </div>
-                <div className="text-[11px] text-steel mt-0.5">
+                <div className="text-xs text-steel mt-0.5">
                   Transcripts re-lock after this much inactivity.
                 </div>
               </div>
@@ -196,7 +196,7 @@ export function LockdownManageDialog({
 
             {/* Data-loss reminder (A9 string verbatim, rose). */}
             <p
-              className="text-[11px] leading-relaxed"
+              className="text-xs leading-relaxed"
               style={{ color: "color-mix(in srgb, var(--color-rose) 80%, transparent)" }}
             >
               If you lose both your password and recovery key, your history

@@ -269,7 +269,7 @@ export function ShortcutCapture({
             type="button"
             onClick={clearShortcut}
             aria-label={clearAriaLabel ?? "Clear shortcut"}
-            className="absolute right-1 top-1/2 z-20 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-lg text-[18px] leading-none text-steel/60 transition-colors hover:text-rose cursor-pointer"
+            className="absolute right-1 top-1/2 z-20 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-lg text-[18px] leading-none text-steel transition-colors hover:text-rose cursor-pointer"
           >
             {"\u00d7"}
           </button>
@@ -277,7 +277,7 @@ export function ShortcutCapture({
       </div>
 
       {capturing && (
-        <span className="mt-1 text-center text-[11px] leading-none text-steel/60">
+        <span className="mt-1 text-center text-xs leading-none text-steel">
           Esc to cancel
         </span>
       )}

@@ -369,7 +369,7 @@ export function RelocateModelsDialog({
                   ] as const
                 ).map(([label, value]) => (
                   <div key={label}>
-                    <div className="text-[11px] font-medium uppercase tracking-wider text-steel/70">
+                    <div className="text-xs font-medium uppercase tracking-wider text-steel">
                       {label}
                     </div>
                     {/* Truncate the path; full path exposed to assistive tech
@@ -568,7 +568,7 @@ export function RelocateModelsDialog({
                     aria-live="polite"
                     aria-label={`${fmtGb(movedBytes)} of ${fmtGb(effectiveTotal)} moved, ${pct.toFixed(0)} percent`}
                   >
-                    <span className="text-[11px] text-steel/60 tabular-nums">
+                    <span className="text-xs text-steel tabular-nums">
                       {fmtGb(movedBytes)} of {fmtGb(effectiveTotal)}
                     </span>
                     <span className="text-[13px] font-medium text-slate font-display tabular-nums">

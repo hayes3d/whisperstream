@@ -229,7 +229,7 @@ export function StepTest({
               onChange={(e) => setText(e.target.value)}
               placeholder="Your transcription will appear here."
               rows={3}
-              className="mt-3 w-full rounded-2xl px-4 py-3 text-[13px] text-slate leading-relaxed outline-none resize-none placeholder:text-steel/40 transition-all duration-300"
+              className="mt-3 w-full rounded-2xl px-4 py-3 text-[13px] text-slate leading-relaxed outline-none resize-none placeholder:text-steel transition-all duration-300"
               style={{
                 // Recessed input style — matches the PillInput recipe. The
                 // dark inset shadow makes the field look like content lives

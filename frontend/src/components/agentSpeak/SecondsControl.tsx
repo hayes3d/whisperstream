@@ -28,7 +28,7 @@ export function SecondsControl({ label, value, min = 0, max = 30, tiered = false
   );
   return <div className="flex flex-col items-end gap-2">
     {tiered ? (
-      <SliderField className="w-[240px]" value={<label className="flex shrink-0 items-center gap-1 text-[11px] text-steel">{field}s</label>}>
+      <SliderField className="w-[240px]" value={<label className="flex shrink-0 items-center gap-1 text-xs text-steel">{field}s</label>}>
         <input type="range" aria-label={label} aria-valuetext={value === 0 ? "Off" : `${value} seconds`}
           min={0} max={TIERS.length - 1} step="any" value={position}
           style={rangeFill(position, 0, TIERS.length - 1)}
@@ -42,11 +42,11 @@ export function SecondsControl({ label, value, min = 0, max = 30, tiered = false
           }} />
       </SliderField>
     ) : (
-      <label className="flex items-center gap-1.5 text-[11px] text-steel">
+      <label className="flex items-center gap-1.5 text-xs text-steel">
         {field}
         seconds
       </label>
     )}
-    {!valid && <p id={id} role="alert" className="text-[11px] text-rose">Enter a whole number from {min} to {max}.</p>}
+    {!valid && <p id={id} role="alert" className="text-xs text-rose">Enter a whole number from {min} to {max}.</p>}
   </div>;
 }

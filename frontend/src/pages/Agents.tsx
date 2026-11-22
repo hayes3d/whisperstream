@@ -598,14 +598,14 @@ export function Agents({
                 </svg>
               </PrimaryButton>
               {!hasConfiguredProvider && (
-                <p id={`${introId}-helper`} className="text-[11px] leading-relaxed text-steel">
+                <p id={`${introId}-helper`} className="text-xs leading-relaxed text-steel">
                   Choose your agents, voice, and reply shortcut.
                 </p>
               )}
             </div>
           </div>
           {!connected && (
-            <p id={`${introId}-offline`} role="status" className="mt-3 text-[11px] leading-relaxed text-steel">
+            <p id={`${introId}-offline`} role="status" className="mt-3 text-xs leading-relaxed text-steel">
               Whisperstream is reconnecting. Setup will be available shortly.
             </p>
           )}

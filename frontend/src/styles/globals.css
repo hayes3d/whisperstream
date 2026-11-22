@@ -201,14 +201,14 @@
   --color-frost-deep: #525252;
   --color-frost-light: #f5f5f5;
   --color-slate: #0a0a0a;
-  --color-steel: #737373;
+  --color-steel: #6b6b6b;
   --color-obsidian: #0a0a0a;
   --color-rose: #e7000b;
   --color-rose-text: #c10007;
   --status-check-ink: #0C141D;
-  --color-mint: #54A876;
+  --color-mint: #15803d;
   --color-gold: #D4AF37;
-  --color-gold-deep: #B8962F;
+  --color-gold-deep: #a16207;
   --color-gold-light: #F3E5AB;
   --color-gold-mist: rgba(212, 175, 55, 0.08);
   --surface-caution: rgba(255, 250, 235, 0.85);
@@ -216,7 +216,7 @@
      Issue 4). Deliberately distinct from --color-gold (the Pro/upgrade hue,
      untouched) — see the THEME TOKEN CONTRACT above. */
   --color-caution: #EAB308;
-  --color-caution-deep: #CA8A04;
+  --color-caution-deep: #a16207;
   --color-caution-mist: color-mix(in srgb, var(--color-caution) 12%, transparent);
 
   /* Legacy aliases */
@@ -330,19 +330,19 @@
   --color-frost-deep: #525252;
   --color-frost-light: #f5f5f5;
   --color-slate: #0a0a0a;
-  --color-steel: #737373;
+  --color-steel: #6b6b6b;
   --color-obsidian: #0a0a0a;
   --color-rose: #e7000b;
   --color-rose-text: #c10007;
   --status-check-ink: #0C141D;
-  --color-mint: #54A876;
+  --color-mint: #15803d;
   --color-gold: #D4AF37;
-  --color-gold-deep: #B8962F;
+  --color-gold-deep: #a16207;
   --color-gold-light: #F3E5AB;
   --color-gold-mist: rgba(212, 175, 55, 0.08);
   --surface-caution: rgba(255, 250, 235, 0.85);
   --color-caution: #EAB308;
-  --color-caution-deep: #CA8A04;
+  --color-caution-deep: #a16207;
   --color-caution-mist: color-mix(in srgb, var(--color-caution) 12%, transparent);
 
   --color-amber: #D4AF37;
@@ -595,6 +595,12 @@
 [style*="--accent-fill"] [class*="text-white"],
 [style*="--accent-fill"][class*="text-white"] {
   color: var(--accent-fill-fg) !important;
+}
+
+@layer base {
+  /* Tailwind 4 defaults a bare `border` to currentColor; stock shadcn sets the
+     hairline as the default instead. Without this every bare border is black. */
+  *, ::before, ::after { border-color: var(--border); }
 }
 
 @layer base {
