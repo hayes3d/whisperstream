@@ -20,6 +20,7 @@ import { CopyGlyph } from "../components/CopyGlyph";
 import { BakeoffWorkspace } from "../components/BakeoffWorkspace";
 import { useBakeoffSession } from "./transcripts/useBakeoffSession";
 import { HoverTooltip } from "../components/HoverTooltip";
+import { PageHeader } from "../components/PageHeader";
 import { PrimaryButton } from "../components/PrimaryButton";
 import { ReadingWell } from "../components/ReadingWell";
 import { SecondaryButton } from "../components/SecondaryButton";
@@ -1815,15 +1816,11 @@ function ListView({
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 400, damping: 30 }}
-        className="flex items-start justify-between gap-3"
       >
-        <div>
-          <h2 className="text-[18px] font-medium text-slate mb-1">Transcripts</h2>
-          <p className="text-[12px] text-steel leading-relaxed">
-            Your past dictations, kept on this device and searchable.
-          </p>
-        </div>
-
+        <PageHeader
+          title="Transcripts"
+          description="Your past dictations, kept on this device and searchable."
+          action={
         <HoverTooltip
           side="auto"
           width="w-64"
@@ -1842,6 +1839,8 @@ function ListView({
             </span>
           </span>
         </HoverTooltip>
+          }
+        />
       </motion.div>
 
       {/* Controls row (Option B, lean): search (flex-grow) | import pill | gear. */}

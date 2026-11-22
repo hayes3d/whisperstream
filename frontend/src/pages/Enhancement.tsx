@@ -24,6 +24,7 @@ import { subscribeToDownloadEvents } from "../lib/socket/downloads";
 import { type BenchmarkVerdict, BenchmarkFlow } from "../components/BenchmarkFlow";
 import { type DropdownOption, Dropdown } from "../components/Dropdown";
 import { HoverTooltip } from "../components/HoverTooltip";
+import { PageHeader } from "../components/PageHeader";
 import { ModelIdentityChip, MarginalDot, DownloadMiniIcon } from "./enhancement/Glyphs";
 import { type PromptTesterGate } from "../components/PromptTester";
 import { CloudModelPicker } from "../components/CloudModelPicker";
@@ -1590,10 +1591,11 @@ export function Enhancement({
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0, type: "spring", stiffness: 400, damping: 30 }}
       >
-        <div className="flex items-center justify-between gap-3">
-          <div className="text-[18px] font-medium text-slate">Enhancement</div>
-          {/* Keep status text in one live region so invalidation replaces
-              connection evidence immediately, without an exit-animation delay. */}
+        <PageHeader
+          title="Enhancement"
+          action={
+          /* Keep status text in one live region so invalidation replaces
+             connection evidence immediately, without an exit-animation delay. */
           <HoverTooltip
             content={
               status.kind !== "idle"
@@ -1637,7 +1639,8 @@ export function Enhancement({
                 </span>
               </motion.div>
           </HoverTooltip>
-        </div>
+          }
+        />
       </motion.div>
 
       {/* Surface D policy banner (Task 5.7). Rendered directly under the page

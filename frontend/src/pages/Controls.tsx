@@ -3,6 +3,7 @@ import { SettingsSection as Section } from "../components/SettingsSection";
 import { ShortcutCapture } from "../components/ShortcutCapture";
 import { Toggle } from "../components/Toggle";
 import { ModeSelector } from "../components/ModeSelector";
+import { PageHeader } from "../components/PageHeader";
 import { AdvancedDisclosure } from "../components/AdvancedDisclosure";
 import { SettingsGroup } from "../components/SettingsGroup";
 import { TypingDelaySelect } from "../components/TypingDelaySelect";
@@ -45,6 +46,9 @@ export function Controls({
 
   return (
     <div>
+      <div className="mb-4">
+        <PageHeader title="Controls" />
+      </div>
       {/* Group 1: Recording Indicator. The heading names the feature, so each
           row only has to name its own switch (design.md D4). Rows inside a group
           are joined by whitespace, never hairlines (D3). */}

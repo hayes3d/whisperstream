@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { SettingsSection as Section } from "../components/SettingsSection";
 import { Toggle } from "../components/Toggle";
 import { ModeSelector } from "../components/ModeSelector";
+import { PageHeader } from "../components/PageHeader";
 import { Dropdown, type DropdownOption } from "../components/Dropdown";
 import { getDevices, type AudioDevice } from "../lib/api/system";
 import { type AppConfig } from "../lib/api/config";
@@ -91,6 +92,9 @@ export function Audio({ config, onConfigChange, capabilities }: AudioProps) {
 
   return (
     <div>
+      <div className="mb-4">
+        <PageHeader title="Audio" />
+      </div>
       {/* Input Device */}
       <Section inline index={0} title="Input Device" description="Choose which microphone to use">
         <Dropdown

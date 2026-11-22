@@ -176,11 +176,11 @@ export function About({ onUpdateAvailable, lockdownEnabled, capabilities }: Abou
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ ...spring, delay: 0 }}
-              className="flex items-start justify-between pt-4 pr-12"
+              className="flex items-start justify-between pr-12"
             >
-              <h3 className="font-display text-[18px] font-light tracking-[0.06em] text-slate/80 leading-none">
+              <h2 className="font-display text-[18px] font-light tracking-[0.06em] text-slate/80 leading-none">
                 whisperstream
-              </h3>
+              </h2>
               <div className="flex flex-col items-end gap-0.5">
                 <span
                   className="text-[13px] text-slate"

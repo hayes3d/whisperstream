@@ -626,7 +626,7 @@ export function Home({
   }, [statsRevision, connected]);
 
   return (
-    <div className="absolute inset-0 flex flex-col pt-10">
+    <div className="absolute inset-0 flex flex-col pt-8">
       <HomeStatusHeader
         connected={connected !== false}
         speechModelDownloaded={
@@ -655,7 +655,7 @@ export function Home({
       {/* Settings — full-bleed inside the rounded pane: scrollbar hugs the
           right edge, pl-10 keeps content off the left edge, pr-5 keeps
           controls off the scroll track. */}
-      <div className="flex-1 min-h-0 overflow-y-auto pl-10 pr-5 pb-6">
+      <div className="flex-1 min-h-0 overflow-y-auto pl-8 pr-5 pb-6">
         <SettingRow index={0} title="Appearance">
           <Dropdown
             value={config.theme ?? "light"}

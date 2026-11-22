@@ -69,7 +69,7 @@ export function HomeStatusHeader(props: HomeStatusHeaderProps) {
   const { pushToTalkShortcut: ptt, toggleShortcut: toggle, onNavigate, stats } = props;
 
   return (
-    <header className="mx-10 mb-1 pb-5 border-b shrink-0">
+    <header className="ml-8 mr-5 mb-1 pb-5 border-b shrink-0">
       <h2 className="flex items-center gap-2.5 text-[18px] font-medium text-slate">
         <span
           aria-hidden="true"

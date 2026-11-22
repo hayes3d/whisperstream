@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import type { AppConfig } from "../lib/api/config";
 import { DictionaryImportModal, DictionaryFileIcon } from "../components/DictionaryImportModal";
 import { SecondaryButton } from "../components/SecondaryButton";
+import { PageHeader } from "../components/PageHeader";
 import { normalizeDictionaryWord, reviewVocabulary, vocabularyImportPatch, type VocabularyFile } from "../lib/dictionaryImport";
 
 // Build-time variant toggle. Change, rebuild, screenshot. See design.md section 6.
@@ -805,13 +806,11 @@ export function Dictionary({ config, onConfigChange, onImportConfig, onOpenEnhan
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 400, damping: 30 }}
       >
-        <div className="flex items-center justify-between gap-3">
-          <h2 className="text-[18px] font-medium text-slate">Dictionary</h2>
-          <SecondaryButton onClick={() => setImportOpen(true)} className="rounded-md px-3.5 py-1.5 text-[12px] text-slate inline-flex items-center gap-1.5"><DictionaryFileIcon />Import CSV</SecondaryButton>
-        </div>
-        <p className="text-[12px] text-steel leading-relaxed mt-1">
-          Boost names with AI enhancement, filter out words, or swap one word for another.
-        </p>
+        <PageHeader
+          title="Dictionary"
+          description="Boost names with AI enhancement, filter out words, or swap one word for another."
+          action={<SecondaryButton onClick={() => setImportOpen(true)} className="rounded-md px-3.5 py-1.5 text-[12px] text-slate inline-flex items-center gap-1.5"><DictionaryFileIcon />Import CSV</SecondaryButton>}
+        />
       </motion.div>
       <motion.div
         initial={{ opacity: 0, y: 8 }}
