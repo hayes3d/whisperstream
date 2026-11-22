@@ -75,6 +75,9 @@ MANAGED_AGENTS = frozenset({"claude", "codex"})
 
 #: The one authoritative "the coding agent is idle at its own prompt" signal.
 STOP_EVENT_KIND = "Stop"
+
+#: ``record_event`` default: the event carries no name information.
+_KEEP_NAME = object()
 SESSION_START_EVENT_KIND = "SessionStart"
 SESSION_END_EVENT_KIND = "SessionEnd"
 
@@ -276,6 +279,10 @@ class ManagedSession:
     #: ``RawModeGuard`` exit path (see ``bridge.rs``). This module never
     #: signals, kills, or terminates the wrapper process to enact it.
     shutdown_requested: bool = False
+    #: The register-time name (project basename or agent label). A hook event
+    #: that resolves no session name falls back to this, never to a stale
+    #: earlier title.
+    base_name: str = ""
 
     @property
     def source_key(self) -> SourceKey:
@@ -423,6 +430,7 @@ class ManagedSessionStore:
                 last_seen=self._clock(),
                 agent=normalized_agent,
                 pid=pid,
+                base_name=_resolve_name(normalized_agent, cwd, None),
             )
             self._next_arrival += 1
             self._sessions[key] = session
@@ -518,6 +526,7 @@ class ManagedSessionStore:
         *,
         agent: object | None = None,
         session_id: object = None,
+        name: object = _KEEP_NAME,
     ) -> ManagedSession | None:
         """Apply one observed hook event to a known session.
 
@@ -526,14 +535,31 @@ class ManagedSessionStore:
         second. An unknown token returns ``None`` and creates nothing:
         unwrapped sessions keep their existing behavior untouched (scope
         decision 10).
+
+        ``name`` is the hook seam's resolved session name. Omitted keeps the
+        current name; ``None`` (or an unusable name) falls back to the
+        register-time basename.
+
+        # ====================================================================
+        # TRANSCRIPT DATA - DO NOT LOG
+        # ``name`` is transcript-class.
+        # ====================================================================
         """
         try:
-            return self._record_event(token, kind, agent=agent, session_id=session_id)
+            return self._record_event(
+                token, kind, agent=agent, session_id=session_id, name=name
+            )
         finally:
             self._flush_settled()
 
     def _record_event(
-        self, token: object, kind: str, *, agent: object, session_id: object
+        self,
+        token: object,
+        kind: str,
+        *,
+        agent: object,
+        session_id: object,
+        name: object = _KEEP_NAME,
     ) -> ManagedSession | None:
         key = _bounded_token(token)
         with self._lock:
@@ -560,6 +586,14 @@ class ManagedSessionStore:
                     if session.transport == "pty":
                         session.transport_revision += 1
                 session.session_id = bound
+
+            if name is not _KEEP_NAME:
+                sanitized = sanitize_session_name(name)
+                session.source_name = (
+                    sanitized[:MAX_PROJECT_LABEL_CHARS]
+                    if sanitized is not None
+                    else session.base_name or session.source_name
+                )
 
             if session.transport == "pty" and (
                 kind != STOP_EVENT_KIND or session.last_event_kind != STOP_EVENT_KIND

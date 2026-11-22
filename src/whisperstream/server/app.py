@@ -8512,13 +8512,19 @@ class WhisperstreamServer:
         )
 
     def _record_managed_event(
-        self, token: str, event_name: str, *, agent: str, session_id: object
+        self, token: str, event_name: str, *, agent: str, session_id: object, **name: Any
     ) -> Any:
-        """Record one hook event and keep the session's draft across rebinds."""
+        """Record one hook event and keep the session's draft across rebinds.
+
+        ``name`` optionally carries ``name=<resolved session name>`` through to
+        ``record_event`` (transcript-class: never log it).
+        """
         store = self._get_managed_sessions()
         before = store.get(token)
         old_target = self._managed_reply_target(before) if before is not None else None
-        session = store.record_event(token, event_name, agent=agent, session_id=session_id)
+        session = store.record_event(
+            token, event_name, agent=agent, session_id=session_id, **name
+        )
         if session is None:
             return session
         for send_id in store.pending_tags(session.session_handle):
@@ -10150,7 +10156,12 @@ class WhisperstreamServer:
             if not persistent_transport and self._agent_session_excluded("claude", body):
                 return {}
 
-            from ..claude_hud import correlation_fields, parse_claude_event  # noqa: PLC0415
+            from ..claude_hud import (  # noqa: PLC0415
+                _DEFAULT_NAME_REGISTRY,
+                _resolve_session_name,
+                correlation_fields,
+                parse_claude_event,
+            )
 
             if not persistent_transport and self._managed_sessions is not None:
                 fields = correlation_fields(body)
@@ -10176,11 +10187,23 @@ class WhisperstreamServer:
                     fields = correlation_fields(body)
                     if fields is not None:
                         raw_event_name, event_session_id = fields
+                        # Tab name: registry name, then transcript custom-title.
+                        # An event with no transcript_path and no registry name
+                        # says nothing about the name, so it keeps the current one.
+                        resolved_name = _resolve_session_name(
+                            body, event_session_id, _DEFAULT_NAME_REGISTRY
+                        )
+                        name_update = (
+                            {"name": resolved_name}
+                            if resolved_name is not None or "transcript_path" in body
+                            else {}
+                        )
                         bound_session = self._record_managed_event(
                             correlation_token,
                             raw_event_name,
                             agent="claude",
                             session_id=event_session_id,
+                            **name_update,
                         )
                         if bound_session is not None:
                             self._broadcast_agent_sessions()
