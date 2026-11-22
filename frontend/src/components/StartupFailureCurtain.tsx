@@ -29,8 +29,8 @@ export function StartupFailureCurtain({
           The background service isn't responding. Finish any system prompt, then try again or restart Whisperstream.
         </p>
         <div className="mt-5 flex justify-center gap-3">
-          <SecondaryButton className="rounded-full px-4 py-2 text-sm text-steel" disabled={restarting} onClick={onRetry}>Try again</SecondaryButton>
-          {isTauri() && <PrimaryButton className="rounded-full px-4 py-2 text-sm" disabled={restarting} onClick={restart}>
+          <SecondaryButton className="rounded-md px-4 py-2 text-sm text-steel" disabled={restarting} onClick={onRetry}>Try again</SecondaryButton>
+          {isTauri() && <PrimaryButton className="rounded-md px-4 py-2 text-sm" disabled={restarting} onClick={restart}>
             {restarting ? "Restarting…" : "Restart app"}
           </PrimaryButton>}
         </div>

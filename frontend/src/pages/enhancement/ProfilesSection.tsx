@@ -485,7 +485,7 @@ export function ProfilesSection({
           <div className="text-[13px] font-medium text-slate">Profiles</div>
           <SecondaryButton
             onClick={startDraftProfile}
-            className="inline-flex items-center gap-1 h-8 px-2.5 rounded-full text-[12px] font-medium text-slate"
+            className="inline-flex items-center gap-1 h-8 px-2.5 rounded-md text-[12px] font-medium text-slate"
           >
             <PlusIcon />
             Add profile

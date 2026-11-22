@@ -103,7 +103,7 @@ export function StepWelcome({
         <span>Set up in</span>
         <button
           onClick={() => setPopupOpen(true)}
-          className="inline-flex items-center gap-1.5 rounded-full px-4 py-[7px] text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+          className="inline-flex items-center gap-1.5 rounded-md px-4 py-[7px] text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
           style={{
             background: "var(--surface-hover)",
             backdropFilter: "blur(8px)",

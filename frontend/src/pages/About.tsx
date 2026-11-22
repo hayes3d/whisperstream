@@ -237,7 +237,7 @@ export function About({ onUpdateAvailable, lockdownEnabled, capabilities }: Abou
                 type="button"
                 aria-label="Request a feature on GitHub, opens in your browser"
                 onClick={() => void withExternalAccess(() => open("https://github.com/lanreal-io/whisperstream/issues/new?template=feature_request.yml"))}
-                className="flex items-center justify-center gap-1.5 w-full h-10 px-6 rounded-full text-[13px] font-medium text-steel"
+                className="flex items-center justify-center gap-1.5 w-full h-10 px-6 rounded-md text-[13px] font-medium text-steel"
               >
                 Request a feature
                 <ExternalLinkIcon className="text-steel/70" />
@@ -255,7 +255,7 @@ export function About({ onUpdateAvailable, lockdownEnabled, capabilities }: Abou
                 type="button"
                 aria-label="Read documentation, opens in your browser"
                 onClick={() => void withExternalAccess(() => open("https://whisperstream.io/docs"))}
-                className="flex items-center justify-center w-full h-10 px-6 rounded-full text-[13px] font-medium text-steel"
+                className="flex items-center justify-center w-full h-10 px-6 rounded-md text-[13px] font-medium text-steel"
               >
                 Read documentation
               </SecondaryButton>

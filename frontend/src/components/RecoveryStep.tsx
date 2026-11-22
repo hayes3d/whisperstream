@@ -216,7 +216,7 @@ export function RecoveryStep({
       type="button"
       onClick={onClick}
       aria-label={aria}
-      className="h-8 px-3.5 rounded-full text-[12px] font-medium text-slate inline-flex items-center gap-1.5"
+      className="h-8 px-3.5 rounded-md text-[12px] font-medium text-slate inline-flex items-center gap-1.5"
       style={
         done[action]
           ? { border: "1px solid color-mix(in srgb, var(--color-mint) 45%, transparent)" }
@@ -433,7 +433,7 @@ export function RecoveryAbandonPrompt({
           ref={buttonRef}
           type="button"
           onClick={onReturn}
-          className="px-4 py-1.5 rounded-full text-[12px] font-medium text-slate cursor-pointer transition-all duration-200"
+          className="px-4 py-1.5 rounded-md text-[12px] font-medium text-slate cursor-pointer transition-all duration-200"
           style={{
             background: "var(--surface-control)",
             border: "1px solid var(--border-emphasis)",

@@ -148,7 +148,7 @@ export function LowDiskSpaceDialog({
         <div className="flex flex-col gap-2.5 mb-3">
           <button
             onClick={onChooseFolder}
-            className="w-full py-2.5 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+            className="w-full py-2.5 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
             style={{
               background: "var(--accent-fill)",
               boxShadow:
@@ -161,7 +161,7 @@ export function LowDiskSpaceDialog({
           {showCloudOption && (
             <button
               onClick={onSwitchToCloud}
-              className="w-full py-2.5 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+              className="w-full py-2.5 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
               style={{
                 background: "var(--surface-modal)",
                 border: "1px solid var(--border-emphasis)",
@@ -175,7 +175,7 @@ export function LowDiskSpaceDialog({
           <button
             ref={dismissBtnRef}
             onClick={onDismiss}
-            className="w-full py-2 rounded-full text-[13px] font-medium text-steel hover:text-slate hover:bg-white/40 cursor-pointer transition-all duration-200"
+            className="w-full py-2 rounded-md text-[13px] font-medium text-steel hover:text-slate hover:bg-white/40 cursor-pointer transition-all duration-200"
           >
             Free up space and retry
           </button>

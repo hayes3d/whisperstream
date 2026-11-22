@@ -132,7 +132,7 @@ export function SettingsPopover({
           aria-label="Transcript settings"
           aria-haspopup="menu"
           aria-expanded={open}
-          className="w-9 h-9 shrink-0 flex items-center justify-center rounded-full text-steel hover:text-slate cursor-pointer transition-colors duration-150"
+          className="w-9 h-9 shrink-0 flex items-center justify-center rounded-md text-steel hover:text-slate cursor-pointer transition-colors duration-150"
           style={{
             // Option C (round 04), matching SecondaryButton; the open state
             // uses the accent border. Inline (not the primitive) because this

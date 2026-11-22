@@ -76,7 +76,7 @@ export function SetupKeyChip({ keys }: SetupKeyChipProps) {
         <span key={`${token}-${i}`} className="inline-flex items-center gap-1">
           <span
             data-setup-key
-            className="inline-block rounded-full px-2.5 py-[2px] text-[11px] font-medium tracking-wide text-slate"
+            className="inline-block rounded-md px-2.5 py-[2px] text-[11px] font-medium tracking-wide text-slate"
             style={{
               background: "var(--surface-control)",
               border: STEEL_BORDER,

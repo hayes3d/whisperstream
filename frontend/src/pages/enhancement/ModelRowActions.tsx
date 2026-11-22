@@ -65,7 +65,7 @@ export function ModelRowActions({
             onDownload();
           }}
           aria-label={`Download ${modelLabel}, ${sizeLabel}`}
-          className="w-6 h-6 rounded-full flex items-center justify-center text-steel/70 hover:text-frost-deep group-hover/row:text-frost-deep focus-visible:text-frost-deep transition-colors cursor-pointer"
+          className="w-6 h-6 rounded-md flex items-center justify-center text-steel/70 hover:text-frost-deep group-hover/row:text-frost-deep focus-visible:text-frost-deep transition-colors cursor-pointer"
         >
           <DownloadMiniIcon aria-hidden="true" />
         </button>
@@ -117,7 +117,7 @@ export function ModelRowActions({
           setDeletePending(true);
         }}
         aria-label={`Delete ${modelLabel}`}
-        className="w-6 h-6 rounded-full flex items-center justify-center text-steel/70 hover:text-rose hover:bg-[var(--surface-hover)] opacity-0 group-hover/row:opacity-100 group-has-[:focus-visible]/row:opacity-100 focus-visible:opacity-100 transition-[opacity,color,background-color] cursor-pointer"
+        className="w-6 h-6 rounded-md flex items-center justify-center text-steel/70 hover:text-rose hover:bg-[var(--surface-hover)] opacity-0 group-hover/row:opacity-100 group-has-[:focus-visible]/row:opacity-100 focus-visible:opacity-100 transition-[opacity,color,background-color] cursor-pointer"
       >
         <svg
           viewBox="0 0 12 12"

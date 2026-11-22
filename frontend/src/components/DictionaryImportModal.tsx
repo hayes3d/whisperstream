@@ -15,7 +15,7 @@ interface Props {
 }
 
 const PREVIEW_ROWS = 100;
-const buttonClass = "rounded-full px-4 py-2 text-[12px] text-slate";
+const buttonClass = "rounded-md px-4 py-2 text-[12px] text-slate";
 const plural = (count: number, one: string, many: string) => `${count} ${count === 1 ? one : many}`;
 export function DictionaryFileIcon({ size = 14 }: { size?: number }) {
   return <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 1.5h5l3 3v8H3zM8 1.5v3h3M5 7h4M5 9.5h4" /></svg>;
@@ -159,7 +159,7 @@ export function DictionaryImportModal({ config, onClose, onImport }: Props) {
   return createPortal(
     <div ref={rootRef} className="fixed inset-0 z-[100] flex items-center justify-center p-6" style={{ background: "var(--backdrop-strong)", backdropFilter: "blur(40px)" }} onMouseDown={event => { if (event.target === event.currentTarget) dismiss(); }}>
       <section role="dialog" aria-modal="true" aria-labelledby={titleId} aria-describedby={introId} aria-busy={reading || saving} className="relative w-[520px] max-w-full max-h-full flex flex-col rounded-[var(--radius-card)] p-7" style={{ background: "var(--surface-modal)", border: "1px solid var(--border-emphasis)", boxShadow: "var(--shadow-glass)", backdropFilter: "blur(24px)" }}>
-        <button ref={closeRef} aria-label="Close import" disabled={saving} onClick={dismiss} className="absolute right-[18px] top-[18px] w-7 h-7 rounded-full text-steel cursor-pointer disabled:opacity-40">×</button>
+        <button ref={closeRef} aria-label="Close import" disabled={saving} onClick={dismiss} className="absolute right-[18px] top-[18px] w-7 h-7 rounded-md text-steel cursor-pointer disabled:opacity-40">×</button>
         <div className="pr-6"><h2 id={titleId} className="text-[18px] font-medium text-slate">{review && success === null ? "Review import" : "Import vocabulary"}</h2><p id={introId} className="text-[12px] text-steel leading-relaxed mt-1">{review && success === null ? "Review the additions before importing. Existing entries stay unchanged." : "Add Boost words and replacement rules from a CSV file."}</p></div>
         <div className="mt-5 min-h-0 overflow-y-auto">
           {error && <div role="alert" className="text-[12px] text-slate leading-relaxed p-3 mb-3 rounded-[var(--radius-input)]" style={{ background: "color-mix(in srgb, var(--color-rose) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--color-rose) 35%, transparent)" }}>{error}</div>}

@@ -151,9 +151,9 @@ export function PrivacyModal({ provider, ollamaEndpoint, customBaseUrl, model, o
         </div>
         {submitError && <p role="alert" className="shrink-0 text-[12px] text-rose mt-4">{submitError}</p>}
         <div className="shrink-0 flex items-center justify-end gap-2.5 mt-5">
-          <button ref={cancelRef} disabled={saving} onClick={onCancel} className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer disabled:opacity-50"
+          <button ref={cancelRef} disabled={saving} onClick={onCancel} className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer disabled:opacity-50"
             style={{ background: "var(--surface-control)", border: "1px solid var(--border-emphasis)" }}>Cancel</button>
-          <button disabled={!context || saving} onClick={() => void confirm()} className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer disabled:opacity-50 disabled:cursor-default"
+          <button disabled={!context || saving} onClick={() => void confirm()} className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer disabled:opacity-50 disabled:cursor-default"
             style={{ background: "var(--accent-fill)", boxShadow: "var(--shadow-pearl)" }}>{saving ? "Saving permission…" : "Allow connection"}</button>
         </div>
       </DialogContent>

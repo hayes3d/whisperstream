@@ -373,7 +373,7 @@ function CapabilityErrorCurtain({ onRetry }: { onRetry: () => void }) {
         <button
           type="button"
           onClick={onRetry}
-          className="h-9 px-4 rounded-full text-[12px] font-medium text-slate cursor-pointer"
+          className="h-9 px-4 rounded-md text-[12px] font-medium text-slate cursor-pointer"
           style={{
             background: "var(--surface-control)",
             border: "1px solid var(--border-emphasis)",
@@ -2109,7 +2109,7 @@ function ReadyApp({ initialEulaStatus, onConsentRequired }: ReadyAppProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
-            className="fixed top-4 left-1/2 -translate-x-1/2 z-40 px-5 py-2.5 rounded-full text-[12px] font-medium text-steel"
+            className="fixed top-4 left-1/2 -translate-x-1/2 z-40 px-5 py-2.5 rounded-md text-[12px] font-medium text-steel"
             style={{
               background: "var(--surface-overlay)",
               backdropFilter: "blur(16px)",

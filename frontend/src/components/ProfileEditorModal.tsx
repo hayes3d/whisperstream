@@ -589,7 +589,7 @@ export function ProfileEditorModal({
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-4 right-4 w-6 h-6 rounded-full flex items-center justify-center text-steel/60 hover:text-slate transition-colors cursor-pointer"
+          className="absolute top-4 right-4 w-6 h-6 rounded-md flex items-center justify-center text-steel/60 hover:text-slate transition-colors cursor-pointer"
         >
           <XGlyph />
         </button>
@@ -677,7 +677,7 @@ export function ProfileEditorModal({
             <SecondaryButton
               onClick={onAddRule}
               disabled={addRuleDisabled}
-              className="inline-flex items-center gap-1 h-7 px-2.5 rounded-full text-[12px] font-medium text-steel disabled:opacity-50 disabled:cursor-default"
+              className="inline-flex items-center gap-1 h-7 px-2.5 rounded-md text-[12px] font-medium text-steel disabled:opacity-50 disabled:cursor-default"
             >
               <PlusGlyph />
               Add
@@ -719,7 +719,7 @@ export function ProfileEditorModal({
                       type="button"
                       onClick={() => onUnassign("app", t.processName)}
                       aria-label={`Remove ${t.label} from ${profile.name}`}
-                      className="w-5 h-5 rounded-full flex items-center justify-center text-steel/60 hover:text-rose transition-colors duration-150 cursor-pointer"
+                      className="w-5 h-5 rounded-md flex items-center justify-center text-steel/60 hover:text-rose transition-colors duration-150 cursor-pointer"
                     >
                       <XGlyph />
                     </button>
@@ -751,7 +751,7 @@ export function ProfileEditorModal({
                       type="button"
                       onClick={() => onUnassign("site", t.domain)}
                       aria-label={`Remove ${t.domain} from ${profile.name}`}
-                      className="w-5 h-5 rounded-full flex items-center justify-center text-steel/60 hover:text-rose transition-colors duration-150 cursor-pointer"
+                      className="w-5 h-5 rounded-md flex items-center justify-center text-steel/60 hover:text-rose transition-colors duration-150 cursor-pointer"
                     >
                       <XGlyph />
                     </button>
@@ -839,7 +839,7 @@ export function ProfileEditorModal({
                   {onChangeModel && (
                     <SecondaryButton
                       onClick={onChangeModel}
-                      className="shrink-0 px-3 py-[5px] rounded-full text-[12px] font-medium text-slate"
+                      className="shrink-0 px-3 py-[5px] rounded-md text-[12px] font-medium text-slate"
                     >
                       Change model
                     </SecondaryButton>
@@ -884,7 +884,7 @@ export function ProfileEditorModal({
                   {!isBuiltin && onChangeModel && (
                     <SecondaryButton
                       onClick={onChangeModel}
-                      className="shrink-0 px-3 py-[5px] rounded-full text-[12px] font-medium text-slate"
+                      className="shrink-0 px-3 py-[5px] rounded-md text-[12px] font-medium text-slate"
                     >
                       Change model
                     </SecondaryButton>
@@ -1073,7 +1073,7 @@ export function ProfileEditorModal({
                     type="button"
                     onClick={() => setDeletePending(false)}
                     aria-label="Cancel delete"
-                    className="w-6 h-6 rounded-full flex items-center justify-center text-steel hover:text-slate cursor-pointer"
+                    className="w-6 h-6 rounded-md flex items-center justify-center text-steel hover:text-slate cursor-pointer"
                   >
                     <XGlyph />
                   </button>
@@ -1082,7 +1082,7 @@ export function ProfileEditorModal({
                 <SecondaryButton
                   variant="destructive"
                   onClick={() => setDeletePending(true)}
-                  className="h-8 px-3.5 rounded-full text-[12px] font-medium text-rose"
+                  className="h-8 px-3.5 rounded-md text-[12px] font-medium text-rose"
                 >
                   Delete profile
                 </SecondaryButton>
@@ -1093,7 +1093,7 @@ export function ProfileEditorModal({
             <div className="flex items-center gap-2.5">
               <SecondaryButton
                 onClick={onClose}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-slate"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-slate"
               >
                 Cancel
               </SecondaryButton>
@@ -1101,7 +1101,7 @@ export function ProfileEditorModal({
                 type="button"
                 onClick={() => onCommit(nameDraft, promptDraft)}
                 disabled={!nameDraft.trim()}
-                className="px-5 py-2 rounded-full text-[13px] font-medium cursor-pointer disabled:cursor-default transition-all duration-200"
+                className="px-5 py-2 rounded-md text-[13px] font-medium cursor-pointer disabled:cursor-default transition-all duration-200"
                 style={
                   nameDraft.trim()
                     ? {
@@ -1124,7 +1124,7 @@ export function ProfileEditorModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+              className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
               style={{
                 background: "var(--accent-fill)",
                 boxShadow: "var(--shadow-pearl)",

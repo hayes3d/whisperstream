@@ -203,7 +203,7 @@ export function PromptTester({
                     }}
                     placeholder="Type a sample to clean up"
                     aria-label="Sample input"
-                    className="flex-1 min-w-0 rounded-full px-4 h-9 text-[12px] font-body text-slate placeholder:text-steel/40 outline-none transition-all duration-200"
+                    className="flex-1 min-w-0 rounded-md px-4 h-9 text-[12px] font-body text-slate placeholder:text-steel/40 outline-none transition-all duration-200"
                     style={insetStyle}
                   />
                   <button
@@ -211,7 +211,7 @@ export function PromptTester({
                     onClick={run}
                     disabled={!canRun}
                     aria-label="Run prompt test"
-                    className="shrink-0 inline-flex items-center justify-center h-9 px-4 rounded-full text-[12px] font-medium cursor-pointer disabled:cursor-default transition-all duration-150"
+                    className="shrink-0 inline-flex items-center justify-center h-9 px-4 rounded-md text-[12px] font-medium cursor-pointer disabled:cursor-default transition-all duration-150"
                     style={
                       canRun
                         ? {

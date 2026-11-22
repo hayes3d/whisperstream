@@ -498,7 +498,7 @@ export function LockdownSetupModal({
               <button
                 ref={ackCancelRef}
                 onClick={onClose}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
                 style={glassPillStyle}
               >
                 Cancel
@@ -517,7 +517,7 @@ export function LockdownSetupModal({
                   disabled={!ackChecked}
                   onClick={handleAckContinue}
                   className={
-                    "px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed" +
+                    "px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed" +
                     (ackChecked ? "" : " pointer-events-none")
                   }
                   style={gradientPillStyle}
@@ -609,7 +609,7 @@ export function LockdownSetupModal({
             <div className="flex items-center justify-center gap-2.5 mt-6">
               <button
                 onClick={() => setStep("ack")}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
                 style={glassPillStyle}
               >
                 Back
@@ -617,7 +617,7 @@ export function LockdownSetupModal({
               <button
                 disabled={!choice}
                 onClick={handleTranscriptsContinue}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
                 style={gradientPillStyle}
               >
                 Continue
@@ -631,8 +631,8 @@ export function LockdownSetupModal({
             <h2 id="lockdown-setup-heading" className="font-display text-[18px] font-normal text-slate text-center mb-4">Save transcripts on this Mac?</h2>
             <HistoryKeychainExplanation saveAudio={saveAudio} />
             <div className="flex items-center justify-center gap-3 mt-6">
-              <button autoFocus onClick={() => setStep("transcripts")} className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer" style={glassPillStyle}>Back</button>
-              <button onClick={() => { setKeychainConsent(true); setStep("password"); }} className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer" style={gradientPillStyle}>Continue to password</button>
+              <button autoFocus onClick={() => setStep("transcripts")} className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer" style={glassPillStyle}>Back</button>
+              <button onClick={() => { setKeychainConsent(true); setStep("password"); }} className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer" style={gradientPillStyle}>Continue to password</button>
             </div>
           </>
         )}
@@ -682,7 +682,7 @@ export function LockdownSetupModal({
             <div className="flex items-center justify-center gap-2.5 mt-6">
               <button
                 onClick={() => setStep("transcripts")}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
                 style={glassPillStyle}
               >
                 Back
@@ -690,7 +690,7 @@ export function LockdownSetupModal({
               <button
                 disabled={!passwordValid || enabling}
                 onClick={handlePasswordContinue}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
                 style={gradientPillStyle}
               >
                 {enabling ? "Working..." : "Continue"}
@@ -757,7 +757,7 @@ export function LockdownSetupModal({
                   <button
                     ref={recoveryReminderRef}
                     onClick={() => setAbandonPrompt(false)}
-                    className="px-4 py-1.5 rounded-full text-[12px] font-medium text-slate cursor-pointer transition-all duration-200"
+                    className="px-4 py-1.5 rounded-md text-[12px] font-medium text-slate cursor-pointer transition-all duration-200"
                     style={glassPillStyle}
                   >
                     Return to recovery key
@@ -808,7 +808,7 @@ export function LockdownSetupModal({
               <button
                 onClick={() => void handleDone()}
                 disabled={enabling}
-                className="px-6 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="px-6 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
                 style={gradientPillStyle}
               >
                 {enabling ? "Working..." : "Done"}

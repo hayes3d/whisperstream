@@ -690,7 +690,7 @@ export function Dropdown<T extends string | number>({
                       setSearchQuery("");
                       searchRef.current?.focus();
                     }}
-                    className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[14px] text-steel/60 transition-colors hover:bg-[var(--surface-hover)] hover:text-slate"
+                    className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-[14px] text-steel/60 transition-colors hover:bg-[var(--surface-hover)] hover:text-slate"
                   >
                     ×
                   </button>
@@ -776,7 +776,6 @@ export function Dropdown<T extends string | number>({
                             ...(isSelected
                               ? {
                                   background: "var(--surface-raised)",
-                                  borderLeft: "3px solid var(--border-accent)",
                                 }
                               : {}),
                           }}

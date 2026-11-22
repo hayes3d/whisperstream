@@ -170,7 +170,7 @@ export function LogsAttachStep({
           ref={primaryRef}
           type="button"
           onClick={onOpenEmail}
-          className="h-11 px-7 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+          className="h-11 px-7 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
           style={{
             background:
               "linear-gradient(135deg, var(--color-frost), var(--color-frost-deep))",

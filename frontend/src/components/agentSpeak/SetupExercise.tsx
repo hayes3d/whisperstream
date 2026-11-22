@@ -112,7 +112,7 @@ export function SetupExercise({
         <SetupStatusDot ordinal={ordinal} state={discState} />
         <h3 className="flex-1 text-[13px] font-medium text-slate">{title}</h3>
         <SecondaryButton
-          className="rounded-full px-3 py-1 text-[12px] font-medium text-slate disabled:opacity-45"
+          className="rounded-md px-3 py-1 text-[12px] font-medium text-slate disabled:opacity-45"
           style={{ border: STEEL_BORDER, transition: `opacity ${STATE_TWEEN}` }}
           id={triggerId}
           disabled={triggerDisabled}

@@ -474,7 +474,7 @@ export function AgentSpeakSetupModal({
             type="button"
             onClick={handleClose}
             aria-label="Close"
-            className="absolute right-4 top-4 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full text-steel/60 transition-colors hover:text-slate"
+            className="absolute right-4 top-4 flex h-6 w-6 cursor-pointer items-center justify-center rounded-md text-steel/60 transition-colors hover:text-slate"
           >
             <XGlyph />
           </button>

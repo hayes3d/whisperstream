@@ -118,7 +118,7 @@ export function CustomPromptDialog({
             <button
               type="button"
               onClick={onCancel}
-              className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+              className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
               style={glassPillStyle}
             >
               Cancel
@@ -126,7 +126,7 @@ export function CustomPromptDialog({
             <button
               type="button"
               onClick={() => onSave(draft)}
-              className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+              className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
               style={gradientPillStyle}
             >
               Save

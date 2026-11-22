@@ -267,7 +267,7 @@ function ActionPill({
     <button
       onClick={onClick}
       disabled={disabled}
-      className="inline-flex items-center gap-1 h-8 px-2.5 rounded-full text-[12px] font-medium cursor-pointer disabled:cursor-default shrink-0 transition-all duration-150"
+      className="inline-flex items-center gap-1 h-8 px-2.5 rounded-md text-[12px] font-medium cursor-pointer disabled:cursor-default shrink-0 transition-all duration-150"
       style={{
         background: disabled ? "var(--surface-control)" : palette.bg,
         border: `1px solid ${disabled ? "var(--border-hairline)" : palette.border}`,
@@ -578,7 +578,7 @@ function EntryRow({
             }
           }}
           aria-label={isEditing ? "Save edit" : "Edit entry"}
-          className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-200 text-steel hover:text-slate cursor-pointer"
+          className="shrink-0 w-6 h-6 flex items-center justify-center rounded-md opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-200 text-steel hover:text-slate cursor-pointer"
           style={
             isEditing
               ? { opacity: 1, color: checkColor }
@@ -598,7 +598,7 @@ function EntryRow({
             }
           }}
           aria-label={isEditing ? "Cancel edit" : "Remove entry"}
-          className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-200 text-steel hover:text-rose cursor-pointer"
+          className="shrink-0 w-6 h-6 flex items-center justify-center rounded-md opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-200 text-steel hover:text-rose cursor-pointer"
           style={isEditing ? { opacity: 1 } : undefined}
         >
           <XIcon />
@@ -807,7 +807,7 @@ export function Dictionary({ config, onConfigChange, onImportConfig, onOpenEnhan
       >
         <div className="flex items-center justify-between gap-3">
           <h2 className="text-[18px] font-medium text-slate">Dictionary</h2>
-          <SecondaryButton onClick={() => setImportOpen(true)} className="rounded-full px-3.5 py-1.5 text-[12px] text-slate inline-flex items-center gap-1.5"><DictionaryFileIcon />Import CSV</SecondaryButton>
+          <SecondaryButton onClick={() => setImportOpen(true)} className="rounded-md px-3.5 py-1.5 text-[12px] text-slate inline-flex items-center gap-1.5"><DictionaryFileIcon />Import CSV</SecondaryButton>
         </div>
         <p className="text-[12px] text-steel leading-relaxed mt-1">
           Boost names with AI enhancement, filter out words, or swap one word for another.
@@ -849,7 +849,7 @@ export function Dictionary({ config, onConfigChange, onImportConfig, onOpenEnhan
       </div>
       {entries.length > 100 && <div className="flex items-center justify-between gap-3 text-[11px] text-steel">
         <span>Showing {Math.min(visibleCount, entries.length)} of {entries.length} entries.</span>
-        {visibleCount < entries.length && <SecondaryButton onClick={() => setVisibleCount(count => count + 100)} className="rounded-full px-3.5 py-1.5 text-[12px] text-slate">Load more</SecondaryButton>}
+        {visibleCount < entries.length && <SecondaryButton onClick={() => setVisibleCount(count => count + 100)} className="rounded-md px-3.5 py-1.5 text-[12px] text-slate">Load more</SecondaryButton>}
       </div>}
       {importOpen && <DictionaryImportModal config={config} onClose={() => setImportOpen(false)} onImport={importVocabulary} />}
     </div>

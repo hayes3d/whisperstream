@@ -118,7 +118,7 @@ export function LockdownScopeReviewDialog({
           {!managed && (
             <button
               onClick={onTurnOff}
-              className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+              className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
               style={glassPillStyle}
             >
               Turn off Lockdown Mode
@@ -128,7 +128,7 @@ export function LockdownScopeReviewDialog({
             ref={primaryRef}
             disabled={submitting}
             onClick={() => void handleContinue()}
-            className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
             style={gradientPillStyle}
           >
             Continue

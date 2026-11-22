@@ -149,7 +149,7 @@ export function StartFreshDialog({
                 ref={safeRef}
                 type="button"
                 onClick={onCancel}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer"
                 style={glassPillStyle}
               >
                 Go back
@@ -157,7 +157,7 @@ export function StartFreshDialog({
               <button
                 type="button"
                 onClick={() => setStep("confirm")}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer"
                 style={glassPillStyle}
               >
                 Continue
@@ -203,7 +203,7 @@ export function StartFreshDialog({
                 type="button"
                 disabled={!armed || deleting}
                 onClick={() => void handleDelete()}
-                className="px-5 py-2 rounded-full text-[13px] font-medium cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="px-5 py-2 rounded-md text-[13px] font-medium cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
                 style={{
                   background: "color-mix(in srgb, var(--color-rose) 15%, transparent)",
                   border: "1px solid color-mix(in srgb, var(--color-rose) 40%, transparent)",
@@ -217,7 +217,7 @@ export function StartFreshDialog({
                 type="button"
                 disabled={deleting}
                 onClick={onCancel}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer disabled:opacity-40"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer disabled:opacity-40"
                 style={glassPillStyle}
               >
                 Keep my transcripts

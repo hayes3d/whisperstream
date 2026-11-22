@@ -941,14 +941,14 @@ function IntroPhase({
         <button
           ref={cancelBtnRef}
           onClick={onCancel}
-          className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+          className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
           style={glassPillStyle}
         >
           Cancel
         </button>
         <button
           onClick={onContinue}
-          className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+          className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
           style={gradientPillStyle}
         >
           Start speed check
@@ -1128,7 +1128,7 @@ function SuccessPhase({
       <div className="flex justify-center">
         <button
           onClick={onDone}
-          className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+          className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
           style={gradientPillStyle}
         >
           {recheck ? "Done" : "Start using it"}
@@ -1394,7 +1394,7 @@ function CancelPill({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="px-4 py-1.5 rounded-full text-[13px] font-medium text-steel hover:text-slate hover:bg-white/40 cursor-pointer transition-all duration-200"
+      className="px-4 py-1.5 rounded-md text-[13px] font-medium text-steel hover:text-slate hover:bg-white/40 cursor-pointer transition-all duration-200"
     >
       Cancel
     </button>

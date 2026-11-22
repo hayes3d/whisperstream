@@ -32,7 +32,7 @@ const glassPillStyle = {
 };
 
 const primaryClass =
-  "h-11 w-full rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:cursor-default disabled:opacity-75";
+  "h-11 w-full rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:cursor-default disabled:opacity-75";
 const linkClass =
   "mt-3.5 px-2 py-1 text-[12px] text-steel hover:text-slate transition-colors cursor-pointer";
 
@@ -174,7 +174,7 @@ export function ReportBugDialog({ open, onOpenIssues, onEmail, onClose, initialS
             <button
               type="button"
               onClick={onEmail}
-              className="mt-2.5 h-10 w-full rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+              className="mt-2.5 h-10 w-full rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
               style={glassPillStyle}
             >
               Email logs instead
@@ -198,7 +198,7 @@ export function ReportBugDialog({ open, onOpenIssues, onEmail, onClose, initialS
             ref={primaryRef}
             type="button"
             onClick={onClose}
-            className="h-10 w-full rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+            className="h-10 w-full rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
             style={glassPillStyle}
           >
             Close

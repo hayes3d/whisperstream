@@ -304,7 +304,7 @@ export function LockdownDisableDialog({
               <button
                 disabled={submitting || !resetArmed}
                 onClick={handleReset}
-                className="px-5 py-2 rounded-full text-[13px] font-medium cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="px-5 py-2 rounded-md text-[13px] font-medium cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
                 style={{
                   background: "color-mix(in srgb, var(--color-rose) 15%, transparent)",
                   border: "1px solid color-mix(in srgb, var(--color-rose) 40%, transparent)",
@@ -320,7 +320,7 @@ export function LockdownDisableDialog({
                   setError(null);
                   setConfirmText("");
                 }}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
                 style={glassPillStyle}
               >
                 Enter password instead
@@ -401,7 +401,7 @@ export function LockdownDisableDialog({
         <div className="flex items-center justify-center gap-2.5">
           <button
             onClick={onCancel}
-            className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+            className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
             style={glassPillStyle}
           >
             Keep on
@@ -409,7 +409,7 @@ export function LockdownDisableDialog({
           <button
             disabled={submitting || (hasEnvelope && !password)}
             onClick={handleConfirm}
-            className="px-5 py-2 rounded-full text-[13px] font-medium cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="px-5 py-2 rounded-md text-[13px] font-medium cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
             style={{
               background: "color-mix(in srgb, var(--color-rose) 15%, transparent)",
               border: "1px solid color-mix(in srgb, var(--color-rose) 40%, transparent)",

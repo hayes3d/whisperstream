@@ -81,7 +81,7 @@ export function ProfileRow({
 
         {isDefault && (
           <span
-            className="shrink-0 inline-flex items-center h-5 px-2 rounded-full text-[10px] font-medium"
+            className="shrink-0 inline-flex items-center h-5 px-2 rounded-md text-[10px] font-medium"
             style={{
               background: "color-mix(in srgb, var(--color-frost) 18%, transparent)",
               border: "1px solid var(--border-accent)",

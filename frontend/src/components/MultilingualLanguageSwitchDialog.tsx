@@ -118,7 +118,7 @@ export function MultilingualLanguageSwitchDialog({
             ref={safeButtonRef}
             type="button"
             onClick={incompatible ? onDismiss : onKeepCurrentModel}
-            className="cursor-pointer rounded-full px-5 py-2 text-[13px] font-medium text-slate transition-all duration-200"
+            className="cursor-pointer rounded-md px-5 py-2 text-[13px] font-medium text-slate transition-all duration-200"
             style={glassPillStyle}
           >
             {safeLabel}
@@ -126,7 +126,7 @@ export function MultilingualLanguageSwitchDialog({
           <button
             type="button"
             onClick={onSwitchToRecommended}
-            className="cursor-pointer rounded-full px-5 py-2 text-[13px] font-medium text-white transition-all duration-200"
+            className="cursor-pointer rounded-md px-5 py-2 text-[13px] font-medium text-white transition-all duration-200"
             style={gradientPillStyle}
           >
             {forwardLabel}

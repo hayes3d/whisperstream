@@ -260,7 +260,7 @@ export function LanguagePopup({
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search languages…"
-                className="w-full rounded-full px-4 py-2 text-[13px] text-slate outline-none placeholder:text-steel/40 transition-all duration-300"
+                className="w-full rounded-md px-4 py-2 text-[13px] text-slate outline-none placeholder:text-steel/40 transition-all duration-300"
                 style={{
                   // Recessed input style (PillInput recipe) — see the
                   // textarea in StepTest for the same idiom.

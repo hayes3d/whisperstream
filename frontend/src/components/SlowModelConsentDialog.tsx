@@ -226,7 +226,7 @@ export function SlowModelConsentDialog({
             <div className="flex items-center justify-center gap-2.5">
               <button
                 onClick={() => onUse(modelId, "marginal")}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
                 style={glassPillStyle}
               >
                 Use {name} anyway
@@ -234,7 +234,7 @@ export function SlowModelConsentDialog({
               <button
                 ref={safeBtnRef}
                 onClick={onKeep}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
                 style={gradientPillStyle}
               >
                 Keep my current model
@@ -257,7 +257,7 @@ export function SlowModelConsentDialog({
               <button
                 ref={safeBtnRef}
                 onClick={onKeep}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
                 style={gradientPillStyle}
               >
                 Got it

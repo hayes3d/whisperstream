@@ -403,7 +403,7 @@ export function AddAppModal({
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-4 right-4 w-6 h-6 rounded-full flex items-center justify-center text-steel/60 hover:text-slate transition-colors cursor-pointer"
+          className="absolute top-4 right-4 w-6 h-6 rounded-md flex items-center justify-center text-steel/60 hover:text-slate transition-colors cursor-pointer"
         >
           <svg
             width="12"
@@ -437,7 +437,7 @@ export function AddAppModal({
             (a mutually exclusive mode choice, not a tablist). Do not rely on
             the gradient alone for selection state. */}
         <div
-          className="inline-flex p-[3px] rounded-full mb-3.5 gap-0.5"
+          className="inline-flex p-[3px] rounded-md mb-3.5 gap-0.5"
           style={{
             background: "var(--surface-control)",
             border: "1px solid rgba(255,255,255,0.45)",
@@ -455,7 +455,7 @@ export function AddAppModal({
                 aria-checked={on}
                 disabled={m === "app" ? !appCapability.enabled : !websiteCapability.enabled}
                 onClick={() => setMode(m)}
-                className="h-7 px-4 rounded-full text-[12px] font-medium cursor-pointer disabled:cursor-default disabled:opacity-50 transition-all duration-150"
+                className="h-7 px-4 rounded-md text-[12px] font-medium cursor-pointer disabled:cursor-default disabled:opacity-50 transition-all duration-150"
                 style={
                   on
                     ? {
@@ -498,7 +498,7 @@ export function AddAppModal({
             {pathBrowseCapability.enabled && <button
               type="button"
               onClick={browseForApp}
-              className="mt-3.5 inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-[12px] font-medium text-steel hover:text-slate cursor-pointer transition-all duration-150"
+              className="mt-3.5 inline-flex items-center gap-1.5 h-8 px-3 rounded-md text-[12px] font-medium text-steel hover:text-slate cursor-pointer transition-all duration-150"
               style={{
                 background: "var(--surface-raised)",
                 border: "1px solid rgba(107,130,153,0.28)",
@@ -593,7 +593,7 @@ export function AddAppModal({
               <button
                 type="button"
                 onClick={confirmMoveCancel}
-                className="px-3.5 py-1.5 rounded-full text-[12px] font-medium text-slate cursor-pointer transition-all duration-200"
+                className="px-3.5 py-1.5 rounded-md text-[12px] font-medium text-slate cursor-pointer transition-all duration-200"
                 style={{
                   background: "var(--surface-hover)",
                   border: "1px solid rgba(255, 255, 255, 0.85)",
@@ -605,7 +605,7 @@ export function AddAppModal({
               <button
                 type="button"
                 onClick={confirmMoveAccept}
-                className="px-3.5 py-1.5 rounded-full text-[12px] font-medium cursor-pointer transition-all duration-200"
+                className="px-3.5 py-1.5 rounded-md text-[12px] font-medium cursor-pointer transition-all duration-200"
                 style={{
                   background: "var(--accent-fill)",
                   color: "#fff",
@@ -642,7 +642,7 @@ export function AddAppModal({
                   type="button"
                   onClick={() => removePending(p.kind, p.key)}
                   aria-label={`Remove ${p.label}`}
-                  className="w-5 h-5 rounded-full flex items-center justify-center text-steel/60 hover:text-rose transition-colors duration-150 cursor-pointer"
+                  className="w-5 h-5 rounded-md flex items-center justify-center text-steel/60 hover:text-rose transition-colors duration-150 cursor-pointer"
                 >
                   <XGlyph />
                 </button>
@@ -657,7 +657,7 @@ export function AddAppModal({
           <button
             type="button"
             onClick={onClose}
-            className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+            className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
             style={{
               background: "var(--surface-modal)",
               border: "1px solid rgba(255, 255, 255, 0.85)",
@@ -670,7 +670,7 @@ export function AddAppModal({
             type="button"
             onClick={commit}
             disabled={pending.length === 0}
-            className="px-5 py-2 rounded-full text-[13px] font-medium cursor-pointer disabled:cursor-default transition-all duration-200"
+            className="px-5 py-2 rounded-md text-[13px] font-medium cursor-pointer disabled:cursor-default transition-all duration-200"
             style={
               pending.length > 0
                 ? {

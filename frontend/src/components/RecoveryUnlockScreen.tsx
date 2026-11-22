@@ -346,7 +346,7 @@ export function RecoveryUnlockScreen({
             <button
               type="button"
               onClick={onStartFresh}
-              className="px-6 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer"
+              className="px-6 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer"
               style={gradientPillStyle}
             >
               Start fresh
@@ -404,7 +404,7 @@ export function RecoveryUnlockScreen({
           <div
             role="group"
             aria-label="Restore with"
-            className="inline-flex p-[3px] rounded-full mb-3"
+            className="inline-flex p-[3px] rounded-md mb-3"
             style={{ background: "var(--surface-control)", border: "1px solid var(--border-hairline)" }}
           >
             {(["recovery", "password"] as const).map((m) => (
@@ -451,7 +451,7 @@ export function RecoveryUnlockScreen({
           type="button"
           disabled={lockedOut || !value.trim() || submitting}
           onClick={() => void submit()}
-          className="mt-4 px-6 py-2 rounded-full text-[13px] font-medium text-white disabled:opacity-40 disabled:cursor-not-allowed"
+          className="mt-4 px-6 py-2 rounded-md text-[13px] font-medium text-white disabled:opacity-40 disabled:cursor-not-allowed"
           style={gradientPillStyle}
         >
           {missingKey ? (submitting ? "Restoring..." : "Restore history") : "Unlock"}

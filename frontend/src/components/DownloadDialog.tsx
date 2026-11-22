@@ -164,7 +164,7 @@ export function DownloadDialog({
                 <button
                   onClick={handleCancel}
                   disabled={phase === "cancelling"}
-                  className="px-4 py-1.5 rounded-full text-[13px] font-medium text-steel hover:text-slate hover:bg-white/40 cursor-pointer transition-all duration-200 disabled:cursor-default disabled:opacity-60"
+                  className="px-4 py-1.5 rounded-md text-[13px] font-medium text-steel hover:text-slate hover:bg-white/40 cursor-pointer transition-all duration-200 disabled:cursor-default disabled:opacity-60"
                 >
                   {phase === "cancelling" ? "Cancelling..." : "Cancel"}
                 </button>
@@ -189,7 +189,7 @@ export function DownloadDialog({
               <div className="flex items-center justify-end gap-2.5">
                 <button
                   onClick={handleCancel}
-                  className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+                  className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
                   style={{
                     background: "var(--surface-modal)",
                     border: "1px solid rgba(255, 255, 255, 0.85)",
@@ -200,7 +200,7 @@ export function DownloadDialog({
                 </button>
                 {!needsSpeedReview && <button
                   onClick={handleRetry}
-                  className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+                  className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
                   style={{
                     background: "var(--accent-fill)",
                     boxShadow:

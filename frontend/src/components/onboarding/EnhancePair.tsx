@@ -318,7 +318,7 @@ function AddressStrip() {
         mail.example.com
       </span>
       <span
-        className={`inline-flex shrink-0 items-center gap-[5px] whitespace-nowrap rounded-full py-px pr-2 pl-[7px] text-[10px] font-medium tracking-[0.02em] ${accentText}`}
+        className={`inline-flex shrink-0 items-center gap-[5px] whitespace-nowrap rounded-md py-px pr-2 pl-[7px] text-[10px] font-medium tracking-[0.02em] ${accentText}`}
         style={{
           background: "color-mix(in srgb, var(--color-frost) 12%, transparent)",
           border: "1px solid var(--border-accent)",

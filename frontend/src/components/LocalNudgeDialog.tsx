@@ -60,7 +60,7 @@ export function LocalNudgeDialog({ onDismiss, onCheck, loading = false, unavaila
         <div className="flex items-center justify-center gap-2.5">
           <button
             onClick={onDismiss}
-            className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+            className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
             style={glassPillStyle}
           >
             Not now
@@ -68,7 +68,7 @@ export function LocalNudgeDialog({ onDismiss, onCheck, loading = false, unavaila
           <button
             onClick={onCheck}
             disabled={loading}
-            className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+            className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
             style={gradientPillStyle}
           >
             {loading ? "Loading models…" : unavailable ? "Try again" : "Check my hardware"}

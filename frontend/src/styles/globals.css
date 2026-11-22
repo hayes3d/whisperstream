@@ -592,8 +592,8 @@
    ponytail: ~57 call sites hardcode text-white on --accent-fill; this one rule
    covers them. Swap to per-site text-primary-foreground if it ever misfires. */
 [style*="--accent-fill"],
-[style*="--accent-fill"] .text-white,
-[style*="--accent-fill"].text-white {
+[style*="--accent-fill"] [class*="text-white"],
+[style*="--accent-fill"][class*="text-white"] {
   color: var(--accent-fill-fg) !important;
 }
 

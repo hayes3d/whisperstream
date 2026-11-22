@@ -47,7 +47,7 @@ export function RecoverySetupGate({ platform, recordCount, onSetUp }: RecoverySe
         <button
           type="button"
           onClick={onSetUp}
-          className="px-6 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer"
+          className="px-6 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer"
           style={{ background: "var(--accent-fill)", boxShadow: "var(--shadow-pearl)" }}
         >
           Set up recovery key

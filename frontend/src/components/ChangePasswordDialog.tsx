@@ -310,7 +310,7 @@ export function ChangePasswordDialog({
             <div className="flex items-center justify-center gap-2.5 mt-6">
               <button
                 onClick={onCancel}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
                 style={glassPillStyle}
               >
                 Cancel
@@ -318,7 +318,7 @@ export function ChangePasswordDialog({
               <button
                 disabled={!canSubmit}
                 onClick={handleSubmit}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
                 style={gradientPillStyle}
               >
                 {submitting ? "Saving..." : "Change password"}
@@ -512,7 +512,7 @@ export function ViewRecoveryCodeDialog({
             <div className="flex items-center justify-center gap-2.5 mt-6">
               <button
                 onClick={onCancel}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
                 style={glassPillStyle}
               >
                 Cancel
@@ -520,7 +520,7 @@ export function ViewRecoveryCodeDialog({
               <button
                 disabled={!password || submitting}
                 onClick={handleViewCode}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
                 style={gradientPillStyle}
               >
                 {submitting ? "Generating..." : "Generate a new key"}

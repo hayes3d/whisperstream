@@ -84,7 +84,7 @@ function PermissionButton({
       onClick={onClick}
       disabled={disabled}
       aria-busy={ariaBusy}
-      className="h-[26px] rounded-full px-3 text-[11.5px] font-medium whitespace-nowrap cursor-pointer disabled:cursor-default disabled:opacity-60 transition-colors duration-150"
+      className="h-[26px] rounded-md px-3 text-[11.5px] font-medium whitespace-nowrap cursor-pointer disabled:cursor-default disabled:opacity-60 transition-colors duration-150"
       style={{
         color: emphasized ? "var(--color-steel)" : "var(--color-slate)",
         background: "var(--surface-control)",

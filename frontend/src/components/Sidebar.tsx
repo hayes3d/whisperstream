@@ -147,14 +147,14 @@ export function Sidebar({ activeTab, onTabChange, status, devEnabled = false, at
               key={id}
               onClick={() => onTabChange(id)}
               aria-describedby={attention?.[id] ? `sidebar-attention-${id}` : undefined}
-              className="relative flex items-center gap-2.5 px-3.5 py-2 rounded-full text-[13px] font-medium text-left transition-colors duration-200 cursor-pointer group"
+              className="relative flex items-center gap-2.5 px-3.5 py-2 rounded-md text-[13px] font-medium text-left transition-colors duration-200 cursor-pointer group"
             >
               {isActive && (
                 // No backdrop blur: nested inside the sidebar's blur it left a
                 // vertical seam in WebView2.
                 <div
                   data-testid="active-tab-surface"
-                  className="absolute inset-0 rounded-full border"
+                  className="absolute inset-0 rounded-md border"
                   style={{
                     backgroundColor: "var(--nav-active-fill)",
                     borderColor: "var(--nav-active-border)",

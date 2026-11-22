@@ -203,7 +203,7 @@ export function FeatureSpotlight({ offer, onAct, onDismiss, benchmarkSlot }: Fea
                   <button
                     ref={laterRef}
                     onClick={() => onDismiss(offer)}
-                    className="cursor-pointer rounded-full px-5 py-2 text-[13px] font-medium text-slate transition-all duration-200"
+                    className="cursor-pointer rounded-md px-5 py-2 text-[13px] font-medium text-slate transition-all duration-200"
                     style={glassPillStyle}
                   >
                     Maybe later
@@ -212,7 +212,7 @@ export function FeatureSpotlight({ offer, onAct, onDismiss, benchmarkSlot }: Fea
                 <button
                   ref={ctaRef}
                   onClick={() => onAct(offer)}
-                  className="cursor-pointer rounded-full px-5 py-2 text-[13px] font-medium text-white transition-all duration-200"
+                  className="cursor-pointer rounded-md px-5 py-2 text-[13px] font-medium text-white transition-all duration-200"
                   style={gradientPillStyle}
                 >
                   {offer.cta.label}

@@ -175,7 +175,7 @@ export function DataLeavesDialog({
         <div className="flex items-center justify-end gap-2.5 mb-4">
           <button
             onClick={onCancel}
-            className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+            className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
             style={{
               background: "var(--surface-modal)",
               border: "1px solid var(--border-emphasis)",
@@ -186,7 +186,7 @@ export function DataLeavesDialog({
           </button>
           <button
             onClick={onContinue}
-            className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+            className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
             style={{
               background: "var(--accent-fill)",
               boxShadow: "var(--shadow-pearl)",

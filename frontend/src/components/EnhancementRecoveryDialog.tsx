@@ -27,8 +27,8 @@ export function EnhancementRecoveryDialog({ model, onDownload, onDismiss }: {
           restore local enhancement. You can keep dictating without cleanup.
         </DialogDescription>
         <div className="flex justify-center gap-2.5">
-          <SecondaryButton onClick={onDismiss} className="px-5 py-2 rounded-full text-[13px] text-slate">Not now</SecondaryButton>
-          <PrimaryButton onClick={onDownload} className="px-5 py-2 rounded-full text-[13px]">Download again</PrimaryButton>
+          <SecondaryButton onClick={onDismiss} className="px-5 py-2 rounded-md text-[13px] text-slate">Not now</SecondaryButton>
+          <PrimaryButton onClick={onDownload} className="px-5 py-2 rounded-md text-[13px]">Download again</PrimaryButton>
         </div>
       </DialogContent>
     </Dialog>

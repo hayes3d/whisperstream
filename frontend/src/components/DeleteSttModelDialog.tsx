@@ -71,7 +71,7 @@ export function DeleteSttModelDialog({
             type="button"
             onClick={onCancel}
             disabled={busy}
-            className="cursor-pointer rounded-full px-5 py-2 text-[13px] font-medium text-slate transition-all duration-200 disabled:cursor-default disabled:opacity-60"
+            className="cursor-pointer rounded-md px-5 py-2 text-[13px] font-medium text-slate transition-all duration-200 disabled:cursor-default disabled:opacity-60"
             style={glassPillStyle}
           >
             Keep model
@@ -80,7 +80,7 @@ export function DeleteSttModelDialog({
             type="button"
             onClick={onConfirm}
             disabled={busy}
-            className="cursor-pointer rounded-full px-5 py-2 text-[13px] font-medium transition-all duration-200 disabled:cursor-default disabled:opacity-60"
+            className="cursor-pointer rounded-md px-5 py-2 text-[13px] font-medium transition-all duration-200 disabled:cursor-default disabled:opacity-60"
             style={destructivePillStyle}
           >
             Delete model

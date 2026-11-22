@@ -158,7 +158,7 @@ export function SttModelPicker({
                 event.stopPropagation();
                 onRequestDelete(option.value);
               }}
-              className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full text-steel/70 transition-colors hover:text-rose"
+              className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-md text-steel/70 transition-colors hover:text-rose"
             >
               <TrashGlyph />
             </button>

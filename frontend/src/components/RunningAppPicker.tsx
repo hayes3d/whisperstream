@@ -176,7 +176,7 @@ export function AppChip({
         type="button"
         onClick={onRemove}
         aria-label={`Remove ${label} from ${profileName}`}
-        className="w-5 h-5 rounded-full flex items-center justify-center text-steel/60 hover:text-rose transition-colors duration-150 cursor-pointer"
+        className="w-5 h-5 rounded-md flex items-center justify-center text-steel/60 hover:text-rose transition-colors duration-150 cursor-pointer"
       >
         <XIcon />
       </button>
@@ -326,7 +326,7 @@ export function RunningAppList({
           onClick={commitManual}
           disabled={!manual.trim()}
           aria-label={`Add app to ${profileName}`}
-          className="inline-flex items-center h-7 px-2.5 rounded-full text-[12px] font-medium cursor-pointer disabled:cursor-default shrink-0"
+          className="inline-flex items-center h-7 px-2.5 rounded-md text-[12px] font-medium cursor-pointer disabled:cursor-default shrink-0"
           style={
             manual.trim()
               ? {

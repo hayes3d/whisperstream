@@ -56,14 +56,14 @@ export function EnableLocalConfirmDialog({
         <div className="flex items-center justify-center gap-2.5">
           <button
             onClick={onCancel}
-            className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+            className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
             style={glassPillStyle}
           >
             Cancel
           </button>
           <button
             onClick={onContinue}
-            className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+            className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
             style={gradientPillStyle}
           >
             Continue

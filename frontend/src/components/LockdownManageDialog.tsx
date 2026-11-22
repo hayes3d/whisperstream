@@ -142,7 +142,7 @@ export function LockdownManageDialog({
           <button
             onClick={onClose}
             aria-label="Close"
-            className="w-7 h-7 -mr-1 rounded-full flex items-center justify-center text-steel/60 hover:text-slate transition-colors cursor-pointer"
+            className="w-7 h-7 -mr-1 rounded-md flex items-center justify-center text-steel/60 hover:text-slate transition-colors cursor-pointer"
           >
             <CloseIcon />
           </button>
@@ -182,13 +182,13 @@ export function LockdownManageDialog({
             <div className="flex items-center gap-2">
               <SecondaryButton
                 onClick={onChangePassword}
-                className="h-9 px-3.5 rounded-full text-[12px] font-medium text-slate"
+                className="h-9 px-3.5 rounded-md text-[12px] font-medium text-slate"
               >
                 Change password
               </SecondaryButton>
               <SecondaryButton
                 onClick={onViewRecovery}
-                className="h-9 px-3.5 rounded-full text-[12px] font-medium text-slate"
+                className="h-9 px-3.5 rounded-md text-[12px] font-medium text-slate"
               >
                 View recovery key
               </SecondaryButton>
@@ -216,7 +216,7 @@ export function LockdownManageDialog({
                 <SecondaryButton
                   variant="destructive"
                   onClick={onDisable}
-                  className="w-full h-10 rounded-full text-[13px] font-medium"
+                  className="w-full h-10 rounded-md text-[13px] font-medium"
                   style={{ color: "var(--color-rose)" }}
                 >
                   Turn off Lockdown Mode
@@ -249,7 +249,7 @@ export function LockdownManageDialog({
               </p>
             ) : <SecondaryButton
               onClick={onStartSaving}
-              className="w-full h-9 px-3.5 rounded-full text-[12px] font-medium text-slate"
+              className="w-full h-9 px-3.5 rounded-md text-[12px] font-medium text-slate"
             >
               Start saving transcripts
             </SecondaryButton>}
@@ -262,7 +262,7 @@ export function LockdownManageDialog({
                 <SecondaryButton
                   variant="destructive"
                   onClick={onDisable}
-                  className="w-full h-10 rounded-full text-[13px] font-medium"
+                  className="w-full h-10 rounded-md text-[13px] font-medium"
                   style={{ color: "var(--color-rose)" }}
                 >
                   Turn off Lockdown Mode

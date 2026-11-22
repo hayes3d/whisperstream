@@ -38,14 +38,14 @@ const cardProps = {
 };
 
 describe("HudExpandToggle", () => {
-  it("is a 40x28 icon-only pill drawn from theme tokens", () => {
+  it("is a 40x28 icon-only button drawn from theme tokens", () => {
     render(<HudExpandToggle expanded={false} label="Expand response" onToggle={() => {}} />);
     const button = screen.getByRole("button", { name: "Expand response" });
 
     expect(HUD_EXPAND_TOGGLE_W).toBe(40);
     expect(HUD_EXPAND_TOGGLE_H).toBe(28);
     expect(button).toHaveStyle({ width: "40px", height: "28px" });
-    expect(button).toHaveClass("rounded-full");
+    expect(button).toHaveClass("rounded-md");
     expect(button.style.border).toBe("1px solid var(--hud-expand-border)");
     expect(button.style.color).toBe("var(--hud-expand-icon)");
     expect(button.className).toContain("bg-[var(--surface-control)]");

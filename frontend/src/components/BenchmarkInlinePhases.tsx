@@ -64,7 +64,7 @@ function InlineCancel({ onClick }: { onClick: () => void }) {
     <div className="mt-4 flex items-center justify-end">
       <button
         onClick={onClick}
-        className="px-4 py-1.5 rounded-full text-[13px] font-medium text-steel hover:text-slate hover:bg-[var(--surface-hover)] cursor-pointer transition-all duration-200"
+        className="px-4 py-1.5 rounded-md text-[13px] font-medium text-steel hover:text-slate hover:bg-[var(--surface-hover)] cursor-pointer transition-all duration-200"
       >
         Cancel
       </button>

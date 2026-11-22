@@ -408,14 +408,14 @@ export function RelocateModelsDialog({
               <div className="flex items-center justify-center gap-2.5">
                 <button
                   onClick={onClose}
-                  className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+                  className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
                   style={glassPillStyle}
                 >
                   Cancel
                 </button>
                 <button
                   onClick={startMove}
-                  className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+                  className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
                   style={gradientPillStyle}
                 >
                   Move files
@@ -452,14 +452,14 @@ export function RelocateModelsDialog({
               <div className="flex items-center justify-center gap-2.5">
                 <button
                   onClick={onClose}
-                  className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+                  className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
                   style={glassPillStyle}
                 >
                   Cancel
                 </button>
                 <button
                   onClick={startMove}
-                  className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+                  className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
                   style={gradientPillStyle}
                 >
                   Use this folder
@@ -497,14 +497,14 @@ export function RelocateModelsDialog({
               <div className="flex items-center justify-center gap-2.5">
                 <button
                   onClick={onClose}
-                  className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+                  className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
                   style={glassPillStyle}
                 >
                   Cancel
                 </button>
                 <button
                   onClick={onChooseAnother}
-                  className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+                  className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
                   style={gradientPillStyle}
                 >
                   Choose another folder
@@ -611,7 +611,7 @@ export function RelocateModelsDialog({
                   onClick={handleCancel}
                   disabled={isFinalizing}
                   aria-disabled={isFinalizing}
-                  className="px-4 py-1.5 rounded-full text-[13px] font-medium text-steel hover:text-slate hover:bg-white/40 cursor-pointer transition-all duration-200 disabled:cursor-default disabled:opacity-60"
+                  className="px-4 py-1.5 rounded-md text-[13px] font-medium text-steel hover:text-slate hover:bg-white/40 cursor-pointer transition-all duration-200 disabled:cursor-default disabled:opacity-60"
                 >
                   {isFinalizing ? "Finishing up..." : "Cancel"}
                 </button>
@@ -651,7 +651,7 @@ export function RelocateModelsDialog({
               <div className="flex items-center justify-center">
                 <button
                   onClick={onClose}
-                  className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+                  className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
                   style={gradientPillStyle}
                 >
                   Done
@@ -689,14 +689,14 @@ export function RelocateModelsDialog({
               <div className="flex items-center justify-center gap-2.5">
                 <button
                   onClick={onClose}
-                  className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+                  className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
                   style={glassPillStyle}
                 >
                   Close
                 </button>
                 <button
                   onClick={handleRetry}
-                  className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+                  className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
                   style={gradientPillStyle}
                 >
                   Try again

@@ -1028,7 +1028,7 @@ export function BakeoffWorkspace({
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-4 right-4 w-6 h-6 rounded-full flex items-center justify-center text-steel/60 hover:text-slate transition-colors cursor-pointer"
+          className="absolute top-4 right-4 w-6 h-6 rounded-md flex items-center justify-center text-steel/60 hover:text-slate transition-colors cursor-pointer"
         >
           <XGlyph />
         </button>
@@ -1127,7 +1127,7 @@ export function BakeoffWorkspace({
               <SecondaryButton
                 onClick={onCancelRemaining}
                 disabled={cancelling}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-slate"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-slate"
               >
                 Cancel remaining
               </SecondaryButton>
@@ -1135,14 +1135,14 @@ export function BakeoffWorkspace({
             {phase === "results" && onEditLineup && (
               <SecondaryButton
                 onClick={onEditLineup}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-slate"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-slate"
               >
                 Edit lineup
               </SecondaryButton>
             )}
             <SecondaryButton
               onClick={onClose}
-              className="px-5 py-2 rounded-full text-[13px] font-medium text-slate"
+              className="px-5 py-2 rounded-md text-[13px] font-medium text-slate"
             >
               Close
             </SecondaryButton>
@@ -1152,7 +1152,7 @@ export function BakeoffWorkspace({
                 onClick={() => onRun(selections)}
                 disabled={!lineupValid || starting}
                 aria-describedby={validationMessage ? validationId : undefined}
-                className="px-5 py-2 rounded-full text-[13px] font-medium cursor-pointer disabled:cursor-default transition-all duration-200"
+                className="px-5 py-2 rounded-md text-[13px] font-medium cursor-pointer disabled:cursor-default transition-all duration-200"
                 style={
                   lineupValid && !starting
                     ? {
@@ -1176,7 +1176,7 @@ export function BakeoffWorkspace({
                 type="button"
                 onClick={() => onRun(pairs.map((pair) => ({ ...pair.selection })))}
                 disabled={starting}
-                className="px-5 py-2 rounded-full text-[13px] font-medium cursor-pointer disabled:cursor-default transition-all duration-200"
+                className="px-5 py-2 rounded-md text-[13px] font-medium cursor-pointer disabled:cursor-default transition-all duration-200"
                 style={
                   starting
                     ? {
@@ -1307,7 +1307,7 @@ function LineupEditor({
                   onClick={() => onRemove(row.key)}
                   disabled={rows.length <= MIN_BAKEOFF_PAIRS}
                   aria-label={`Remove comparison ${identity}`}
-                  className="self-end sm:self-auto sm:mt-5 w-6 h-6 shrink-0 flex items-center justify-center rounded-full text-steel hover:text-rose disabled:cursor-default disabled:text-steel/40 cursor-pointer"
+                  className="self-end sm:self-auto sm:mt-5 w-6 h-6 shrink-0 flex items-center justify-center rounded-md text-steel hover:text-rose disabled:cursor-default disabled:text-steel/40 cursor-pointer"
                 >
                   <MinusGlyph />
                 </button>
@@ -1329,7 +1329,7 @@ function LineupEditor({
         <SecondaryButton
           onClick={onAdd}
           disabled={rows.length >= MAX_BAKEOFF_PAIRS}
-          className="inline-flex items-center gap-1.5 rounded-full px-3 h-8 text-[12px] font-medium text-slate"
+          className="inline-flex items-center gap-1.5 rounded-md px-3 h-8 text-[12px] font-medium text-slate"
         >
           <PlusGlyph /> Add comparison
         </SecondaryButton>
@@ -1614,7 +1614,7 @@ function AnswerCard({
           onClick={() => onRetry(index)}
           disabled={retrying}
           aria-label={`Retry this result ${identity}`}
-          className="rounded-full px-3 h-8 text-[12px] font-medium text-slate"
+          className="rounded-md px-3 h-8 text-[12px] font-medium text-slate"
         >
           Retry this result
         </SecondaryButton>

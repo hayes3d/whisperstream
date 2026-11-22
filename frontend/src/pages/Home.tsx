@@ -831,7 +831,7 @@ export function Home({
               {isLockdownEnabled && (
                 <SecondaryButton
                   onClick={() => setManageOpen(true)}
-                  className="h-8 px-3.5 rounded-full text-[12px] font-medium text-slate"
+                  className="h-8 px-3.5 rounded-md text-[12px] font-medium text-slate"
                 >
                   Manage
                 </SecondaryButton>

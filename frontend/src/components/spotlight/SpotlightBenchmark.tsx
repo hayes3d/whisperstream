@@ -120,7 +120,7 @@ export function SpotlightBenchmark({ modelLabel, onBack, onUse, frozen = false }
       <div className="flex items-center justify-end gap-2.5">
         <button
           onClick={onBack}
-          className="cursor-pointer rounded-full px-5 py-2 text-[13px] font-medium text-slate transition-all duration-200"
+          className="cursor-pointer rounded-md px-5 py-2 text-[13px] font-medium text-slate transition-all duration-200"
           style={{
             background: "var(--surface-modal)",
             border: "1px solid var(--border-emphasis)",
@@ -132,7 +132,7 @@ export function SpotlightBenchmark({ modelLabel, onBack, onUse, frozen = false }
         <button
           onClick={onUse}
           disabled={phase !== "verdict"}
-          className="cursor-pointer rounded-full px-5 py-2 text-[13px] font-medium text-white transition-all duration-200 disabled:cursor-default disabled:opacity-40"
+          className="cursor-pointer rounded-md px-5 py-2 text-[13px] font-medium text-white transition-all duration-200 disabled:cursor-default disabled:opacity-40"
           style={{ background: "var(--accent-fill)", boxShadow: "var(--shadow-pearl)" }}
         >
           Use {modelLabel}

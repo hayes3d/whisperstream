@@ -66,7 +66,7 @@ export function VoiceModelMemoryDialog({
         <div className="flex items-center justify-center gap-2.5">
           <button
             onClick={blocked ? onDismiss : onContinue}
-            className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+            className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
             style={{
               background: "var(--surface-modal)",
               border: "1px solid var(--border-emphasis)",
@@ -77,7 +77,7 @@ export function VoiceModelMemoryDialog({
           </button>
           <button
             onClick={onUseLowerMemory}
-            className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+            className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
             style={{
               background: "var(--accent-fill)",
               boxShadow: "var(--shadow-pearl)",

@@ -412,7 +412,7 @@ export function OnboardingOverlay({
                   <SecondaryButton
                     onClick={enhanceFooter.secondary.onClick}
                     disabled={enhanceFooter.secondary.disabled}
-                    className="px-[22px] py-2.5 rounded-full text-[13px] font-medium text-slate"
+                    className="px-[22px] py-2.5 rounded-md text-[13px] font-medium text-slate"
                   >
                     {enhanceFooter.secondary.label}
                   </SecondaryButton>

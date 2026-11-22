@@ -713,7 +713,7 @@ function CandidateModeSelector({
     <div
       role="radiogroup"
       aria-label="Execution mode"
-      className="inline-flex rounded-full p-1 gap-1"
+      className="inline-flex rounded-md p-1 gap-1"
       style={{
         background: "var(--surface-control)",
         border: "1px solid var(--border-hairline)",
@@ -1291,7 +1291,7 @@ function TranscriptCard({
             aria-haspopup="dialog"
             aria-expanded={bakeoffActive}
             data-bakeoff-trigger-active={bakeoffActive ? "true" : undefined}
-            className="w-6 h-6 flex items-center justify-center rounded-full text-steel hover:text-frost cursor-pointer"
+            className="w-6 h-6 flex items-center justify-center rounded-md text-steel hover:text-frost cursor-pointer"
           >
             <FireIcon />
           </button>
@@ -1308,7 +1308,7 @@ function TranscriptCard({
                 ? "Re-enhancing transcript"
                 : "Re-enhance transcript"
             }
-            className="w-6 h-6 flex items-center justify-center rounded-full text-steel hover:text-frost disabled:cursor-default disabled:text-steel/40 cursor-pointer"
+            className="w-6 h-6 flex items-center justify-center rounded-md text-steel hover:text-frost disabled:cursor-default disabled:text-steel/40 cursor-pointer"
           >
             <span className={reenhancementRunning ? "animate-pulse" : undefined}>
               <SparklesIcon />
@@ -1318,7 +1318,7 @@ function TranscriptCard({
         <button
           onClick={(event) => void handleCopy(event)}
           aria-label={`Copy ${copyVersion} transcript`}
-          className="w-6 h-6 flex items-center justify-center rounded-full text-steel hover:text-slate cursor-pointer"
+          className="w-6 h-6 flex items-center justify-center rounded-md text-steel hover:text-slate cursor-pointer"
         >
           {copied ? <CheckIcon /> : <CopyGlyph />}
         </button>
@@ -1328,7 +1328,7 @@ function TranscriptCard({
             onDelete();
           }}
           aria-label="Delete transcript"
-          className="w-6 h-6 flex items-center justify-center rounded-full text-steel hover:text-rose cursor-pointer"
+          className="w-6 h-6 flex items-center justify-center rounded-md text-steel hover:text-rose cursor-pointer"
         >
           <TrashIcon />
         </button>
@@ -1405,7 +1405,7 @@ function ImportCtaPill({ onClick }: { onClick: () => void }) {
   return (
     <SecondaryButton
       onClick={onClick}
-      className="inline-flex items-center gap-1.5 rounded-full px-3 h-9 text-[13px] font-medium text-slate"
+      className="inline-flex items-center gap-1.5 rounded-md px-3 h-9 text-[13px] font-medium text-slate"
     >
       <PlusIcon /> Add file
     </SecondaryButton>
@@ -1550,14 +1550,14 @@ function DisabledState({
         // Lockdown setup flow instead of a re-enable toggle.
         <SecondaryButton
           onClick={() => onRequestLockdownSetup?.()}
-          className="inline-flex items-center gap-1.5 rounded-full px-4 h-9 text-[13px] font-medium text-slate"
+          className="inline-flex items-center gap-1.5 rounded-md px-4 h-9 text-[13px] font-medium text-slate"
         >
           Set up password
         </SecondaryButton>
       ) : (
         // Surface the Save transcripts toggle directly (one-click re-enable).
         <div
-          className="flex items-center gap-3 rounded-full px-4 py-2"
+          className="flex items-center gap-3 rounded-md px-4 py-2"
           style={{
             background: "var(--surface-control)",
             border: "1px solid var(--border-hairline)",
@@ -1830,7 +1830,7 @@ function ListView({
           content="Saved transcript text and audio are encrypted on disk and protected for this device account."
         >
           <span
-            className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-steel cursor-default"
+            className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-steel cursor-default"
             style={{
               background: "var(--surface-control)",
               border: "1px solid var(--border-hairline)",
@@ -1870,7 +1870,7 @@ function ListView({
 
         <SecondaryButton
           onClick={onOpenImport}
-          className="inline-flex items-center gap-1.5 rounded-full px-3 h-9 text-[13px] font-medium text-slate shrink-0"
+          className="inline-flex items-center gap-1.5 rounded-md px-3 h-9 text-[13px] font-medium text-slate shrink-0"
         >
           <PlusIcon /> Add file
         </SecondaryButton>
@@ -1963,7 +1963,7 @@ function ListView({
               <SecondaryButton
                 onClick={handleLoadMore}
                 disabled={loadingMore}
-                className="inline-flex items-center justify-center rounded-full px-5 h-9 text-[13px] font-medium text-slate"
+                className="inline-flex items-center justify-center rounded-md px-5 h-9 text-[13px] font-medium text-slate"
                 style={{ opacity: loadingMore ? 0.6 : 1 }}
               >
                 {loadingMore ? "Loading..." : "Load more"}
@@ -2273,7 +2273,7 @@ function QueueRow({
       </div>
 
       <span
-        className="shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider"
+        className="shrink-0 inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider"
         style={{ background: pill.bg, color: pill.color }}
       >
         {item.status === "transcribing" && <Spinner />}
@@ -2283,7 +2283,7 @@ function QueueRow({
       <button
         onClick={onRemove}
         aria-label={item.status === "transcribing" ? "Cancel" : "Remove"}
-        className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full text-steel hover:text-rose cursor-pointer"
+        className="shrink-0 w-6 h-6 flex items-center justify-center rounded-md text-steel hover:text-rose cursor-pointer"
       >
         <XIcon />
       </button>
@@ -2362,7 +2362,7 @@ function ImportView({
         <SecondaryButton
           onClick={onChooseFiles}
           disabled={importUnavailable}
-          className="inline-flex items-center justify-center rounded-full px-4 h-9 text-[13px] font-medium text-slate"
+          className="inline-flex items-center justify-center rounded-md px-4 h-9 text-[13px] font-medium text-slate"
         >
           Choose files
         </SecondaryButton>

@@ -57,7 +57,7 @@ export function PrimaryPill({
   return (
     <button
       onClick={onClick}
-      className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+      className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
       style={gradientPillStyle}
     >
       {children}
@@ -76,7 +76,7 @@ export function GlassPill({
   return (
     <button
       onClick={onClick}
-      className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+      className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
       style={glassPillStyle}
     >
       {children}
@@ -169,7 +169,7 @@ export function ModelChip({
       layoutId={layoutPrefix ? `${layoutPrefix}-chip-${id}` : undefined}
       data-model-chip-status={status}
       data-model-chip-motion={hasActiveMotion ? "animated" : "static"}
-      className="relative overflow-hidden rounded-full px-4 py-2 flex items-center gap-2"
+      className="relative overflow-hidden rounded-md px-4 py-2 flex items-center gap-2"
       style={{
         background: "var(--surface-modal)",
         border:
@@ -277,7 +277,7 @@ export function WinnerHero({
       </motion.div>
       <motion.div
         layoutId={`${layoutPrefix}-chip-${id}`}
-        className="relative rounded-full px-5 py-2.5 flex items-center gap-2.5"
+        className="relative rounded-md px-5 py-2.5 flex items-center gap-2.5"
         style={{
           background: "var(--surface-modal)",
           border: "1px solid var(--border-emphasis)",

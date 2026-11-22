@@ -88,8 +88,8 @@ const gradientPillStyle: React.CSSProperties = {
   boxShadow: "var(--shadow-pearl)",
 };
 
-const pillClass = "px-5 py-2 rounded-full text-[13px] font-medium cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed";
-const chipClass = "h-8 px-3.5 rounded-full text-[12px] font-medium whitespace-nowrap";
+const pillClass = "px-5 py-2 rounded-md text-[13px] font-medium cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed";
+const chipClass = "h-8 px-3.5 rounded-md text-[12px] font-medium whitespace-nowrap";
 
 export function RecoverySettingsDialog({
   open,
