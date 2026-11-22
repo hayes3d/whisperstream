@@ -168,7 +168,8 @@ describe("Transcripts version chips and Copy", () => {
     );
     const tooltip = await getDescribedTooltip(header, view.container);
 
-    expect(chip).toHaveTextContent("Enhanced");
+    // A clean enhancement names its profile instead of a generic "Enhanced".
+    expect(chip).toHaveTextContent("Code");
     expect(chip).not.toHaveAttribute("tabindex");
     expect(tooltip).toHaveTextContent("Profile: Code");
     expect(tooltip).toHaveClass("w-64");
@@ -402,11 +403,12 @@ describe("Transcripts version chips and Copy", () => {
     fireEvent.click(screen.getByRole("button", { name: "Show original" }));
     await screen.findByRole("region", { name: "Transcript (Original)" });
     expect(
-      screen.getByText("Original", { exact: true }),
+      screen.getByText("Original", { exact: true }).closest("[data-transcript-version]"),
     ).toHaveAttribute("data-transcript-version", "original");
     expect(
       screen
         .getByText("Original", { exact: true })
+        .closest("[data-transcript-version]")!
         .querySelector("[data-transcript-sparkle]"),
     ).toBeNull();
     const copyOriginal = screen.getByRole("button", {

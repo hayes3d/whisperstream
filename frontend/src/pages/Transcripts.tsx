@@ -4,6 +4,7 @@ import {
   useId,
   useRef,
   useCallback,
+  Fragment,
   type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
 } from "react";
@@ -137,12 +138,15 @@ function SparklesIcon() {
 
 function TranscriptVersionChip({
   version,
+  label,
   subtle = false,
   provenanceTooltip,
   tooltipId,
   focusVisibleClassName,
 }: {
   version: "enhanced" | "original";
+  /** Overrides "Enhanced"/"Original", e.g. with the profile that cleaned it. */
+  label?: string;
   subtle?: boolean;
   provenanceTooltip?: TranscriptProvenanceTooltip | null;
   tooltipId?: string;
@@ -168,7 +172,9 @@ function TranscriptVersionChip({
           <EnhancementIcon className="size-2.5" data-transcript-sparkle />
         </span>
       )}
-      {enhanced ? "Enhanced" : "Original"}
+      <span className="truncate max-w-[160px]">
+        {label ?? (enhanced ? "Enhanced" : "Original")}
+      </span>
     </span>
   );
 
@@ -452,6 +458,29 @@ function formatTimestamp(createdAtMs: number): string {
     day: "numeric",
     hour: "numeric",
     minute: "2-digit",
+  });
+}
+
+/** "2:14 PM": the card shows only the time; its day comes from the list heading. */
+function formatTime(createdAtMs: number): string {
+  return new Date(createdAtMs).toLocaleTimeString(undefined, {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
+/** List day heading: "Today", "Yesterday", "Mon, Nov 18" (year only when not this year). */
+export function dayLabel(createdAtMs: number, now = new Date()): string {
+  const d = new Date(createdAtMs);
+  const startOf = (x: Date) => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
+  const days = Math.round((startOf(now) - startOf(d)) / 86_400_000);
+  if (days === 0) return "Today";
+  if (days === 1) return "Yesterday";
+  return d.toLocaleDateString(undefined, {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    ...(d.getFullYear() !== now.getFullYear() ? { year: "numeric" } : {}),
   });
 }
 
@@ -1251,10 +1280,17 @@ function TranscriptCard({
             the rail's own right-3 inset, so a long timestamp can never collide
             with the Bakeoff fire icon. */}
         <div className="flex items-center gap-2 pr-32">
-          <span className="text-xs text-steel">{timestampLabel}</span>
+          <span className="text-xs text-steel">{formatTime(item.created_at)}</span>
           {!expanded && showCollapsedVersionChip && (
             <TranscriptVersionChip
               version={collapsedVersion}
+              // A clean enhancement names its profile: every row saying
+              // "Enhanced" told the reader nothing. Fallbacks keep their label.
+              label={
+                collapsedVersion === "enhanced" && !collapsedProvenanceTooltip?.explanation
+                  ? collapsedProvenanceTooltip?.profileName
+                  : undefined
+              }
               subtle
               provenanceTooltip={collapsedProvenanceTooltip}
               tooltipId={provenanceTooltipId}
@@ -1279,7 +1315,7 @@ function TranscriptCard({
         className={`absolute top-3 right-3 flex items-center gap-1 transition-opacity duration-200 ${
           expanded
             ? "opacity-100"
-            : "opacity-0 group-hover/transcript-card:opacity-100 focus-within:opacity-100"
+            : "opacity-0 group-hover/transcript-card:opacity-100 group-focus-within/transcript-card:opacity-100"
         }`}
       >
         {bakeoffEnabled && (
@@ -1639,6 +1675,19 @@ function ListView({
   const reducedMotion = useReducedMotion() ?? false;
 
   const [query, setQuery] = useState("");
+  // Ctrl/Cmd+F jumps to search: the webview's own find bar is useless here.
+  const searchRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && !e.altKey && e.key.toLowerCase() === "f") {
+        e.preventDefault();
+        searchRef.current?.focus();
+        searchRef.current?.select();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [items, setItems] = useState<TranscriptListItem[]>([]);
   const [nextCursor, setNextCursor] = useState<number | null>(null);
@@ -1859,9 +1908,11 @@ function ListView({
         >
           <SearchIcon />
           <input
+            ref={searchRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search transcripts..."
+            placeholder="Search transcripts (Ctrl+F)"
+            aria-keyshortcuts="Control+F"
             aria-label="Search transcripts"
             className="flex-1 min-w-0 bg-transparent text-[13px] text-slate outline-none placeholder:text-steel"
           />
@@ -1933,9 +1984,16 @@ function ListView({
             const entranceDelay = animateEntrance
               ? (isAppended ? i - appendFrom : i) * 0.03
               : 0;
+            const day = dayLabel(item.created_at);
+            const newDay = i === 0 || dayLabel(items[i - 1].created_at) !== day;
             return (
+              <Fragment key={item.id}>
+              {newDay && (
+                <h3 className={`text-xs font-medium text-steel ${i === 0 ? "" : "pt-3"}`}>
+                  {day}
+                </h3>
+              )}
               <TranscriptCard
-                key={item.id}
                 item={item}
                 animateEntrance={animateEntrance}
                 entranceDelay={entranceDelay}
@@ -1952,6 +2010,7 @@ function ListView({
                 activeModelId={activeModelId}
                 activeModel={activeModel}
               />
+              </Fragment>
             );
           })}
 
