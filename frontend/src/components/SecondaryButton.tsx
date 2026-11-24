@@ -34,7 +34,7 @@ const TOKENS: Record<
     bg: "var(--surface-control)",
     bgHover: "var(--surface-hover)",
     border: "var(--border-hairline-steel)",
-    borderHover: "rgba(107,130,153,0.40)",
+    borderHover: "var(--border-accent)",
   },
   // D2: permanent rose edge so destructive intent is always visible.
   destructive: {

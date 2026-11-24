@@ -1,44 +1,41 @@
-import type { ComponentPropsWithoutRef } from "react";
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("framer-motion", () => ({
-  motion: {
-    span: ({
-      initial,
-      animate: _animate,
-      transition: _transition,
-      ...props
-    }: ComponentPropsWithoutRef<"span"> & {
-      initial?: boolean;
-      animate?: unknown;
-      transition?: unknown;
-    }) => (
-      <span
-        {...props}
-        data-testid="toggle-thumb"
-        data-motion-initial={String(initial)}
-      />
-    ),
-  },
-}));
+afterEach(cleanup);
 
 import { Toggle } from "./Toggle";
 
 describe("Toggle", () => {
-  it("paints the current state immediately instead of animating from a faded mount", () => {
+  it("renders the current state and keeps the switch role/name contract", () => {
+    render(<Toggle checked onChange={vi.fn()} ariaLabel="Example setting" />);
+
+    const toggle = screen.getByRole("switch", { name: "Example setting" });
+    expect(toggle).toBeEnabled();
+    expect(toggle).toHaveAttribute("aria-checked", "true");
+  });
+
+  it("reports the flipped value on click", () => {
+    const onChange = vi.fn();
+    render(<Toggle checked onChange={onChange} ariaLabel="Example setting" />);
+
+    fireEvent.click(screen.getByRole("switch", { name: "Example setting" }));
+    expect(onChange).toHaveBeenCalledWith(false);
+  });
+
+  it("is non-interactive when disabled", () => {
+    const onChange = vi.fn();
     render(
       <Toggle
-        checked
-        onChange={vi.fn()}
+        checked={false}
+        onChange={onChange}
+        disabled
         ariaLabel="Example setting"
       />,
     );
 
-    expect(screen.getByRole("switch", { name: "Example setting" })).toBeEnabled();
-    expect(screen.getByTestId("toggle-thumb")).toHaveAttribute(
-      "data-motion-initial",
-      "false",
-    );
+    const toggle = screen.getByRole("switch", { name: "Example setting" });
+    expect(toggle).toBeDisabled();
+    fireEvent.click(toggle);
+    expect(onChange).not.toHaveBeenCalled();
   });
 });

@@ -216,7 +216,7 @@ export function RecoveryStep({
       type="button"
       onClick={onClick}
       aria-label={aria}
-      className="h-8 px-3.5 rounded-full text-[12px] font-medium text-slate inline-flex items-center gap-1.5"
+      className="h-8 px-3.5 rounded-md text-[12px] font-medium text-slate inline-flex items-center gap-1.5"
       style={
         done[action]
           ? { border: "1px solid color-mix(in srgb, var(--color-mint) 45%, transparent)" }
@@ -239,7 +239,7 @@ export function RecoveryStep({
         }}
       >
         <span
-          className="block font-display text-[10px] font-semibold uppercase tracking-[0.12em] mb-1.5"
+          className="block font-display text-xs font-semibold uppercase tracking-[0.12em] mb-1.5"
           style={{ color: "var(--color-gold-deep)" }}
           aria-hidden="true"
         >
@@ -267,7 +267,7 @@ export function RecoveryStep({
         {announcement}
       </span>
       {downloadError && (
-        <p role="alert" className="text-[11px] text-rose mt-2 text-center">
+        <p role="alert" className="text-xs text-rose mt-2 text-center">
           Couldn't save the file. Try again.
         </p>
       )}
@@ -292,7 +292,7 @@ export function RecoveryStep({
           >
             <span className="text-[12.5px] font-medium text-slate">
               Also add a recovery password{" "}
-              <span className="text-[11px] font-normal text-steel">Optional</span>
+              <span className="text-xs font-normal text-steel">Optional</span>
             </span>
             <Chevron open={expanded} />
           </button>
@@ -433,7 +433,7 @@ export function RecoveryAbandonPrompt({
           ref={buttonRef}
           type="button"
           onClick={onReturn}
-          className="px-4 py-1.5 rounded-full text-[12px] font-medium text-slate cursor-pointer transition-all duration-200"
+          className="px-4 py-1.5 rounded-md text-[12px] font-medium text-slate cursor-pointer transition-all duration-200"
           style={{
             background: "var(--surface-control)",
             border: "1px solid var(--border-emphasis)",

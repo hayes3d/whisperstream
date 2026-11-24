@@ -36,7 +36,7 @@ export function setupPluginBlockReason(rows: AgentProviderRowMap): string | null
 }
 
 const STEEL_BORDER = "1px solid rgba(107,130,153,0.28)";
-const BUTTON = "inline-flex items-center gap-[7px] whitespace-nowrap rounded-full px-3.5 py-1 text-[12px]";
+const BUTTON = "inline-flex items-center gap-[7px] whitespace-nowrap rounded-md px-3.5 py-1 text-[12px]";
 const SECONDARY = `${BUTTON} font-medium text-slate disabled:opacity-45`;
 
 const TONE: Record<ProviderRowState, BeadTone> = {
@@ -90,7 +90,7 @@ function QuietButton({ className = "", ...rest }: ButtonHTMLAttributes<HTMLButto
     <button
       type="button"
       {...rest}
-      className={`inline-flex cursor-pointer items-center gap-[7px] whitespace-nowrap rounded-full border border-transparent px-2.5 py-1 text-[12px] text-steel transition-colors duration-150 hover:bg-[var(--surface-hover)] hover:text-slate disabled:cursor-default disabled:opacity-45 disabled:hover:bg-transparent disabled:hover:text-steel ${className}`}
+      className={`inline-flex cursor-pointer items-center gap-[7px] whitespace-nowrap rounded-md border border-transparent px-2.5 py-1 text-[12px] text-steel transition-colors duration-150 hover:bg-[var(--surface-hover)] hover:text-slate disabled:cursor-default disabled:opacity-45 disabled:hover:bg-transparent disabled:hover:text-steel ${className}`}
     />
   );
 }
@@ -109,7 +109,7 @@ function CommandChip({ command }: { command: string }) {
   };
   return (
     <span
-      className="inline-flex items-center gap-0.5 whitespace-nowrap rounded-full py-px pl-2.5 pr-[3px] align-[1px] font-mono text-[11.5px] leading-[18px] text-slate"
+      className="inline-flex items-center gap-0.5 whitespace-nowrap rounded-md py-px pl-2.5 pr-[3px] align-[1px] font-mono text-xs leading-[18px] text-slate"
       // The steel edge keeps the chip legible on the white setup modal, where
       // a hairline over --surface-control composites to nothing.
       style={{ background: "var(--surface-control)", border: STEEL_BORDER }}
@@ -119,7 +119,7 @@ function CommandChip({ command }: { command: string }) {
         type="button"
         onClick={() => void copyCommand()}
         aria-label={`Copy ${command}`}
-        className="cursor-pointer rounded-full px-2 font-body text-[11px] leading-[18px] text-steel transition-colors hover:bg-[var(--surface-hover)] hover:text-slate"
+        className="cursor-pointer rounded-md px-2 font-body text-xs leading-[18px] text-steel transition-colors hover:bg-[var(--surface-hover)] hover:text-slate"
       >
         {copied ? "Copied" : "Copy"}
       </button>
@@ -188,17 +188,17 @@ function NextStep({ provider, row }: { provider: CodingAgentProvider; row: Provi
       )}
       {provider === "codex" && row.codexRoutes === "both" && (
         <div className="mt-1.5 grid max-w-[60ch] grid-cols-[auto_minmax(0,1fr)] items-baseline gap-x-3 gap-y-1.5">
-          <span className="whitespace-nowrap text-[11px] font-medium text-steel">Codex app</span>
+          <span className="whitespace-nowrap text-xs font-medium text-steel">Codex app</span>
           <span className="min-w-0 text-[12px] leading-relaxed text-steel">
             Open <TrustPath />, then <span className="whitespace-nowrap font-medium text-slate">Trust all</span>.
           </span>
-          <span className="whitespace-nowrap text-[11px] font-medium text-steel">Codex CLI</span>
+          <span className="whitespace-nowrap text-xs font-medium text-steel">Codex CLI</span>
           <span className="min-w-0 text-[12px] leading-relaxed text-steel">
             Run <CommandChip command="/hooks" />, then trust Whisperstream.
           </span>
         </div>
       )}
-      <p className="mt-1.5 text-[11px] text-steel/80">This row updates on its own.</p>
+      <p className="mt-1.5 text-xs text-steel">This row updates on its own.</p>
     </>
   );
 }
@@ -290,7 +290,7 @@ function RowFrame({ provider, tone, word, sentence, sentenceRole = "status", nex
           {/* The left bead is the row's bullet and carries the tone, so the
               word sits in a dotless hairline pill in secondary text, the same
               family as the section's StatusLight (owner, 2026-10-25). */}
-          {word && <span data-provider-word-tone={tone} className="self-center rounded-full border border-[var(--border-hairline-steel)] px-2 py-px text-[10.5px] leading-4 text-steel transition-opacity duration-300" style={{ opacity: dimmed ? 0.55 : 1 }}>{word}</span>}
+          {word && <span data-provider-word-tone={tone} className="self-center rounded-md border border-[var(--border-hairline-steel)] px-2 py-px text-xs leading-4 text-steel transition-opacity duration-300" style={{ opacity: dimmed ? 0.55 : 1 }}>{word}</span>}
         </div>
         <p role={sentenceRole} className="max-w-[60ch] text-[12px] leading-relaxed text-steel">{sentence}</p>
         {next}

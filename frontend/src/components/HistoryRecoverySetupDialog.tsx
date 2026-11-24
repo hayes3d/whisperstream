@@ -314,7 +314,7 @@ export function HistoryRecoverySetupDialog({
           aria-label="Cancel setup"
           disabled={busy}
           onClick={onCancel}
-          className="absolute top-3.5 right-3.5 w-7 h-7 rounded-full flex items-center justify-center text-steel hover:text-slate cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+          className="absolute top-3.5 right-3.5 w-7 h-7 rounded-md flex items-center justify-center text-steel hover:text-slate cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
           style={glassPillStyle}
         >
           <CloseIcon />
@@ -355,7 +355,7 @@ export function HistoryRecoverySetupDialog({
                 type="button"
                 disabled={enabling}
                 onClick={() => void handleEnable()}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                 style={gradientPillStyle}
               >
                 {enabling ? "Enabling..." : "Enable saving"}
@@ -391,7 +391,7 @@ export function HistoryRecoverySetupDialog({
                 <SecondaryButton
                   type="button"
                   onClick={() => void loadKey()}
-                  className="h-8 px-3.5 rounded-full text-[12px] font-medium text-slate"
+                  className="h-8 px-3.5 rounded-md text-[12px] font-medium text-slate"
                 >
                   Try again
                 </SecondaryButton>
@@ -412,7 +412,7 @@ export function HistoryRecoverySetupDialog({
                   type="button"
                   disabled={busy}
                   onClick={() => setStep("intro")}
-                  className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                   style={glassPillStyle}
                 >
                   Back

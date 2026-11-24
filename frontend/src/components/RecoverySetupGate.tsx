@@ -47,13 +47,13 @@ export function RecoverySetupGate({ platform, recordCount, onSetUp }: RecoverySe
         <button
           type="button"
           onClick={onSetUp}
-          className="px-6 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer"
+          className="px-6 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer"
           style={{ background: "var(--accent-fill)", boxShadow: "var(--shadow-pearl)" }}
         >
           Set up recovery key
         </button>
         {recordCount !== null && (
-          <span className="inline-flex items-center gap-1.5 mt-4 text-[11px] text-steel">
+          <span className="inline-flex items-center gap-1.5 mt-4 text-xs text-steel">
             <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--color-mint)" }} />
             {recordCount === 1
               ? "Saving is on. 1 transcript saved."

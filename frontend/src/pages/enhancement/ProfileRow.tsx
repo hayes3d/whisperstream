@@ -81,11 +81,11 @@ export function ProfileRow({
 
         {isDefault && (
           <span
-            className="shrink-0 inline-flex items-center h-5 px-2 rounded-full text-[10px] font-medium"
+            className="shrink-0 inline-flex items-center h-5 px-2 rounded-md text-xs font-medium"
             style={{
-              background: "color-mix(in srgb, var(--color-frost) 18%, transparent)",
-              border: "1px solid var(--border-accent)",
-              color: "var(--color-frost)",
+              background: "var(--surface-hover)",
+              border: "1px solid transparent",
+              color: "var(--color-slate)",
             }}
           >
             Default
@@ -96,7 +96,7 @@ export function ProfileRow({
             HoverTooltip (app label or registrable domain). */}
         <div className="flex items-center gap-1 shrink-0">
           {visibleTargets.length === 0 ? (
-            <span className="text-[11px] text-steel/50">No apps yet</span>
+            <span className="text-xs text-steel">No apps yet</span>
           ) : (
             visibleTargets.map((target) =>
               target.kind === "app" ? (
@@ -128,7 +128,7 @@ export function ProfileRow({
           )}
           {overflowCount > 0 && (
             <span
-              className="inline-flex items-center h-[18px] px-1.5 rounded-md text-[10px] font-medium text-steel"
+              className="inline-flex items-center h-[18px] px-1.5 rounded-md text-xs font-medium text-steel"
               style={{ background: "var(--surface-row-hover)" }}
               aria-label={`${overflowCount} more`}
             >
@@ -148,7 +148,7 @@ export function ProfileRow({
           strokeLinecap="round"
           strokeLinejoin="round"
           aria-hidden="true"
-          className="shrink-0 text-steel/40 group-hover/row:text-steel transition-colors duration-200"
+          className="shrink-0 text-steel group-hover/row:text-steel transition-colors duration-200"
         >
           <path d="M4.5 3l3 3-3 3" />
         </svg>

@@ -28,7 +28,7 @@ export function ModelDeleteConfirmation({ confirmBtnRef, setDeletePending, onDel
         onClick={(e) => e.stopPropagation()}
       >
         <span
-          className="text-[11px] font-medium"
+          className="text-xs font-medium"
           style={{ color: "var(--color-rose)" }}
         >
           Delete?
@@ -42,7 +42,7 @@ export function ModelDeleteConfirmation({ confirmBtnRef, setDeletePending, onDel
             onDelete(modelId);
           }}
           aria-label={modelLabel ? `Delete ${modelLabel}` : "Confirm delete local model"}
-          className="w-6 h-6 rounded-full flex items-center justify-center transition-colors cursor-pointer"
+          className="w-6 h-6 rounded-md flex items-center justify-center transition-colors cursor-pointer"
           style={{
             background: "rgba(196, 139, 139, 0.15)",
             border: "1px solid rgba(196, 139, 139, 0.35)",
@@ -69,7 +69,7 @@ export function ModelDeleteConfirmation({ confirmBtnRef, setDeletePending, onDel
             setDeletePending(false);
           }}
           aria-label={modelLabel ? `Keep ${modelLabel}` : "Cancel delete"}
-          className="w-6 h-6 rounded-full flex items-center justify-center text-steel hover:text-slate cursor-pointer"
+          className="w-6 h-6 rounded-md flex items-center justify-center text-steel hover:text-slate cursor-pointer"
         >
           <svg
             viewBox="0 0 12 12"

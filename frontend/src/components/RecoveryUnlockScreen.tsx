@@ -346,13 +346,13 @@ export function RecoveryUnlockScreen({
             <button
               type="button"
               onClick={onStartFresh}
-              className="px-6 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer"
+              className="px-6 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer"
               style={gradientPillStyle}
             >
               Start fresh
             </button>
           )}
-          <span className="inline-flex items-center gap-1.5 mt-4 text-[11px] text-steel">
+          <span className="inline-flex items-center gap-1.5 mt-4 text-xs text-steel">
             <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--color-gold)" }} />
             Saving is paused until you restore or start fresh.
           </span>
@@ -404,7 +404,7 @@ export function RecoveryUnlockScreen({
           <div
             role="group"
             aria-label="Restore with"
-            className="inline-flex p-[3px] rounded-full mb-3"
+            className="inline-flex p-[3px] rounded-md mb-3"
             style={{ background: "var(--surface-control)", border: "1px solid var(--border-hairline)" }}
           >
             {(["recovery", "password"] as const).map((m) => (
@@ -413,7 +413,7 @@ export function RecoveryUnlockScreen({
                 type="button"
                 aria-pressed={mode === m}
                 onClick={() => switchMode(m)}
-                className={`px-3 py-1 rounded-full text-[11.5px] font-medium cursor-pointer transition-colors duration-200 ${
+                className={`px-3 py-1 rounded-md text-xs font-medium cursor-pointer transition-colors duration-200 ${
                   mode === m ? "text-slate" : "text-steel hover:text-slate"
                 }`}
                 style={
@@ -430,19 +430,19 @@ export function RecoveryUnlockScreen({
 
         <div className="relative w-full">
           {mode === "password" ? passwordField : keyField}
-          <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel/40 pointer-events-none" />
+          <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel pointer-events-none" />
         </div>
 
         {/* Wrong secret / restore failure: rose text always carries meaning. */}
         {error && !lockedOut && (
-          <p className="text-[11px] text-rose mt-2 self-start" role="alert">
+          <p className="text-xs text-rose mt-2 self-start" role="alert">
             {error}
           </p>
         )}
 
         {/* Live backoff countdown, announced politely and updated in place. */}
         {lockedOut && (
-          <p className="text-[11px] text-rose mt-2 self-start" role="status" aria-live="polite">
+          <p className="text-xs text-rose mt-2 self-start" role="status" aria-live="polite">
             {`Too many attempts. Try again in ${formatBackoff(remainingSecs)}.`}
           </p>
         )}
@@ -451,7 +451,7 @@ export function RecoveryUnlockScreen({
           type="button"
           disabled={lockedOut || !value.trim() || submitting}
           onClick={() => void submit()}
-          className="mt-4 px-6 py-2 rounded-full text-[13px] font-medium text-white disabled:opacity-40 disabled:cursor-not-allowed"
+          className="mt-4 px-6 py-2 rounded-md text-[13px] font-medium text-white disabled:opacity-40 disabled:cursor-not-allowed"
           style={gradientPillStyle}
         >
           {missingKey ? (submitting ? "Restoring..." : "Restore history") : "Unlock"}
@@ -462,7 +462,7 @@ export function RecoveryUnlockScreen({
           <button
             type="button"
             onClick={() => switchMode("recovery")}
-            className="mt-3 text-[11px] text-steel/70 hover:text-slate transition-colors cursor-pointer"
+            className="mt-3 text-xs text-steel hover:text-slate transition-colors cursor-pointer"
           >
             Use recovery key instead
           </button>
@@ -473,14 +473,14 @@ export function RecoveryUnlockScreen({
           <button
             type="button"
             onClick={onStartFresh}
-            className="mt-3 text-[11px] text-steel/70 hover:text-slate transition-colors cursor-pointer"
+            className="mt-3 text-xs text-steel hover:text-slate transition-colors cursor-pointer"
           >
             {hasRecoveryPassword ? "Lost both? Start fresh" : "Lost your key? Start fresh"}
           </button>
         )}
 
         {missingKey && (
-          <span className="inline-flex items-center gap-1.5 mt-4 text-[11px] text-steel">
+          <span className="inline-flex items-center gap-1.5 mt-4 text-xs text-steel">
             <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--color-gold)" }} />
             Saving is paused until you restore or start fresh.
           </span>

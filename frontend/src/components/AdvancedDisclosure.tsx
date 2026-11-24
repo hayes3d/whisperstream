@@ -40,7 +40,7 @@ export function AdvancedDisclosure({
         aria-expanded={open}
         className="flex items-center gap-1.5 mt-3 mb-1 cursor-pointer group"
       >
-        <span className="text-[11px] text-steel/50 font-medium uppercase tracking-wider group-hover:text-steel/70 transition-colors">
+        <span className="text-xs text-steel font-medium uppercase tracking-wider group-hover:text-steel/70 transition-colors">
           Advanced
         </span>
         <motion.svg
@@ -51,7 +51,7 @@ export function AdvancedDisclosure({
           stroke="currentColor"
           strokeWidth="1.5"
           strokeLinecap="round"
-          className="text-steel/40 group-hover:text-steel/60 transition-colors"
+          className="text-steel group-hover:text-steel/60 transition-colors"
           animate={{ rotate: open ? 90 : 0 }}
           transition={{ duration: 0.15 }}
         >

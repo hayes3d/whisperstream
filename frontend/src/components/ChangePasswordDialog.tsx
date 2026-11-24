@@ -251,7 +251,7 @@ export function ChangePasswordDialog({
               <div>
                 <label
                   htmlFor="change-current-pw"
-                  className="block text-[11px] text-steel mb-1.5 ml-1"
+                  className="block text-xs text-steel mb-1.5 ml-1"
                 >
                   Current password
                 </label>
@@ -276,7 +276,7 @@ export function ChangePasswordDialog({
                     onFocus={onInputFocus}
                     onBlurCapture={onInputBlur}
                   />
-                  <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel/40 pointer-events-none" />
+                  <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel pointer-events-none" />
                 </div>
               </div>
             </div>
@@ -310,7 +310,7 @@ export function ChangePasswordDialog({
             <div className="flex items-center justify-center gap-2.5 mt-6">
               <button
                 onClick={onCancel}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
                 style={glassPillStyle}
               >
                 Cancel
@@ -318,7 +318,7 @@ export function ChangePasswordDialog({
               <button
                 disabled={!canSubmit}
                 onClick={handleSubmit}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
                 style={gradientPillStyle}
               >
                 {submitting ? "Saving..." : "Change password"}
@@ -501,18 +501,18 @@ export function ViewRecoveryCodeDialog({
                 onFocus={onInputFocus}
                 onBlurCapture={onInputBlur}
               />
-              <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel/40 pointer-events-none" />
+              <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel pointer-events-none" />
             </div>
 
             {/* Wrong-password error (reuses E5 copy for consistency). */}
             {error && (
-              <p className="text-[11px] text-rose mb-3">{error}</p>
+              <p className="text-xs text-rose mb-3">{error}</p>
             )}
 
             <div className="flex items-center justify-center gap-2.5 mt-6">
               <button
                 onClick={onCancel}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
                 style={glassPillStyle}
               >
                 Cancel
@@ -520,7 +520,7 @@ export function ViewRecoveryCodeDialog({
               <button
                 disabled={!password || submitting}
                 onClick={handleViewCode}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
                 style={gradientPillStyle}
               >
                 {submitting ? "Generating..." : "Generate a new key"}

@@ -265,7 +265,7 @@ describe("Report a bug asks for logs first", () => {
   it("closes on Escape without opening anything", async () => {
     render(<About capabilities={CAPABILITIES} />);
     fireEvent.click(await screen.findByRole("button", {name: "Report a bug"}));
-    fireEvent.keyDown(window, {key: "Escape"});
+    fireEvent.keyDown(document, {key: "Escape"});
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(mocks.open).not.toHaveBeenCalled();

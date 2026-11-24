@@ -160,7 +160,7 @@ export function ReviewContent({ onDismiss, initialStep = "question", initialNoti
         type="button"
         onClick={snooze}
         aria-label="Close"
-        className="absolute -top-[15px] -right-[15px] z-10 w-6 h-6 rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer text-steel/55 hover:text-slate"
+        className="absolute -top-[15px] -right-[15px] z-10 w-6 h-6 rounded-md flex items-center justify-center transition-colors duration-200 cursor-pointer text-steel hover:text-slate"
         style={{ border: "none", background: "transparent" }}
       >
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -184,7 +184,7 @@ export function ReviewContent({ onDismiss, initialStep = "question", initialNoti
                 Yes
               </PrimaryButton>
               <SecondaryButton
-                className="w-full h-10 rounded-full text-[13px] font-medium text-slate"
+                className="w-full h-10 rounded-md text-[13px] font-medium text-slate"
                 onClick={() => choose("issue")}
               >
                 Not really
@@ -221,7 +221,7 @@ export function ReviewContent({ onDismiss, initialStep = "question", initialNoti
             </div>
             <div className="mt-2 w-full min-h-10 flex items-center justify-center">
               {notice ? (
-                <p role="alert" className="m-0 max-w-[300px] text-[11px] leading-[1.4] text-rose-text [text-wrap:balance]">
+                <p role="alert" className="m-0 max-w-[300px] text-xs leading-[1.4] text-rose-text [text-wrap:balance]">
                   {NOTICE_COPY[notice]}
                 </p>
               ) : (

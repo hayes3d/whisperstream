@@ -158,7 +158,7 @@ export function SttModelPicker({
                 event.stopPropagation();
                 onRequestDelete(option.value);
               }}
-              className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full text-steel/70 transition-colors hover:text-rose"
+              className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-md text-steel transition-colors hover:text-rose"
             >
               <TrashGlyph />
             </button>
@@ -200,7 +200,7 @@ function DownloadGlyph() {
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
-      className="text-steel/70"
+      className="text-steel"
     >
       <path d="M6 1.5v6" />
       <path d="M3.5 5.5L6 8l2.5-2.5" />

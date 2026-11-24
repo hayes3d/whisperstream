@@ -6,6 +6,7 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as api_config from "../../lib/api/config";
@@ -196,9 +197,11 @@ describe("AgentSpeakSetupModal shell", () => {
     expect(screen.getByText(allowed ? "Step 2 of 4" : "Step 1 of 4")).toBeInTheDocument();
   });
 
-  it("connects in one click from setup and explains a blocked Continue", () => {
+  it("connects in one click from setup and explains a blocked Continue", async () => {
     const { props } = renderModal({ config: makeConfig({ claude_hud_enabled: false }) });
-    expect(screen.getByRole("tooltip")).toHaveTextContent("Connect one agent to continue.");
+    // Radix mounts the hint only while the unavailable Continue is hovered/focused.
+    await userEvent.setup().hover(screen.getByLabelText("Continue unavailable"));
+    expect(await screen.findByRole("tooltip")).toHaveTextContent("Connect one agent to continue.");
     fireEvent.click(screen.getByRole("button", { name: "Connect Claude Code" }));
     expect(props.onProviderToggle).toHaveBeenCalledWith("claude", true);
   });
@@ -208,9 +211,11 @@ describe("AgentSpeakSetupModal shell", () => {
       config: makeConfig({ codex_hud_enabled: true, claude_hud_enabled: false }),
       providerResults: { codex: { ok: true, status: "installed", trust_required: true }, claude: null },
     });
-    const tooltip = screen.getByRole("tooltip");
-    expect(tooltip).toHaveTextContent("Finish connecting one agent to continue.");
-    expect(screen.getByLabelText("Continue unavailable")).toHaveAttribute("aria-describedby", tooltip.id);
+    const unavailable = screen.getByLabelText("Continue unavailable");
+    await userEvent.setup().hover(unavailable);
+    expect(await screen.findByRole("tooltip")).toHaveTextContent("Finish connecting one agent to continue.");
+    // aria-describedby resolves to the open bubble.
+    expect(unavailable).toHaveAccessibleDescription("Finish connecting one agent to continue.");
     expect(screen.queryByRole("button", { name: "Check connection for Codex" })).toBeNull();
     rerender(<AgentSpeakSetupModal {...props}
       config={makeConfig({ codex_hud_enabled: true, claude_hud_enabled: false })}

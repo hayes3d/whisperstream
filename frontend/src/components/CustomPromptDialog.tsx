@@ -1,28 +1,20 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { getBuiltinPrompt } from "../lib/api/enhancement";
 import { errorType } from "../lib/logCapture";
 
-/* ---------- Dialog shell tokens ----------
-   Shared with EnableLocalConfirmDialog / LowRamDialog /
-   DataLeavesDialog / PrivacyModal — the frost-glass dialog vocabulary.
-   Per LOCKED Decision 5-B the card is 520px wide with a max-height of
-   480px and the footer pairs a left-aligned "Reset to default" link
-   with right-aligned Cancel / Save pills. */
-const dialogShellStyle = {
-  background: "var(--surface-modal)",
-  backdropFilter: "blur(24px)",
-  WebkitBackdropFilter: "blur(24px)",
-  border: "1px solid var(--border-emphasis)",
-  boxShadow: "var(--shadow-glass)",
-};
-
-const backdropStyle = {
-  background: "var(--backdrop-strong)",
-  backdropFilter: "blur(40px)",
-  WebkitBackdropFilter: "blur(40px)",
-};
-
+/* ---------- Dialog shell ----------
+   The frost-glass card + backdrop now come from the shared shadcn Dialog
+   (components/ui/dialog.tsx), which portals to document.body so the card
+   never gets trapped under a backdrop-blur stacking context. Per LOCKED
+   Decision 5-B the card is 520px wide with a max-height of 480px and the
+   footer pairs a left-aligned "Reset to default" link with right-aligned
+   Cancel / Save pills. */
 const glassPillStyle = {
   background: "var(--surface-modal)",
   border: "1px solid var(--border-hairline-steel)",
@@ -65,62 +57,26 @@ export function CustomPromptDialog({
     if (open) setDraft(initialPrompt);
   }, [open, initialPrompt]);
 
-  // Esc dismisses. Enter is intentionally NOT bound — a textarea owns
-  // Enter for newlines; the Save pill is the explicit commit path.
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        onCancel();
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, onCancel]);
-
-  if (!open) return null;
-
+  // Esc and backdrop-click dismissal come from Radix Dialog; Enter is
+  // intentionally NOT bound — a textarea owns Enter for newlines; the Save
+  // pill is the explicit commit path.
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        className="absolute inset-0"
-        style={backdropStyle}
-        onClick={onCancel}
-      />
-
+    <Dialog open={open} onOpenChange={(next) => !next && onCancel()}>
       {/* Glass card — 520px wide per LOCKED Decision 5-B. max-h-[480px]
           caps card height so the resize-y textarea grows up to 280px
           without escaping the 700x500 Tauri main window. */}
-      <motion.div
-        initial={{ scale: 0.92, opacity: 0, y: 12 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 400, damping: 30, delay: 0.08 }}
-        className="relative w-[520px] max-h-[480px] rounded-[var(--radius-card)] p-7"
-        style={dialogShellStyle}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="custom-prompt-heading"
-      >
-        <h2
-          id="custom-prompt-heading"
-          className="font-display text-[18px] font-normal text-slate mb-1"
-        >
-          Custom prompt
-        </h2>
+      <DialogContent className="w-[520px] max-h-[480px]">
+        <DialogTitle className="mb-1">Custom prompt</DialogTitle>
 
-        <p className="text-[12px] text-steel mb-4 leading-relaxed">
+        <DialogDescription className="mb-4">
           Used to rewrite every transcription longer than three words.
-        </p>
+        </DialogDescription>
 
         <textarea
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           placeholder="e.g., Clean up this transcription. Fix grammar. Keep the original meaning."
-          className="w-full min-h-[140px] max-h-[280px] resize-y rounded-2xl px-4 py-3 text-[13px] text-slate font-body placeholder:text-steel/40 outline-none transition-all duration-300"
+          className="w-full min-h-[140px] max-h-[280px] resize-y rounded-2xl px-4 py-3 text-[13px] text-slate font-body placeholder:text-steel outline-none transition-all duration-300"
           style={{
             background: "var(--surface-control)",
             border: "1px solid var(--border-hairline)",
@@ -154,7 +110,7 @@ export function CustomPromptDialog({
                 );
               }
             }}
-            className="text-[11px] text-steel/70 hover:text-frost-deep transition-colors cursor-pointer"
+            className="text-xs text-steel hover:text-frost-deep transition-colors cursor-pointer"
           >
             Reset to default
           </button>
@@ -162,7 +118,7 @@ export function CustomPromptDialog({
             <button
               type="button"
               onClick={onCancel}
-              className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+              className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
               style={glassPillStyle}
             >
               Cancel
@@ -170,14 +126,14 @@ export function CustomPromptDialog({
             <button
               type="button"
               onClick={() => onSave(draft)}
-              className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+              className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
               style={gradientPillStyle}
             >
               Save
             </button>
           </div>
         </div>
-      </motion.div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }

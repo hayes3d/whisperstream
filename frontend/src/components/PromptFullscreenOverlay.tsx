@@ -88,7 +88,7 @@ export function PromptFullscreenOverlay({
               </span>
               <button
                 onClick={onClose}
-                className="h-8 px-4 rounded-full text-[13px] font-medium cursor-pointer"
+                className="h-8 px-4 rounded-md text-[13px] font-medium cursor-pointer"
                 style={{
                   background: "var(--accent-fill)",
                   color: "#fff",

@@ -19,7 +19,7 @@ import { motion, useReducedMotion } from "framer-motion";
  *
  * | State | Treatment (both themes resolve through tokens) |
  * |---|---|
- * | `pending` | `STEEL_BORDER` ring, **no fill**, numeral in `text-steel/60` |
+ * | `pending` | `STEEL_BORDER` ring, **no fill**, numeral in `text-steel` |
  * | `active` | `--accent-fill` + `--shadow-frost-glow` + a 1.2s opacity breath |
  * | `done` | `--color-mint` + a mint glow, **numeral replaced by a check glyph** |
  *
@@ -64,7 +64,7 @@ const DISC: Record<SetupDotState, CSSProperties> = {
  *  glyph on `--accent-fill` (AA in both themes per `system.md`) and on mint;
  *  pending drops to the tertiary text rung on the open modal surface. */
 const GLYPH: Record<SetupDotState, string> = {
-  pending: "text-steel/60",
+  pending: "text-steel",
   active: "text-white",
   done: "text-white",
 };
@@ -89,7 +89,7 @@ export function SetupStatusDot({ ordinal, state }: SetupStatusDotProps) {
       aria-hidden="true"
       data-setup-dot={state}
       data-breathing={breathing ? "true" : "false"}
-      className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full font-display text-[11px] font-medium leading-none ${GLYPH[state]}`}
+      className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full font-display text-xs font-medium leading-none ${GLYPH[state]}`}
       style={{
         ...DISC[state],
         transition: `border-color ${STATE_TWEEN}, background ${STATE_TWEEN}, color ${STATE_TWEEN}`,

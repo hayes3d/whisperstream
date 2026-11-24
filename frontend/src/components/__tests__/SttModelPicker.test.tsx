@@ -13,6 +13,7 @@
  *   - a protected (configured / loaded) artifact is never deletable;
  *   - the trailing actions stay reachable by keyboard while the panel is open.
  */
+import userEvent from "@testing-library/user-event";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import { render, screen, cleanup, fireEvent, within } from "@testing-library/react";
 import { SttModelPicker } from "../SttModelPicker";
@@ -117,7 +118,7 @@ describe("SttModelPicker options", () => {
     ).not.toHaveAccessibleDescription("Current model: Qwen3 ASR");
   });
 
-  it("selects an absent option to start its download", () => {
+  it("selects an absent option to start its download", async () => {
     const { onChange } = renderPicker([
       PARAKEET_SELECTED,
       { backend: "qwen", state: "absent" },
@@ -128,18 +129,22 @@ describe("SttModelPicker options", () => {
     expect(option).toHaveAccessibleDescription("Download Qwen3 ASR");
     // The visible tooltip is attached to the icon, but the row keeps one clean
     // accessible name and remains the pointer/keyboard action.
-    const tooltip = panel.querySelector<HTMLElement>('[role="tooltip"]');
-    expect(tooltip).not.toBeNull();
+    // Radix mounts (and portals) the bubble only while the icon is hovered.
+    const icon = option.querySelector<HTMLElement>('span[aria-hidden="true"] > span');
+    expect(icon).not.toBeNull();
+    const user = userEvent.setup();
+    await user.hover(icon!);
+    const tooltip = await screen.findByRole("tooltip", { hidden: true });
     expect(tooltip).toHaveTextContent("Download Qwen3 ASR");
-    fireEvent.mouseEnter(tooltip!.parentElement!);
-    expect(tooltip).toBeInTheDocument();
     expect(
       within(panel).queryByRole("option", {
         name: "Qwen3 ASR Download Qwen3 ASR",
       }),
     ).toBeNull();
 
-    fireEvent.click(option);
+    // After the pointer has hovered the row Radix selects on pointerup, so use
+    // a real pointer click.
+    await user.click(option);
     expect(onChange).toHaveBeenCalledWith("qwen");
   });
 

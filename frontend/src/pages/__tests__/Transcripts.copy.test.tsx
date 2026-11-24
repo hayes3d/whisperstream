@@ -5,6 +5,7 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { AppConfig } from "../../lib/api/config";
 import type { AppEvent } from "../../lib/socket/events";
@@ -99,11 +100,25 @@ function getProvenanceTooltips() {
   );
 }
 
-function getDescribedTooltip(control: HTMLElement) {
+// Radix mounts the bubble (the aria-describedby target) only while its trigger
+// -- the version chip -- is hovered/focused, so open it first.
+async function getDescribedTooltip(control: HTMLElement, container: HTMLElement) {
   const tooltipId = control.getAttribute("aria-describedby");
   expect(tooltipId).toBeTruthy();
+  const user = userEvent.setup();
+  for (const chip of container.querySelectorAll<HTMLElement>("[data-transcript-version]")) {
+    await user.hover(chip);
+    try {
+      await waitFor(() => expect(document.getElementById(tooltipId ?? "")).not.toBeNull(), {
+        timeout: 500,
+      });
+      break;
+    } catch {
+      await user.unhover(chip);
+    }
+  }
   const tooltip = document.getElementById(tooltipId ?? "");
-  expect(tooltip).toHaveAttribute("role", "tooltip");
+  expect(tooltip).not.toBeNull();
   return tooltip as HTMLElement;
 }
 
@@ -151,15 +166,13 @@ describe("Transcripts version chips and Copy", () => {
     const chip = view.container.querySelector(
       '[data-transcript-version="enhanced"]',
     );
-    const tooltip = getDescribedTooltip(header);
+    const tooltip = await getDescribedTooltip(header, view.container);
 
-    expect(chip).toHaveTextContent("Enhanced");
+    // A clean enhancement names its profile instead of a generic "Enhanced".
+    expect(chip).toHaveTextContent("Code");
     expect(chip).not.toHaveAttribute("tabindex");
     expect(tooltip).toHaveTextContent("Profile: Code");
     expect(tooltip).toHaveClass("w-64");
-    expect(tooltip.className).toContain(
-      "group-focus-visible/transcript-header:opacity-100",
-    );
     expect(document.getElementById(tooltip.id)).toBe(tooltip);
   });
 
@@ -187,10 +200,10 @@ describe("Transcripts version chips and Copy", () => {
       const chip = view.container.querySelector(
         '[data-transcript-version="original"]',
       );
-      const tooltip = getDescribedTooltip(header);
+      const tooltip = await getDescribedTooltip(header, view.container);
 
       expect(chip).toHaveTextContent("Original");
-      expect(chip).toHaveClass("text-steel/70");
+      expect(chip).toHaveClass("text-steel");
       expect(chip).not.toHaveAttribute("tabindex");
       expect(tooltip).toHaveTextContent(explanation);
       expect(tooltip).not.toHaveTextContent("Profile:");
@@ -199,7 +212,7 @@ describe("Transcripts version chips and Copy", () => {
       const originalWell = await screen.findByRole("region", {
         name: "Transcript (Original)",
       });
-      const expandedTooltip = getDescribedTooltip(originalWell);
+      const expandedTooltip = await getDescribedTooltip(originalWell, view.container);
       expect(expandedTooltip).toHaveTextContent(explanation);
       expect(
         screen.queryByRole("button", { name: "Show enhanced" }),
@@ -234,7 +247,7 @@ describe("Transcripts version chips and Copy", () => {
         name: "Transcript (Enhanced)",
       });
       const toggle = screen.getByRole("button", { name: "Show original" });
-      const tooltip = getDescribedTooltip(well);
+      const tooltip = await getDescribedTooltip(well, view.container);
 
       expect(
         view.container.querySelector('[data-transcript-version="enhanced"]'),
@@ -242,9 +255,6 @@ describe("Transcripts version chips and Copy", () => {
       expect(tooltip).toHaveTextContent(`Profile: ${longProfileName}`);
       expect(tooltip).toHaveTextContent(explanation);
       expect(tooltip.querySelector(".break-words")).toBeInTheDocument();
-      expect(tooltip.className).toContain(
-        "group-focus-within/transcript-detail:opacity-100",
-      );
       expect(well).toHaveAttribute("aria-describedby", tooltip.id);
       expect(toggle).toHaveAttribute("aria-describedby", tooltip.id);
     },
@@ -393,11 +403,12 @@ describe("Transcripts version chips and Copy", () => {
     fireEvent.click(screen.getByRole("button", { name: "Show original" }));
     await screen.findByRole("region", { name: "Transcript (Original)" });
     expect(
-      screen.getByText("Original", { exact: true }),
+      screen.getByText("Original", { exact: true }).closest("[data-transcript-version]"),
     ).toHaveAttribute("data-transcript-version", "original");
     expect(
       screen
         .getByText("Original", { exact: true })
+        .closest("[data-transcript-version]")!
         .querySelector("[data-transcript-sparkle]"),
     ).toBeNull();
     const copyOriginal = screen.getByRole("button", {

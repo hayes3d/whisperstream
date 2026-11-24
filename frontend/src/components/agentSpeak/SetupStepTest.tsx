@@ -196,7 +196,7 @@ const QUESTION_PROMPT = "This is a practice question. Which sounds better?";
 const QUESTION_OPTIONS = ["A quieter voice", "A louder voice"] as const;
 
 /** Copy `Locked 22`, a scope requirement rather than a style choice. Rendered
- *  at 12px `text-steel`, NOT 11px and NOT `text-steel/60`: this is the flow's
+ *  at 12px `text-steel`, NOT 11px and NOT `text-steel`: this is the flow's
  *  highest trust-stakes string, and setting it at the smallest size and weakest
  *  opacity on the surface changes whether it is read, which is the same failure
  *  as rewording it away. */

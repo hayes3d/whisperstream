@@ -358,7 +358,7 @@ export function WaveformPlayer({ peaks, audioUrl, durationMs, onSave }: Waveform
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = "";
           }}
-          className="w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-white cursor-pointer transition-transform"
+          className="w-7 h-7 shrink-0 rounded-md flex items-center justify-center text-white cursor-pointer transition-transform"
           style={{
             background:
               "linear-gradient(135deg, var(--color-frost), var(--color-frost-deep))",
@@ -367,7 +367,7 @@ export function WaveformPlayer({ peaks, audioUrl, durationMs, onSave }: Waveform
           {playing ? <PauseIcon /> : <PlayIcon />}
         </button>
 
-        <span className="text-[11px] text-steel tabular-nums">
+        <span className="text-xs text-steel tabular-nums">
           {fmt(currentTime)} / {fmt(totalSeconds)}
         </span>
 
@@ -377,7 +377,7 @@ export function WaveformPlayer({ peaks, audioUrl, durationMs, onSave }: Waveform
           type="button"
           onClick={cycleRate}
           aria-label={`Playback speed ${rate}x`}
-          className="shrink-0 rounded-full px-2.5 h-7 text-[12px] font-medium text-steel"
+          className="shrink-0 rounded-md px-2.5 h-7 text-[12px] font-medium text-steel"
         >
           {rate}x
         </SecondaryButton>

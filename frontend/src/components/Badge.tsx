@@ -32,10 +32,10 @@ export function Badge({
   className?: string;
 }) {
   const sz =
-    size === "sm" ? "text-[9px] px-1.5 py-[1px]" : "text-[10px] px-2.5 py-0.5";
+    size === "sm" ? "text-xs px-1.5 py-[1px]" : "text-xs px-2.5 py-0.5";
   return (
     <span
-      className={`inline-flex items-center rounded-full font-display font-semibold uppercase tracking-[0.08em] text-steel shrink-0 ${sz} ${className}`}
+      className={`inline-flex items-center rounded-md font-display font-semibold uppercase tracking-[0.08em] text-steel shrink-0 ${sz} ${className}`}
       style={{
         background: TONE[tone].background,
         border: `1px solid ${TONE[tone].border}`,

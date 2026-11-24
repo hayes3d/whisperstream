@@ -266,7 +266,7 @@ export function WhatsNewTour({ onComplete, initialStep = 1 }: WhatsNewTourProps)
             <div ref={contentRef}>
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div key={index} {...slide}>
-                  <span className="mb-2 inline-block font-display text-[10px] font-semibold uppercase tracking-[0.12em] text-frost-deep">
+                  <span className="mb-2 inline-block font-display text-xs font-semibold uppercase tracking-[0.12em] text-frost-deep">
                     {step.eyebrow}
                   </span>
                   <h2
@@ -294,7 +294,7 @@ export function WhatsNewTour({ onComplete, initialStep = 1 }: WhatsNewTourProps)
               <button
                 type="button"
                 onClick={() => go(-1)}
-                className="cursor-pointer rounded-full px-5 py-2 text-[13px] font-medium text-slate transition-all duration-200"
+                className="cursor-pointer rounded-md px-5 py-2 text-[13px] font-medium text-slate transition-all duration-200"
                 style={glassPillStyle}
               >
                 Back
@@ -304,7 +304,7 @@ export function WhatsNewTour({ onComplete, initialStep = 1 }: WhatsNewTourProps)
               ref={primaryRef}
               type="button"
               onClick={() => (last ? onComplete() : go(1))}
-              className="min-w-[84px] cursor-pointer rounded-full px-5 py-2 text-[13px] font-medium text-white transition-all duration-200"
+              className="min-w-[84px] cursor-pointer rounded-md px-5 py-2 text-[13px] font-medium text-white transition-all duration-200"
               style={gradientPillStyle}
             >
               {last ? "Start dictating" : "Next"}

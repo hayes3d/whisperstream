@@ -28,7 +28,7 @@ interface MicPickerProps {
 // different device.
 //
 // Locked design (design.md §Components §MicPicker):
-//   - Caret + "Microphone: <name>" label at 11px text-steel/60
+//   - Caret + "Microphone: <name>" label at 11px text-steel
 //   - Click expands; first expand fetches devices via getDevices()
 //   - Selecting a device passes the platform-specific persisted value and collapses
 //   - Does NOT call saveConfig — the parent (Finish button) persists
@@ -95,7 +95,7 @@ export function MicPicker({
     <div ref={containerRef} className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1.5 text-[11px] text-steel/60 hover:text-steel transition-colors duration-150 cursor-pointer"
+        className="flex items-center gap-1.5 text-xs text-steel hover:text-steel transition-colors duration-150 cursor-pointer"
       >
         <motion.svg
           width="9"
@@ -115,12 +115,12 @@ export function MicPicker({
           />
         </motion.svg>
         <span className="truncate max-w-[220px]">
-          Microphone:&nbsp;<span className="text-steel/80">{displayName}</span>
+          Microphone:&nbsp;<span className="text-steel">{displayName}</span>
           {availability === "unavailable" && (
-            <span className="text-steel/60"> (Unavailable)</span>
+            <span className="text-steel"> (Unavailable)</span>
           )}
           {availability === "unknown" && (
-            <span className="text-steel/60"> (Availability unknown)</span>
+            <span className="text-steel"> (Availability unknown)</span>
           )}
         </span>
       </button>
@@ -150,12 +150,12 @@ export function MicPicker({
               }}
             />
             {inventoryStatus === "loading" && (
-              <div className="px-3 py-1.5 text-[11px] text-steel/50 italic">
+              <div className="px-3 py-1.5 text-xs text-steel italic">
                 Loading microphones…
               </div>
             )}
             {error && (
-              <div className="px-3 py-1.5 text-[11px] text-rose">{error}</div>
+              <div className="px-3 py-1.5 text-xs text-rose">{error}</div>
             )}
             {devices?.map((d) => (
               <DeviceRow
@@ -187,7 +187,7 @@ function DeviceRow({
   return (
     <button
       onClick={onClick}
-      className={`w-full text-left px-3 py-1.5 text-[11px] transition-colors duration-100 cursor-pointer flex items-center gap-2 ${
+      className={`w-full text-left px-3 py-1.5 text-xs transition-colors duration-100 cursor-pointer flex items-center gap-2 ${
         selected ? "text-slate font-medium" : "text-steel hover:text-slate"
       }`}
       style={!selected ? { ["--hover-bg" as string]: "var(--surface-hover)" } : undefined}

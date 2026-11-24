@@ -299,12 +299,12 @@ export function LockdownDisableDialog({
                 onBlurCapture={onInputBlur}
               />
             </div>
-            {error && <p className="text-[11px] text-rose mb-3">{error}</p>}
+            {error && <p className="text-xs text-rose mb-3">{error}</p>}
             <div className="flex flex-col items-stretch gap-2.5">
               <button
                 disabled={submitting || !resetArmed}
                 onClick={handleReset}
-                className="px-5 py-2 rounded-full text-[13px] font-medium cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="px-5 py-2 rounded-md text-[13px] font-medium cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
                 style={{
                   background: "color-mix(in srgb, var(--color-rose) 15%, transparent)",
                   border: "1px solid color-mix(in srgb, var(--color-rose) 40%, transparent)",
@@ -320,7 +320,7 @@ export function LockdownDisableDialog({
                   setError(null);
                   setConfirmText("");
                 }}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
                 style={glassPillStyle}
               >
                 Enter password instead
@@ -374,11 +374,11 @@ export function LockdownDisableDialog({
                 onFocus={onInputFocus}
                 onBlurCapture={onInputBlur}
               />
-              <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel/40 pointer-events-none" />
+              <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-steel pointer-events-none" />
             </div>
 
             {/* E5 wrong-password error line (rose). */}
-            {error && <p className="text-[11px] text-rose mb-3">{error}</p>}
+            {error && <p className="text-xs text-rose mb-3">{error}</p>}
           </>
         )}
 
@@ -401,7 +401,7 @@ export function LockdownDisableDialog({
         <div className="flex items-center justify-center gap-2.5">
           <button
             onClick={onCancel}
-            className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+            className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
             style={glassPillStyle}
           >
             Keep on
@@ -409,7 +409,7 @@ export function LockdownDisableDialog({
           <button
             disabled={submitting || (hasEnvelope && !password)}
             onClick={handleConfirm}
-            className="px-5 py-2 rounded-full text-[13px] font-medium cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="px-5 py-2 rounded-md text-[13px] font-medium cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
             style={{
               background: "color-mix(in srgb, var(--color-rose) 15%, transparent)",
               border: "1px solid color-mix(in srgb, var(--color-rose) 40%, transparent)",
@@ -434,7 +434,7 @@ export function LockdownDisableDialog({
                 setError(null);
                 setConfirmText("");
               }}
-              className="text-[11px] text-steel/60 hover:text-steel underline underline-offset-2 cursor-pointer transition-colors"
+              className="text-xs text-steel hover:text-steel underline underline-offset-2 cursor-pointer transition-colors"
             >
               I forgot my password
             </button>

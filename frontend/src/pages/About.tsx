@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { open } from "@tauri-apps/plugin-shell";
-import { PrimaryButton } from "../components/PrimaryButton";
 import { SecondaryButton } from "../components/SecondaryButton";
 import { exportLogs } from "../lib/api/diagnostics";
 import { getVersion } from "../lib/api/system";
@@ -177,11 +176,11 @@ export function About({ onUpdateAvailable, lockdownEnabled, capabilities }: Abou
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ ...spring, delay: 0 }}
-              className="flex items-start justify-between pt-4 pr-12"
+              className="flex items-start justify-between pr-12"
             >
-              <h3 className="font-display text-[18px] font-light tracking-[0.06em] text-slate/80 leading-none">
+              <h2 className="font-display text-[18px] font-light tracking-[0.06em] text-slate/80 leading-none">
                 whisperstream
-              </h3>
+              </h2>
               <div className="flex flex-col items-end gap-0.5">
                 <span
                   className="text-[13px] text-slate"
@@ -200,7 +199,7 @@ export function About({ onUpdateAvailable, lockdownEnabled, capabilities }: Abou
                   type="button"
                   aria-label="Source code, opens in your browser"
                   onClick={() => void withExternalAccess(() => open("https://github.com/lanreal-io/whisperstream"))}
-                  className="mt-1 text-[11px] font-medium text-steel hover:text-slate hover:underline cursor-pointer transition-colors"
+                  className="mt-1 text-xs font-medium text-steel hover:text-slate hover:underline cursor-pointer transition-colors"
                 >Source code</button>}
               </div>
             </motion.div>
@@ -208,22 +207,22 @@ export function About({ onUpdateAvailable, lockdownEnabled, capabilities }: Abou
             {/* Action column — narrow, centered horizontally and vertically */}
             <div className="max-w-xs w-full mx-auto my-auto">
             {effectiveLockdown === false ? <>
-            {/* Get help — primary */}
+            {/* Get help — a peer of the other help actions, not the page's
+                primary: About should not give its strongest emphasis to failure. */}
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ ...spring, delay: 0.04 }}
             >
-              <PrimaryButton
+              <SecondaryButton
                 type="button"
                 aria-haspopup="dialog"
                 onClick={() => setReportOpen(true)}
-                fullWidth
-                className="flex items-center justify-center gap-2 h-11 text-[13px]"
+                className="flex items-center justify-center gap-2 w-full h-10 px-6 rounded-md text-[13px] font-medium text-slate"
               >
-                <HelpIcon className="text-white/80" />
+                <HelpIcon className="text-steel" />
                 Report a bug
-              </PrimaryButton>
+              </SecondaryButton>
             </motion.div>
 
             {/* Request a feature — secondary */}
@@ -237,10 +236,10 @@ export function About({ onUpdateAvailable, lockdownEnabled, capabilities }: Abou
                 type="button"
                 aria-label="Request a feature on GitHub, opens in your browser"
                 onClick={() => void withExternalAccess(() => open("https://github.com/lanreal-io/whisperstream/issues/new?template=feature_request.yml"))}
-                className="flex items-center justify-center gap-1.5 w-full h-10 px-6 rounded-full text-[13px] font-medium text-steel"
+                className="flex items-center justify-center gap-1.5 w-full h-10 px-6 rounded-md text-[13px] font-medium text-steel"
               >
                 Request a feature
-                <ExternalLinkIcon className="text-steel/70" />
+                <ExternalLinkIcon className="text-steel" />
               </SecondaryButton>
             </motion.div>
 
@@ -255,7 +254,7 @@ export function About({ onUpdateAvailable, lockdownEnabled, capabilities }: Abou
                 type="button"
                 aria-label="Read documentation, opens in your browser"
                 onClick={() => void withExternalAccess(() => open("https://whisperstream.io/docs"))}
-                className="flex items-center justify-center w-full h-10 px-6 rounded-full text-[13px] font-medium text-steel"
+                className="flex items-center justify-center w-full h-10 px-6 rounded-md text-[13px] font-medium text-steel"
               >
                 Read documentation
               </SecondaryButton>
@@ -286,7 +285,7 @@ export function About({ onUpdateAvailable, lockdownEnabled, capabilities }: Abou
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ ...spring, delay: 0.13 }}
-              className="flex items-center justify-center flex-wrap gap-x-1.5 text-[11px] leading-tight"
+              className="flex items-center justify-center flex-wrap gap-x-1.5 text-xs leading-tight"
             >
               <DocumentationExportButton />
               {LEGAL_DOCUMENTS.map(link => <button key={link.url} type="button"
@@ -295,19 +294,19 @@ export function About({ onUpdateAvailable, lockdownEnabled, capabilities }: Abou
                   try { await downloadLegalDocument(link); }
                   catch (err) { setLegalError(true); console.error(`[About] legal download failed error_type=${errorType(err)}`); }
                 }} aria-label={`Download ${link.label}`}
-                className="text-steel/70 hover:text-steel hover:underline cursor-pointer">{link.label}</button>)}
+                className="text-steel hover:text-steel hover:underline cursor-pointer">{link.label}</button>)}
               {effectiveLockdown === false && FOOTER_LINKS.map((link, i) => (
                 <span key={link.url} className="flex items-center gap-x-1.5">
                   <button
                     type="button"
                     onClick={() => void withExternalAccess(() => open(link.url))}
                     aria-label={`${link.label}, opens in your browser`}
-                    className="text-steel/70 hover:text-steel hover:underline cursor-pointer transition-colors"
+                    className="text-steel hover:text-steel hover:underline cursor-pointer transition-colors"
                   >
                     {link.label}
                   </button>
                   {i < FOOTER_LINKS.length - 1 && (
-                    <span className="text-steel/40" aria-hidden="true">
+                    <span className="text-steel" aria-hidden="true">
                       ·
                     </span>
                   )}

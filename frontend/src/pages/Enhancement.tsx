@@ -24,6 +24,7 @@ import { subscribeToDownloadEvents } from "../lib/socket/downloads";
 import { type BenchmarkVerdict, BenchmarkFlow } from "../components/BenchmarkFlow";
 import { type DropdownOption, Dropdown } from "../components/Dropdown";
 import { HoverTooltip } from "../components/HoverTooltip";
+import { PageHeader } from "../components/PageHeader";
 import { ModelIdentityChip, MarginalDot, DownloadMiniIcon } from "./enhancement/Glyphs";
 import { type PromptTesterGate } from "../components/PromptTester";
 import { CloudModelPicker } from "../components/CloudModelPicker";
@@ -1176,8 +1177,8 @@ export function Enhancement({
           dividerBefore: isFirstCandidate && orderedProduction.length > 0,
           adornment: (
             <span
-              className={`inline-flex flex-col items-end gap-0.5 text-[10px] leading-3 font-medium ${
-                artifactAvailable ? "text-steel" : "text-steel/60"
+              className={`inline-flex flex-col items-end gap-0.5 text-xs leading-3 font-medium ${
+                artifactAvailable ? "text-steel" : "text-steel"
               }`}
             >
               {isFirstCandidate && <span>Development candidates</span>}
@@ -1247,17 +1248,17 @@ export function Enhancement({
         // ONE trailing meta per row, by priority: progress, size when a
         // download is needed, the slow dot, else nothing.
         adornment: downloading ? (
-          <span className="text-[11px] text-steel tabular-nums">
+          <span className="text-xs text-steel tabular-nums">
             {percent != null ? `${percent}%` : null}
           </span>
         ) : !installed ? (
-          <span className="text-[11px] text-steel/70 tabular-nums">{size}</span>
+          <span className="text-xs text-steel tabular-nums">{size}</span>
         ) : marginal ? (
           <span className="inline-flex items-center"><MarginalDot /></span>
         ) : undefined,
         triggerAdornment: downloading ? (
           <>
-            <span className="text-[11px] text-steel tabular-nums shrink-0">
+            <span className="text-xs text-steel tabular-nums shrink-0">
               {percent != null ? `${percent}%` : null}
             </span>
             <span
@@ -1272,7 +1273,7 @@ export function Enhancement({
             />
           </>
         ) : !installed ? (
-          <DownloadMiniIcon className="text-steel/70 shrink-0" aria-hidden="true" />
+          <DownloadMiniIcon className="text-steel shrink-0" aria-hidden="true" />
         ) : marginal ? (
           <span className="inline-flex items-center shrink-0"><MarginalDot /></span>
         ) : undefined,
@@ -1466,7 +1467,7 @@ export function Enhancement({
   );
 
   const inputBase =
-    "w-full h-11 rounded-[var(--radius-input)] px-5 text-[13px] font-body text-slate placeholder:text-steel/40 outline-none transition-all duration-300";
+    "w-full h-11 rounded-[var(--radius-input)] px-5 text-[13px] font-body text-slate placeholder:text-steel outline-none transition-all duration-300";
   const thinking = savedConnection.thinking;
   const thinkingLabel = (level: string) => level.charAt(0).toUpperCase() + level.slice(1);
   const thinkingAdjustable = thinking?.kind === "configurable" || thinking?.kind === "mandatory";
@@ -1504,7 +1505,7 @@ export function Enhancement({
   // local (no key) nor ollama (no key).
   const apiKeyBlock = (
     <div>
-      <div className="text-[11px] text-steel font-medium mb-1">API key</div>
+      <div className="text-xs text-steel font-medium mb-1">API key</div>
       <ApiKeyField
         value={localApiKey}
         storedKey={storedKey}
@@ -1521,7 +1522,7 @@ export function Enhancement({
         <div className="flex justify-end mt-1.5">
           <button
             onClick={() => { workspace.reset(); void handleRemoveKey(); }}
-            className="text-[11px] text-steel/70 hover:text-rose transition-colors cursor-pointer"
+            className="text-xs text-steel hover:text-rose transition-colors cursor-pointer"
           >
             Remove key
           </button>
@@ -1533,26 +1534,26 @@ export function Enhancement({
   // ONE helper line under the local model trigger, at most one action, shown
   // only when something needs the user (design.md "Helper line"). Ready or
   // viable models show nothing; launch-time hardware rechecks stay automatic.
-  const localHelperLinkClass = "text-[11px] hover:underline cursor-pointer";
+  const localHelperLinkClass = "text-xs hover:underline cursor-pointer";
   const localModelAuxiliary = currentProvider === "local" ? (
     currentLocalModelIsCandidate ? (
       localModelInstalled ? (
-        <p className="text-[11px] text-steel mt-1.5">
+        <p className="text-xs text-steel mt-1.5">
           Development candidate · Artifact available
         </p>
       ) : (
-        <p className="text-[11px] text-steel mt-1.5">
+        <p className="text-xs text-steel mt-1.5">
           Artifact unavailable in the candidate model directory.
         </p>
       )
     ) : localModelDownloading ? (
-      <p className="text-[11px] leading-4 text-steel mt-1.5 tabular-nums">
+      <p className="text-xs leading-4 text-steel mt-1.5 tabular-nums">
         {localDownloadProgress && localDownloadProgress.total > 0
           ? `Downloading · ${formatModelSizeShort(localDownloadProgress.downloaded / (1024 * 1024))} of ${formatModelSizeShort(currentLocalModel.disk_mb)}`
           : "Downloading…"}
       </p>
     ) : !localModelInstalled ? (
-      <p className="text-[11px] leading-4 mt-1.5">
+      <p className="text-xs leading-4 mt-1.5">
         <button
           type="button"
           onClick={() => requestLocalDownload(currentLocalModel)}
@@ -1563,7 +1564,7 @@ export function Enhancement({
         </button>
       </p>
     ) : localModelVerdict === "marginal" ? (
-      <p className="text-[11px] leading-4 text-steel mt-1.5 flex flex-wrap items-baseline gap-x-1.5">
+      <p className="text-xs leading-4 text-steel mt-1.5 flex flex-wrap items-baseline gap-x-1.5">
         <span>Runs slowly on this computer.</span>
         <button
           type="button"
@@ -1590,10 +1591,11 @@ export function Enhancement({
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0, type: "spring", stiffness: 400, damping: 30 }}
       >
-        <div className="flex items-center justify-between gap-3">
-          <div className="text-[18px] font-medium text-slate">Enhancement</div>
-          {/* Keep status text in one live region so invalidation replaces
-              connection evidence immediately, without an exit-animation delay. */}
+        <PageHeader
+          title="Enhancement"
+          action={
+          /* Keep status text in one live region so invalidation replaces
+             connection evidence immediately, without an exit-animation delay. */
           <HoverTooltip
             content={
               status.kind !== "idle"
@@ -1631,13 +1633,14 @@ export function Enhancement({
                   }
                 />}
                 <span
-                  className={`text-[10px] font-medium uppercase tracking-wider truncate ${labelClassFor(status)}`}
+                  className={`text-xs font-medium uppercase tracking-wider truncate ${labelClassFor(status)}`}
                 >
                   {status.kind === "error" ? "Connection failed" : labelFor(status)}
                 </span>
               </motion.div>
           </HoverTooltip>
-        </div>
+          }
+        />
       </motion.div>
 
       {/* Surface D policy banner (Task 5.7). Rendered directly under the page
@@ -1668,13 +1671,13 @@ export function Enhancement({
             }}
           >
             <ShieldSealGlyph size={14} className="text-steel shrink-0" />
-            <span className="text-[11px] text-steel leading-snug flex-1">
+            <span className="text-xs text-steel leading-snug flex-1">
               Lockdown limits AI cleanup to the on-device model.
             </span>
             <button
               type="button"
               onClick={onNavigateHome}
-              className="ml-auto text-[11px] shrink-0 hover:underline cursor-pointer"
+              className="ml-auto text-xs shrink-0 hover:underline cursor-pointer"
               style={{ color: "var(--color-frost-deep)" }}
               aria-label="Manage Lockdown Mode"
             >
@@ -1687,7 +1690,7 @@ export function Enhancement({
       {!capabilityForProvider(currentProvider).enabled && (
         <div
           role="status"
-          className="rounded-[var(--radius-row)] px-4 py-2.5 text-[11px] text-steel"
+          className="rounded-[var(--radius-row)] px-4 py-2.5 text-xs text-steel"
           style={{
             background: "var(--surface-control)",
             border: "1px solid var(--border-standard)",
@@ -1711,7 +1714,7 @@ export function Enhancement({
       >
         <div className="min-w-0">
           <div className="text-[13px] font-medium text-slate">AI Enhancement</div>
-          <div className="text-[11px] text-steel mt-0.5">Clean up dictation with an AI model.</div>
+          <div className="text-xs text-steel mt-0.5">Clean up dictation with an AI model.</div>
         </div>
         <div className="shrink-0">
           <Toggle
@@ -1745,7 +1748,7 @@ export function Enhancement({
         <>
         <div className="grid grid-cols-[150px_1fr] gap-3 items-start">
           <div>
-            <div className="text-[11px] text-steel font-medium mb-1">Provider</div>
+            <div className="text-xs text-steel font-medium mb-1">Provider</div>
             <ProviderDropdown
               ref={dropdownRef}
               open={providerDropdownOpen}
@@ -1790,7 +1793,7 @@ export function Enhancement({
                 150px Provider column). Local shows its helper here only when
                 there is no model picker. */}
             {providerHelp?.url && providerHelp?.label ? (
-              <p className="text-[11px] leading-relaxed mt-1.5">
+              <p className="text-xs leading-relaxed mt-1.5">
                 <a
                   href={providerHelp.url}
                   target="_blank"
@@ -1810,7 +1813,7 @@ export function Enhancement({
           <div>
             {isCustom && (
               <div>
-                <div className="text-[11px] text-steel font-medium mb-1">Base URL</div>
+                <div className="text-xs text-steel font-medium mb-1">Base URL</div>
                 <input
                   type="text"
                   value={localCustomBaseUrl}
@@ -1830,7 +1833,7 @@ export function Enhancement({
             )}
             {isOllama && (
               <div>
-                <div className="text-[11px] text-steel font-medium mb-1">Endpoint</div>
+                <div className="text-xs text-steel font-medium mb-1">Endpoint</div>
                 <input
                   type="text"
                   value={localOllamaEndpoint}
@@ -1857,7 +1860,7 @@ export function Enhancement({
                 under Provider instead. */}
             {currentProvider === "local" && showLocalModelSelector && (
               <div ref={localPickerRef}>
-                <div className="text-[11px] text-steel font-medium mb-1">Model</div>
+                <div className="text-xs text-steel font-medium mb-1">Model</div>
                 <Dropdown
                   value={currentLocalModelId}
                   options={localModelOptions}
@@ -1896,10 +1899,10 @@ export function Enhancement({
           </div>
         </div>
 
-        {(isCustom || isOllama) && <p className="text-[11px] text-steel leading-relaxed mt-1.5">
+        {(isCustom || isOllama) && <p className="text-xs text-steel leading-relaxed mt-1.5">
           Use HTTPS for remote servers. HTTP is allowed only for a server on this device.
         </p>}
-        {isOllama && <p className="text-[11px] text-steel leading-relaxed mt-1.5">
+        {isOllama && <p className="text-xs text-steel leading-relaxed mt-1.5">
           {isLocalOllamaEndpoint(localOllamaEndpoint) ? "Server on this device; may use cloud models" : "Processing depends on the server and model"}
         </p>}
 
@@ -1907,7 +1910,7 @@ export function Enhancement({
             Provider + Base URL row, so it fits the longer caption (it was being
             trimmed in the narrow 150px Provider column). */}
         {isCustom && (
-          <p className="text-[11px] text-steel leading-relaxed mt-1.5">
+          <p className="text-xs text-steel leading-relaxed mt-1.5">
             <a
               href="https://platform.openai.com/docs/api-reference/chat"
               target="_blank"
@@ -1927,7 +1930,7 @@ export function Enhancement({
             is already the full-width block below). */}
         {isOllama && (
           <div className="mt-2">
-            <div className="text-[11px] text-steel font-medium mb-1">Model</div>
+            <div className="text-xs text-steel font-medium mb-1">Model</div>
             <input
               type="text"
               value={localOllamaModel}
@@ -1948,7 +1951,7 @@ export function Enhancement({
         {isCustom && (
           <div className="space-y-2 mt-2">
             <div>
-              <div className="text-[11px] text-steel font-medium mb-1">Model</div>
+              <div className="text-xs text-steel font-medium mb-1">Model</div>
               {cloudPicker}
             </div>
             {apiKeyBlock}
@@ -1963,7 +1966,7 @@ export function Enhancement({
            Now part of the Connection block's expanded body (issue 1). */}
       {!isOllama && !isCustom && currentProvider !== "local" && (
         <div className="mt-3">
-          <div className="text-[11px] text-steel font-medium mb-2">Model</div>
+          <div className="text-xs text-steel font-medium mb-2">Model</div>
           {cloudPicker}
           {/* Privacy note moved to the provider-selector icon tooltip (round 04). */}
         </div>
@@ -1971,7 +1974,7 @@ export function Enhancement({
 
       {workspace.visible && (
         <div className="mt-3" ref={workspaceRef}>
-          <label htmlFor="enhancement-workspace" className="block text-[11px] text-steel font-medium mb-1">Workspace ID</label>
+          <label htmlFor="enhancement-workspace" className="block text-xs text-steel font-medium mb-1">Workspace ID</label>
           <input
             id="enhancement-workspace"
             type="text"
@@ -1990,16 +1993,16 @@ export function Enhancement({
             style={inputBaseStyle}
           />
           <div className="flex items-start justify-between gap-3 mt-1.5">
-            <p id="enhancement-workspace-help" className="text-[11px] text-steel leading-relaxed">
+            <p id="enhancement-workspace-help" className="text-xs text-steel leading-relaxed">
               Find it in Anthropic Console. A workspace-scoped API key does not need this field.
             </p>
             <button type="button" aria-label="Clear Workspace ID" onClick={workspace.clear}
               disabled={!workspace.draft && !config.enhancement_anthropic_workspace_id}
-              className="text-[11px] text-steel/70 hover:text-rose transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-default shrink-0">
+              className="text-xs text-steel/70 hover:text-rose transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-default shrink-0">
               Clear
             </button>
           </div>
-          {workspaceError && <p id="enhancement-workspace-error" className="text-[11px] text-rose leading-relaxed mt-1.5">{workspaceError}</p>}
+          {workspaceError && <p id="enhancement-workspace-error" className="text-xs text-rose leading-relaxed mt-1.5">{workspaceError}</p>}
         </div>
       )}
 
@@ -2017,8 +2020,8 @@ export function Enhancement({
           </p>
           <SecondaryButton onClick={reviewCurrentRecipient} className="shrink-0 text-[12px] px-4 py-2">Review privacy notice</SecondaryButton>
         </div>}
-        <p className="text-[11px] text-steel">Checks use fixed test text, not your transcripts or profile instructions.</p>
-        {!config.enhancement_enabled && <p className="text-[11px] text-steel">Turn on Enhancement to test prompts or check the connection.</p>}
+        <p className="text-xs text-steel">Checks use fixed test text, not your transcripts or profile instructions.</p>
+        {!config.enhancement_enabled && <p className="text-xs text-steel">Turn on Enhancement to test prompts or check the connection.</p>}
       </div>}
 
       <Section index={4} title="">
@@ -2099,7 +2102,7 @@ export function Enhancement({
                       className={`${inputBase} w-20 px-3 text-right`}
                       style={inputBaseStyle}
                     />
-                    <span className="text-[11px] text-steel">seconds</span>
+                    <span className="text-xs text-steel">seconds</span>
                   </div>
                 </Section>
 
@@ -2342,7 +2345,7 @@ function DescriptionWithHover({ text, term, hover }: { text: string; term: strin
         </span>
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute left-0 top-full mt-1.5 w-56 rounded-xl px-3 py-2 text-[11px] leading-relaxed font-normal text-slate opacity-0 group-hover/hover:opacity-100 transition-opacity duration-150 z-30"
+          className="pointer-events-none absolute left-0 top-full mt-1.5 w-56 rounded-xl px-3 py-2 text-xs leading-relaxed font-normal text-slate opacity-0 group-hover/hover:opacity-100 transition-opacity duration-150 z-30"
           style={{
             background: "var(--surface-overlay)",
             backdropFilter: "blur(24px)",
@@ -2397,7 +2400,7 @@ function Section({
           <div className="flex items-center justify-between py-3 gap-4">
             <div className="min-w-0">
               <div className="text-[13px] font-medium text-slate">{title}</div>
-              {description && <div id={descriptionId} className="text-[11px] text-steel mt-0.5">{description}</div>}
+              {description && <div id={descriptionId} className="text-xs text-steel mt-0.5">{description}</div>}
             </div>
             <div className="shrink-0">{children}</div>
           </div>
@@ -2409,7 +2412,7 @@ function Section({
             <div className="text-[13px] font-medium text-slate mb-2">{title}</div>
           )}
           {description && (
-            <div id={descriptionId} className="text-[11px] text-steel mb-3">{description}</div>
+            <div id={descriptionId} className="text-xs text-steel mb-3">{description}</div>
           )}
           {children}
         </>

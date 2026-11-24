@@ -11,16 +11,17 @@
  * fixed position keyed off the anchor's `getBoundingClientRect()` keeps it
  * visually attached to its trigger.
  *
- * It opens BELOW the anchor by default, but flips ABOVE when there isn't enough
- * room below (e.g. a `+` on a profile row near the window bottom), and clamps
- * horizontally so the menu never spills off-screen. It re-measures on scroll /
- * resize so it stays anchored as the page moves. Click-outside / Escape close
- * logic stays with the *content* (the existing RunningAppPicker owns its own
- * outside-click handler); this wrapper is purely about position + escaping the
- * clip.
+ * Now a thin adapter over the shadcn/Radix Popover: the anchor element is
+ * handed to Radix as a virtual anchor, and Radix owns the portal, the fixed
+ * positioning, the flip-above-when-no-room and viewport-clamp collision logic,
+ * and re-measuring on scroll / resize. It opens BELOW the anchor by default.
+ * Click-outside / Escape close logic stays with the *content* (the existing
+ * RunningAppPicker owns its own outside-click handler), so Radix dismissal is
+ * disabled here and focus is never moved: this wrapper is purely about position
+ * + escaping the clip.
  */
-import { useLayoutEffect, useRef, useState, type RefObject, type ReactNode } from "react";
-import { createPortal } from "react-dom";
+import type { RefObject, ReactNode } from "react";
+import { Popover, PopoverAnchor, PopoverContent } from "@/components/ui/popover";
 
 type Align = "left" | "right";
 
@@ -45,70 +46,26 @@ export function AnchoredPopover({
   width?: number;
   children: ReactNode;
 }) {
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [pos, setPos] = useState<{ top: number; left: number; width: number } | null>(null);
-
-  useLayoutEffect(() => {
-    const measure = () => {
-      const el = anchorRef.current;
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      const w = width ?? r.width;
-
-      // Horizontal: align to the requested edge, then clamp into the viewport.
-      let left = align === "right" ? r.right - w : r.left;
-      left = Math.min(Math.max(left, VIEWPORT_MARGIN), Math.max(VIEWPORT_MARGIN, vw - w - VIEWPORT_MARGIN));
-
-      // Vertical: prefer below the anchor. If the content height (once measured)
-      // doesn't fit below, flip above. Falls back to "below" before the first
-      // measurement, then re-runs once the ref is populated.
-      const menuH = contentRef.current?.offsetHeight ?? 0;
-      const spaceBelow = vh - r.bottom - gap;
-      const spaceAbove = r.top - gap;
-      let top: number;
-      if (menuH > 0 && menuH > spaceBelow && spaceAbove > spaceBelow) {
-        // Flip up: bottom edge of menu sits `gap` above the anchor's top.
-        top = Math.max(VIEWPORT_MARGIN, r.top - gap - menuH);
-      } else {
-        top = r.bottom + gap;
-        // If it would run off the bottom, lift it up to fit (but never above the margin).
-        if (menuH > 0 && top + menuH > vh - VIEWPORT_MARGIN) {
-          top = Math.max(VIEWPORT_MARGIN, vh - VIEWPORT_MARGIN - menuH);
-        }
-      }
-
-      setPos({ top, left, width: w });
-    };
-    // Measure twice: once for an initial placement, then again on the next frame
-    // after the content has laid out so flip/clamp can use its real height.
-    measure();
-    const raf = requestAnimationFrame(measure);
-    window.addEventListener("scroll", measure, true);
-    window.addEventListener("resize", measure);
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", measure, true);
-      window.removeEventListener("resize", measure);
-    };
-  }, [anchorRef, align, gap, width, children]);
-
-  if (!pos) return null;
-
-  return createPortal(
-    <div
-      ref={contentRef}
-      style={{
-        position: "fixed",
-        top: pos.top,
-        left: pos.left,
-        width: pos.width,
-        zIndex: 60,
-      }}
-    >
-      {children}
-    </div>,
-    document.body,
+  return (
+    // Mounted by the caller only while open, so `open` is always true; there
+    // is deliberately no onOpenChange (dismissal belongs to the content).
+    <Popover open>
+      <PopoverAnchor virtualRef={anchorRef as RefObject<HTMLElement>} />
+      <PopoverContent
+        side="bottom"
+        align={align === "right" ? "end" : "start"}
+        sideOffset={gap}
+        collisionPadding={VIEWPORT_MARGIN}
+        onOpenAutoFocus={(event) => event.preventDefault()}
+        onCloseAutoFocus={(event) => event.preventDefault()}
+        onEscapeKeyDown={(event) => event.preventDefault()}
+        onInteractOutside={(event) => event.preventDefault()}
+        // The children carry their own glass card, so drop the Glacier skin.
+        className="z-[60] rounded-none p-0 [background:transparent] [border:0] [box-shadow:none] [backdrop-filter:none]"
+        style={{ width: width ?? "var(--radix-popover-trigger-width)" }}
+      >
+        {children}
+      </PopoverContent>
+    </Popover>
   );
 }

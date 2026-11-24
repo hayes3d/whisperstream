@@ -38,14 +38,14 @@ const cardProps = {
 };
 
 describe("HudExpandToggle", () => {
-  it("is a 40x28 icon-only pill drawn from theme tokens", () => {
+  it("is a 40x28 icon-only button drawn from theme tokens", () => {
     render(<HudExpandToggle expanded={false} label="Expand response" onToggle={() => {}} />);
     const button = screen.getByRole("button", { name: "Expand response" });
 
     expect(HUD_EXPAND_TOGGLE_W).toBe(40);
     expect(HUD_EXPAND_TOGGLE_H).toBe(28);
     expect(button).toHaveStyle({ width: "40px", height: "28px" });
-    expect(button).toHaveClass("rounded-full");
+    expect(button).toHaveClass("rounded-md");
     expect(button.style.border).toBe("1px solid var(--hud-expand-border)");
     expect(button.style.color).toBe("var(--hud-expand-icon)");
     expect(button.className).toContain("bg-[var(--surface-control)]");
@@ -89,13 +89,13 @@ describe("HudExpandToggle", () => {
     expect(button).toHaveAttribute("data-hud-interactive", "true");
   });
 
-  it("defines accent values in Light and neutral values in Dark", () => {
+  it("defines stock-shadcn neutral values in Light and Dark", () => {
     const light = themeBlock('[data-theme="light"]');
     const dark = themeBlock('[data-theme="dark"]');
-    expect(light).toContain("--hud-expand-border: rgba(85, 144, 196, 0.45);");
-    expect(light).toContain("--hud-expand-icon: #3A6E9E;");
-    expect(dark).toContain("--hud-expand-border: rgba(255, 255, 255, 0.16);");
-    expect(dark).toContain("--hud-expand-icon: #A6B9CC;");
+    expect(light).toContain("--hud-expand-border: #e5e5e5;");
+    expect(light).toContain("--hud-expand-icon: #525252;");
+    expect(dark).toContain("--hud-expand-border: rgb(255 255 255 / 0.15);");
+    expect(dark).toContain("--hud-expand-icon: #a3a3a3;");
   });
 
   it("is the one control on the glance card, the console and Live Preview", () => {

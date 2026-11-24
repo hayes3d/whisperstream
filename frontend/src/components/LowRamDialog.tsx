@@ -1,5 +1,10 @@
-import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 /* ---------- Memory ring icon ----------
    Gold-deep stroke (gold-mist aura) signals "caution," not "error." A
@@ -99,92 +104,35 @@ export function LowRamDialog({
   onContinue,
   onDismiss,
 }: LowRamDialogProps) {
-  const continueBtnRef = useRef<HTMLButtonElement>(null);
-
-  // Esc dismisses. Enter is intentionally NOT bound — the user must read
-  // the dialog before they can keyboard-confirm into cloud setup. Matches
-  // PrivacyModal's affirmative-action convention.
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        onDismiss();
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, onDismiss]);
-
-  // Focus the secondary (Download anyway) button on mount per the focus spec
-  // in dialog-design.md: we want the user to read the dialog before being
-  // able to keyboard-confirm into cloud setup.
-  useEffect(() => {
-    if (!open) return;
-    continueBtnRef.current?.focus();
-  }, [open]);
-
-  if (!open) return null;
-
+  // Esc / backdrop dismissal come from Radix Dialog. Enter is intentionally
+  // NOT bound — the user must read the dialog before they can keyboard-confirm
+  // into cloud setup. Radix focuses the first tabbable ("Download anyway") on
+  // open, which is the secondary button per dialog-design.md's focus spec.
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        className="absolute inset-0"
-        style={{
-          background: "var(--backdrop-strong)",
-          backdropFilter: "blur(40px)",
-          WebkitBackdropFilter: "blur(40px)",
-        }}
-        onClick={onDismiss}
-      />
-
+    <Dialog open={open} onOpenChange={(next) => !next && onDismiss()}>
       {/* Glass card — narrower than PrivacyModal (420 vs 460), no
-          enumerated list to host. The shell-level glass treatment is
-          duplicated verbatim from PrivacyModal / DataLeavesDialog per
-          design.md's "no shared base component" decision. */}
-      <motion.div
-        initial={{ scale: 0.92, opacity: 0, y: 12 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 400, damping: 30, delay: 0.08 }}
-        className="relative w-[420px] rounded-[var(--radius-card)] p-7"
-        style={{
-          background: "var(--surface-modal)",
-          backdropFilter: "blur(24px)",
-          WebkitBackdropFilter: "blur(24px)",
-          border: "1px solid var(--border-emphasis)",
-          boxShadow: "var(--shadow-glass)",
-        }}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="low-ram-dialog-heading"
-      >
+          enumerated list to host. */}
+      <DialogContent className="w-[420px]">
         <MemoryRingIcon />
 
-        <h2
-          id="low-ram-dialog-heading"
-          className="font-display text-[18px] font-normal text-slate text-center mb-2"
-        >
+        <DialogTitle className="font-display text-[18px] font-normal text-slate text-center mb-2">
           Your machine may not have enough memory
-        </h2>
+        </DialogTitle>
 
-        <p className="text-[13px] text-steel mb-5 leading-relaxed text-center">
+        <DialogDescription className="text-[13px] text-steel mb-5 leading-relaxed text-center">
           Your machine has{" "}
           <span style={{ fontVariantNumeric: "tabular-nums" }}>{systemRamGb}</span>{" "}
           GB of RAM. The on-device model needs additional memory to run
           smoothly, so cleanup may be slow or stutter.
-        </p>
+        </DialogDescription>
 
         {/* justify-center: both buttons read as equals, gradient pill carries
             the recommendation. Different from PrivacyModal / Dialog B which
             use justify-end. */}
         <div className="flex items-center justify-center gap-2.5 mb-3">
           <button
-            ref={continueBtnRef}
             onClick={onContinue}
-            className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+            className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
             style={{
               background: "var(--surface-modal)",
               border: "1px solid var(--border-emphasis)",
@@ -195,7 +143,7 @@ export function LowRamDialog({
           </button>
           <button
             onClick={onSwitchToCloud}
-            className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+            className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
             style={{
               background: "var(--accent-fill)",
               boxShadow:
@@ -205,7 +153,7 @@ export function LowRamDialog({
             Use Gemini's free tier
           </button>
         </div>
-      </motion.div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }

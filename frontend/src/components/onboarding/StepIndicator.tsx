@@ -45,7 +45,7 @@ export function StepIndicator({ current, total }: StepIndicatorProps) {
           );
         })}
       </div>
-      <div className="text-[10px] tracking-[0.2em] uppercase text-steel/40 font-medium">
+      <div className="text-xs tracking-[0.2em] uppercase text-steel font-medium">
         Step {current} of {total}
       </div>
     </div>

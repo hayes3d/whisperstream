@@ -71,7 +71,7 @@ function ErrorContent({ payload }: { payload: ErrorEmitPayload }) {
         <button
           ref={primaryRef}
           onClick={handleDismiss}
-          className="relative overflow-hidden px-8 py-2 rounded-full text-[13px] font-medium text-white transition-all duration-300 cursor-pointer group"
+          className="relative overflow-hidden px-8 py-2 rounded-md text-[13px] font-medium text-white transition-all duration-300 cursor-pointer group"
           style={{
             background: "var(--accent-fill)",
             border: "1px solid var(--border-accent)",

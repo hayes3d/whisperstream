@@ -25,7 +25,8 @@ it("retains old and new models while switching, and deletes active or inactive i
   fireEvent.click(screen.getByRole("option", { name: "new-custom" }));
   fireEvent.click(screen.getByRole("button", { name: "Model: new-custom" }));
   fireEvent.click(screen.getByRole("button", { name: "Delete saved model new-custom" }));
-  expect(screen.getByRole("button", { name: "Model: Choose a model" })).toBeInTheDocument();
+  // hidden: the Select stays open (page aria-hidden) after a delete.
+  expect(screen.getByRole("button", { name: "Model: Choose a model", hidden: true })).toBeInTheDocument();
   expect(screen.queryByRole("option", { name: "new-custom" })).not.toBeInTheDocument();
 });
 

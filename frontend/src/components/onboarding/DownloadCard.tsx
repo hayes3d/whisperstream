@@ -169,7 +169,7 @@ export function DownloadCard({
         <p
           className={
             compact
-              ? "mt-0.5 text-[10px] leading-[14px] text-steel"
+              ? "mt-0.5 text-xs leading-[14px] text-steel"
               : "mt-2 text-[12px] text-steel"
           }
         >
@@ -233,15 +233,15 @@ export function DownloadCard({
               transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
             />
             {finalizing ? (
-              <p className="text-[11px] text-steel/60 italic">
+              <p className="text-xs text-steel italic">
                 Finishing up...
               </p>
             ) : isPhase1 ? (
-              <p className="text-[11px] text-steel/60 italic">Connecting…</p>
+              <p className="text-xs text-steel italic">Connecting…</p>
             ) : etaText ? (
-              <p className="text-[11px] text-steel/60">{etaText}</p>
+              <p className="text-xs text-steel">{etaText}</p>
             ) : (
-              <p className="text-[11px] text-steel/60 italic">Estimating…</p>
+              <p className="text-xs text-steel italic">Estimating…</p>
             )}
           </div>
           {!isPhase1 && (
@@ -256,7 +256,7 @@ export function DownloadCard({
           the marketing trinity ("Your voice. Your machine. Your words.")
           and frames the wait as anticipation rather than friction. */}
       {!hideFooter && (
-        <p className="mt-auto text-[11px] text-steel/50 italic">
+        <p className="mt-auto text-xs text-steel italic">
           A short wait, then your voice becomes text.
         </p>
       )}

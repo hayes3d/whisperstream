@@ -92,7 +92,7 @@ describe("DeleteUnusedSttModelsDialog", () => {
   it("cancels on Escape", () => {
     const { onCancel } = renderDialog();
 
-    fireEvent.keyDown(window, { key: "Escape" });
+    fireEvent.keyDown(document, { key: "Escape" });
     expect(onCancel).toHaveBeenCalledTimes(1);
   });
 
@@ -104,7 +104,7 @@ describe("DeleteUnusedSttModelsDialog", () => {
     ).toBeDisabled();
     expect(screen.getByRole("button", { name: "Keep models" })).toBeDisabled();
 
-    fireEvent.keyDown(window, { key: "Escape" });
+    fireEvent.keyDown(document, { key: "Escape" });
     expect(onCancel).not.toHaveBeenCalled();
   });
 

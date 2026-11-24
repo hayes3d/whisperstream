@@ -23,7 +23,7 @@ import type { SetupStepProps } from "./AgentSpeakSetupModal";
  * `StepShortcut`'s arrangement in first-run onboarding: one `ShortcutCapture`
  * inside `flex-1 flex items-center justify-center`, no label row, no status
  * text of its own. `ShortcutCapture` self-labels (`Not set` / the bound value /
- * `Press shortcut`, plus `Esc to cancel` at 11px `text-steel/60`), and the 20px
+ * `Press shortcut`, plus `Esc to cancel` at 11px `text-steel`), and the 20px
  * heading (`A3`) plus the lede (`Locked 11`) already say what is being bound.
  * The copied `SettingRow` and its `View full response` label are DELETED: they
  * existed only because settings grammar requires every control to carry a label
@@ -164,7 +164,7 @@ export function SetupStepHotkey({
         {noReplyGesture ? null : (
           <p
             data-setup-gesture-sentence
-            className="mt-4 text-center text-[11px] leading-relaxed text-steel/70"
+            className="mt-4 text-center text-xs leading-relaxed text-steel"
           >
             To reply,{" "}
             {holdKeys ? (

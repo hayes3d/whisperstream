@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { downloadLegalDocument, LEGAL_DOCUMENTS } from "../lib/legalDocuments";
 import { getBYOKConsentContext, type BYOKConsentContext } from "../lib/api/consent";
 import { enhancementErrorMessage } from "../lib/enhancementConsent";
@@ -74,7 +75,6 @@ export function PrivacyModal({ provider, ollamaEndpoint, customBaseUrl, model, o
   const [retry, setRetry] = useState(0);
   const [documentError, setDocumentError] = useState(false);
   const cancelRef = useRef<HTMLButtonElement>(null);
-  const dialogRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const context = loaded?.key === requestKey ? loaded.context : null;
 
@@ -93,23 +93,8 @@ export function PrivacyModal({ provider, ollamaEndpoint, customBaseUrl, model, o
   }, [request, requestKey, retry]);
 
   useEffect(() => {
-    cancelRef.current?.focus({ preventScroll: true });
     if (bodyRef.current) bodyRef.current.scrollTop = 0;
   }, []);
-
-  useEffect(() => {
-    const handleKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && !saving) { event.preventDefault(); onCancel(); }
-      if (event.key !== "Tab") return;
-      const controls = dialogRef.current?.querySelectorAll<HTMLElement>('button:not(:disabled), a[href]');
-      if (!controls?.length) return;
-      const first = controls[0], last = controls[controls.length - 1];
-      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
-      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
-    };
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-  }, [saving, onCancel]);
 
   const confirm = async () => {
     if (!context || saving) return;
@@ -126,17 +111,21 @@ export function PrivacyModal({ provider, ollamaEndpoint, customBaseUrl, model, o
 
   const headings = new Set(["What is sent", "Before using Gemini", "Saved keys", "Your choice"]);
   const linkLines = new Set(context?.links.map((link) => `${link.label}: ${link.url}`));
+  // Esc and a scrim press cancel, except while saving (the original ignored
+  // both then). Radix supplies the Tab trap; focus goes to Cancel on open.
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0"
-        style={{ background: "var(--backdrop-strong)", backdropFilter: "blur(40px)" }}
-        onClick={() => { if (!saving) onCancel(); }} />
-      <motion.div ref={dialogRef} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-        className="relative flex flex-col w-[460px] max-w-full max-h-[92vh] overflow-hidden rounded-[var(--radius-card)] p-7"
-        style={{ background: "var(--surface-modal)", border: "1px solid var(--border-emphasis)", boxShadow: "var(--shadow-glass)" }}
-        role="dialog" aria-modal="true" aria-labelledby="privacy-modal-heading" aria-busy={saving}>
+    <Dialog open onOpenChange={(next) => { if (!next && !saving) onCancel(); }}>
+      <DialogContent
+        className="flex flex-col w-[460px] max-h-[92vh] overflow-hidden"
+        aria-busy={saving}
+        aria-describedby={undefined}
+        onOpenAutoFocus={(event) => {
+          event.preventDefault();
+          cancelRef.current?.focus({ preventScroll: true });
+        }}
+      >
         <ShieldCheckIcon />
-        <h2 id="privacy-modal-heading" className="shrink-0 font-display text-[18px] font-normal text-slate text-center mb-1">{context?.lines[0] ?? "Privacy notice"}</h2>
+        <DialogTitle className="shrink-0 text-center mb-1">{context?.lines[0] ?? "Privacy notice"}</DialogTitle>
         <div ref={bodyRef} className="min-h-0 overflow-y-auto pr-1">
         {context ? <>
           <p className="text-[12px] text-steel text-center mb-4">{context.lines[1]}</p>
@@ -162,12 +151,12 @@ export function PrivacyModal({ provider, ollamaEndpoint, customBaseUrl, model, o
         </div>
         {submitError && <p role="alert" className="shrink-0 text-[12px] text-rose mt-4">{submitError}</p>}
         <div className="shrink-0 flex items-center justify-end gap-2.5 mt-5">
-          <button ref={cancelRef} disabled={saving} onClick={onCancel} className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer disabled:opacity-50"
+          <button ref={cancelRef} disabled={saving} onClick={onCancel} className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer disabled:opacity-50"
             style={{ background: "var(--surface-control)", border: "1px solid var(--border-emphasis)" }}>Cancel</button>
-          <button disabled={!context || saving} onClick={() => void confirm()} className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer disabled:opacity-50 disabled:cursor-default"
+          <button disabled={!context || saving} onClick={() => void confirm()} className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer disabled:opacity-50 disabled:cursor-default"
             style={{ background: "var(--accent-fill)", boxShadow: "var(--shadow-pearl)" }}>{saving ? "Saving permission…" : "Allow connection"}</button>
         </div>
-      </motion.div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }

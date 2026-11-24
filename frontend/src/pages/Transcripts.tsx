@@ -4,6 +4,7 @@ import {
   useId,
   useRef,
   useCallback,
+  Fragment,
   type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
 } from "react";
@@ -20,6 +21,7 @@ import { CopyGlyph } from "../components/CopyGlyph";
 import { BakeoffWorkspace } from "../components/BakeoffWorkspace";
 import { useBakeoffSession } from "./transcripts/useBakeoffSession";
 import { HoverTooltip } from "../components/HoverTooltip";
+import { PageHeader } from "../components/PageHeader";
 import { PrimaryButton } from "../components/PrimaryButton";
 import { ReadingWell } from "../components/ReadingWell";
 import { SecondaryButton } from "../components/SecondaryButton";
@@ -136,12 +138,15 @@ function SparklesIcon() {
 
 function TranscriptVersionChip({
   version,
+  label,
   subtle = false,
   provenanceTooltip,
   tooltipId,
   focusVisibleClassName,
 }: {
   version: "enhanced" | "original";
+  /** Overrides "Enhanced"/"Original", e.g. with the profile that cleaned it. */
+  label?: string;
   subtle?: boolean;
   provenanceTooltip?: TranscriptProvenanceTooltip | null;
   tooltipId?: string;
@@ -151,7 +156,7 @@ function TranscriptVersionChip({
   const chip = (
     <span
       data-transcript-version={version}
-      className={`inline-flex items-center gap-1 rounded-full px-1.5 py-[1px] font-display text-[9px] font-semibold uppercase tracking-[0.08em] shrink-0 ${subtle ? "text-steel/70" : "text-steel"}`}
+      className={`inline-flex items-center gap-1 rounded-md px-1.5 py-[1px] font-display text-xs font-semibold uppercase tracking-[0.08em] shrink-0 text-steel`}
       style={{
         background: enhanced
           ? `color-mix(in srgb, var(--color-frost) ${subtle ? "8%" : "15%"}, transparent)`
@@ -167,7 +172,9 @@ function TranscriptVersionChip({
           <EnhancementIcon className="size-2.5" data-transcript-sparkle />
         </span>
       )}
-      {enhanced ? "Enhanced" : "Original"}
+      <span className="truncate max-w-[160px]">
+        {label ?? (enhanced ? "Enhanced" : "Original")}
+      </span>
     </span>
   );
 
@@ -454,6 +461,29 @@ function formatTimestamp(createdAtMs: number): string {
   });
 }
 
+/** "2:14 PM": the card shows only the time; its day comes from the list heading. */
+function formatTime(createdAtMs: number): string {
+  return new Date(createdAtMs).toLocaleTimeString(undefined, {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
+/** List day heading: "Today", "Yesterday", "Mon, Nov 18" (year only when not this year). */
+export function dayLabel(createdAtMs: number, now = new Date()): string {
+  const d = new Date(createdAtMs);
+  const startOf = (x: Date) => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
+  const days = Math.round((startOf(now) - startOf(d)) / 86_400_000);
+  if (days === 0) return "Today";
+  if (days === 1) return "Yesterday";
+  return d.toLocaleDateString(undefined, {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    ...(d.getFullYear() !== now.getFullYear() ? { year: "numeric" } : {}),
+  });
+}
+
 /** Default filename for the "Save a copy" export: whisperstream-YYYY-MM-DD-HHMM.wav. */
 function defaultAudioFilename(createdAtMs: number): string {
   const d = new Date(createdAtMs);
@@ -596,14 +626,14 @@ function ReenhancementPanel({
         <div className="min-w-0">
           <h3 className="text-[13px] font-medium text-slate">Re-enhanced</h3>
           {result && (
-            <p className="mt-0.5 truncate text-[11px] text-steel">
+            <p className="mt-0.5 truncate text-xs text-steel">
               {result.provider} · {result.model_id || "Default model"} ·{" "}
               {result.profile_name || result.profile_id}
             </p>
           )}
         </div>
         <span
-          className={`shrink-0 text-[10px] font-medium uppercase tracking-wider ${
+          className={`shrink-0 text-xs font-medium uppercase tracking-wider ${
             error ? "text-rose" : result?.unchanged ? "text-steel" : "text-mint"
           }`}
         >
@@ -627,20 +657,20 @@ function ReenhancementPanel({
       )}
 
       {error && (
-        <p role="alert" className="text-[11px] leading-relaxed text-rose">
+        <p role="alert" className="text-xs leading-relaxed text-rose">
           {error}
         </p>
       )}
 
       {result && !running && (
         <div className="space-y-2">
-          <p className="text-[10px] text-steel/60">
+          <p className="text-xs text-steel">
             {`${executionLabel(result.mode)} · ${result.chunk_count} ${
               result.chunk_count === 1 ? "chunk" : "chunks"
             } · ${result.elapsed_ms} ms`}
           </p>
           {result.unchanged && (
-            <p className="text-[11px] leading-relaxed text-steel">
+            <p className="text-xs leading-relaxed text-steel">
               {result.unchanged_reason === "short_input"
                 ? "This transcript is short enough that production enhancement leaves it unchanged."
                 : "The provider returned the original text, or a production safeguard kept it unchanged."}
@@ -713,7 +743,7 @@ function CandidateModeSelector({
     <div
       role="radiogroup"
       aria-label="Execution mode"
-      className="inline-flex rounded-full p-1 gap-1"
+      className="inline-flex rounded-md p-1 gap-1"
       style={{
         background: "var(--surface-control)",
         border: "1px solid var(--border-hairline)",
@@ -734,7 +764,7 @@ function CandidateModeSelector({
             disabled={disabled}
             onClick={() => onChange(option.value)}
             onKeyDown={(event) => moveSelection(event, index)}
-            className={`h-7 min-w-[72px] rounded-full px-3 text-[12px] font-medium transition-colors duration-150 disabled:cursor-default ${
+            className={`h-7 min-w-[72px] rounded-md px-3 text-[12px] font-medium transition-colors duration-150 disabled:cursor-default ${
               selected ? "text-white" : "text-steel hover:text-slate"
             }`}
             style={{
@@ -801,10 +831,10 @@ function ContractSpine({
     >
       {values.map((item) => (
         <div key={item.label} className="min-w-0">
-          <dt className="text-[9px] font-medium uppercase tracking-[0.08em] text-steel/60">
+          <dt className="text-xs font-medium uppercase tracking-[0.08em] text-steel">
             {item.label}
           </dt>
-          <dd className="mt-0.5 truncate text-[11px] font-medium text-slate">
+          <dd className="mt-0.5 truncate text-xs font-medium text-slate">
             {item.value}
           </dd>
         </div>
@@ -869,17 +899,17 @@ function CandidateTestPanel({
             >
               Candidate test
             </h3>
-            <p className="mt-0.5 break-all text-[11px] text-steel">
+            <p className="mt-0.5 break-all text-xs text-steel">
               Active: {activeModelId || "None"}
             </p>
           </div>
           {result && (
-            <span className="shrink-0 text-[10px] font-medium uppercase tracking-wider text-mint">
+            <span className="shrink-0 text-xs font-medium uppercase tracking-wider text-mint">
               Complete
             </span>
           )}
         </div>
-        <p id={helperId} className="text-[11px] leading-relaxed text-steel">
+        <p id={helperId} className="text-xs leading-relaxed text-steel">
           Uses this transcript&apos;s original text. Switch models in Enhancement
           to compare another candidate.
         </p>
@@ -914,7 +944,7 @@ function CandidateTestPanel({
       {visibleError && (
         <p
           id={errorId}
-          className="text-[11px] leading-relaxed text-rose"
+          className="text-xs leading-relaxed text-rose"
           aria-live="polite"
         >
           {visibleError}
@@ -924,10 +954,10 @@ function CandidateTestPanel({
       {result && (
         <div className="space-y-1.5">
           <div className="flex items-center justify-between gap-3">
-            <span className="text-[11px] uppercase tracking-wider text-steel">
+            <span className="text-xs uppercase tracking-wider text-steel">
               Candidate output
             </span>
-            <span className="text-[10px] text-steel/60">
+            <span className="text-xs text-steel">
               {`${result.profile_mode[0].toUpperCase()}${result.profile_mode.slice(
                 1,
               )} profile · ${result.chunk_count} ${
@@ -1250,10 +1280,17 @@ function TranscriptCard({
             the rail's own right-3 inset, so a long timestamp can never collide
             with the Bakeoff fire icon. */}
         <div className="flex items-center gap-2 pr-32">
-          <span className="text-[11px] text-steel/60">{timestampLabel}</span>
+          <span className="text-xs text-steel">{formatTime(item.created_at)}</span>
           {!expanded && showCollapsedVersionChip && (
             <TranscriptVersionChip
               version={collapsedVersion}
+              // A clean enhancement names its profile: every row saying
+              // "Enhanced" told the reader nothing. Fallbacks keep their label.
+              label={
+                collapsedVersion === "enhanced" && !collapsedProvenanceTooltip?.explanation
+                  ? collapsedProvenanceTooltip?.profileName
+                  : undefined
+              }
               subtle
               provenanceTooltip={collapsedProvenanceTooltip}
               tooltipId={provenanceTooltipId}
@@ -1278,7 +1315,7 @@ function TranscriptCard({
         className={`absolute top-3 right-3 flex items-center gap-1 transition-opacity duration-200 ${
           expanded
             ? "opacity-100"
-            : "opacity-0 group-hover/transcript-card:opacity-100 focus-within:opacity-100"
+            : "opacity-0 group-hover/transcript-card:opacity-100 group-focus-within/transcript-card:opacity-100"
         }`}
       >
         {bakeoffEnabled && (
@@ -1291,7 +1328,7 @@ function TranscriptCard({
             aria-haspopup="dialog"
             aria-expanded={bakeoffActive}
             data-bakeoff-trigger-active={bakeoffActive ? "true" : undefined}
-            className="w-6 h-6 flex items-center justify-center rounded-full text-steel hover:text-frost cursor-pointer"
+            className="w-6 h-6 flex items-center justify-center rounded-md text-steel hover:text-frost cursor-pointer"
           >
             <FireIcon />
           </button>
@@ -1308,7 +1345,7 @@ function TranscriptCard({
                 ? "Re-enhancing transcript"
                 : "Re-enhance transcript"
             }
-            className="w-6 h-6 flex items-center justify-center rounded-full text-steel hover:text-frost disabled:cursor-default disabled:text-steel/40 cursor-pointer"
+            className="w-6 h-6 flex items-center justify-center rounded-md text-steel hover:text-frost disabled:cursor-default disabled:text-steel/40 cursor-pointer"
           >
             <span className={reenhancementRunning ? "animate-pulse" : undefined}>
               <SparklesIcon />
@@ -1318,7 +1355,7 @@ function TranscriptCard({
         <button
           onClick={(event) => void handleCopy(event)}
           aria-label={`Copy ${copyVersion} transcript`}
-          className="w-6 h-6 flex items-center justify-center rounded-full text-steel hover:text-slate cursor-pointer"
+          className="w-6 h-6 flex items-center justify-center rounded-md text-steel hover:text-slate cursor-pointer"
         >
           {copied ? <CheckIcon /> : <CopyGlyph />}
         </button>
@@ -1328,7 +1365,7 @@ function TranscriptCard({
             onDelete();
           }}
           aria-label="Delete transcript"
-          className="w-6 h-6 flex items-center justify-center rounded-full text-steel hover:text-rose cursor-pointer"
+          className="w-6 h-6 flex items-center justify-center rounded-md text-steel hover:text-rose cursor-pointer"
         >
           <TrashIcon />
         </button>
@@ -1405,7 +1442,7 @@ function ImportCtaPill({ onClick }: { onClick: () => void }) {
   return (
     <SecondaryButton
       onClick={onClick}
-      className="inline-flex items-center gap-1.5 rounded-full px-3 h-9 text-[13px] font-medium text-slate"
+      className="inline-flex items-center gap-1.5 rounded-md px-3 h-9 text-[13px] font-medium text-slate"
     >
       <PlusIcon /> Add file
     </SecondaryButton>
@@ -1429,7 +1466,7 @@ function EmptyState({
       <motion.div
         animate={breathingAnimation}
         transition={breathingTransition}
-        className="w-[120px] h-[120px] rounded-[var(--radius-card)] flex items-center justify-center text-steel/50"
+        className="w-[120px] h-[120px] rounded-[var(--radius-card)] flex items-center justify-center text-steel"
         style={{
           background: "var(--surface-raised)",
           border: "1px solid var(--border-hairline)",
@@ -1507,7 +1544,7 @@ function DisabledState({
       <motion.div
         animate={breathingAnimation}
         transition={breathingTransition}
-        className="w-[120px] h-[120px] rounded-[var(--radius-card)] flex items-center justify-center text-steel/40"
+        className="w-[120px] h-[120px] rounded-[var(--radius-card)] flex items-center justify-center text-steel"
         style={{
           background: "var(--surface-control)",
           border: "1px solid var(--border-standard)",
@@ -1550,14 +1587,14 @@ function DisabledState({
         // Lockdown setup flow instead of a re-enable toggle.
         <SecondaryButton
           onClick={() => onRequestLockdownSetup?.()}
-          className="inline-flex items-center gap-1.5 rounded-full px-4 h-9 text-[13px] font-medium text-slate"
+          className="inline-flex items-center gap-1.5 rounded-md px-4 h-9 text-[13px] font-medium text-slate"
         >
           Set up password
         </SecondaryButton>
       ) : (
         // Surface the Save transcripts toggle directly (one-click re-enable).
         <div
-          className="flex items-center gap-3 rounded-full px-4 py-2"
+          className="flex items-center gap-3 rounded-md px-4 py-2"
           style={{
             background: "var(--surface-control)",
             border: "1px solid var(--border-hairline)",
@@ -1638,6 +1675,19 @@ function ListView({
   const reducedMotion = useReducedMotion() ?? false;
 
   const [query, setQuery] = useState("");
+  // Ctrl/Cmd+F jumps to search: the webview's own find bar is useless here.
+  const searchRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && !e.altKey && e.key.toLowerCase() === "f") {
+        e.preventDefault();
+        searchRef.current?.focus();
+        searchRef.current?.select();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [items, setItems] = useState<TranscriptListItem[]>([]);
   const [nextCursor, setNextCursor] = useState<number | null>(null);
@@ -1815,33 +1865,31 @@ function ListView({
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 400, damping: 30 }}
-        className="flex items-start justify-between gap-3"
       >
-        <div>
-          <h2 className="text-[18px] font-medium text-slate mb-1">Transcripts</h2>
-          <p className="text-[12px] text-steel leading-relaxed">
-            Your past dictations, kept on this device and searchable.
-          </p>
-        </div>
-
+        <PageHeader
+          title="Transcripts"
+          description="Your past dictations, kept on this device and searchable."
+          action={
         <HoverTooltip
           side="auto"
           width="w-64"
           content="Saved transcript text and audio are encrypted on disk and protected for this device account."
         >
           <span
-            className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-steel cursor-default"
+            className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-steel cursor-default"
             style={{
               background: "var(--surface-control)",
               border: "1px solid var(--border-hairline)",
             }}
           >
             <ShieldIcon />
-            <span className="text-[10px] font-medium uppercase tracking-wider">
+            <span className="text-xs font-medium uppercase tracking-wider">
               Encrypted
             </span>
           </span>
         </HoverTooltip>
+          }
+        />
       </motion.div>
 
       {/* Controls row (Option B, lean): search (flex-grow) | import pill | gear. */}
@@ -1860,17 +1908,19 @@ function ListView({
         >
           <SearchIcon />
           <input
+            ref={searchRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search transcripts..."
+            placeholder="Search transcripts (Ctrl+F)"
+            aria-keyshortcuts="Control+F"
             aria-label="Search transcripts"
-            className="flex-1 min-w-0 bg-transparent text-[13px] text-slate outline-none placeholder:text-steel/40"
+            className="flex-1 min-w-0 bg-transparent text-[13px] text-slate outline-none placeholder:text-steel"
           />
         </div>
 
         <SecondaryButton
           onClick={onOpenImport}
-          className="inline-flex items-center gap-1.5 rounded-full px-3 h-9 text-[13px] font-medium text-slate shrink-0"
+          className="inline-flex items-center gap-1.5 rounded-md px-3 h-9 text-[13px] font-medium text-slate shrink-0"
         >
           <PlusIcon /> Add file
         </SecondaryButton>
@@ -1934,9 +1984,16 @@ function ListView({
             const entranceDelay = animateEntrance
               ? (isAppended ? i - appendFrom : i) * 0.03
               : 0;
+            const day = dayLabel(item.created_at);
+            const newDay = i === 0 || dayLabel(items[i - 1].created_at) !== day;
             return (
+              <Fragment key={item.id}>
+              {newDay && (
+                <h3 className={`text-xs font-medium text-steel ${i === 0 ? "" : "pt-3"}`}>
+                  {day}
+                </h3>
+              )}
               <TranscriptCard
-                key={item.id}
                 item={item}
                 animateEntrance={animateEntrance}
                 entranceDelay={entranceDelay}
@@ -1953,6 +2010,7 @@ function ListView({
                 activeModelId={activeModelId}
                 activeModel={activeModel}
               />
+              </Fragment>
             );
           })}
 
@@ -1963,7 +2021,7 @@ function ListView({
               <SecondaryButton
                 onClick={handleLoadMore}
                 disabled={loadingMore}
-                className="inline-flex items-center justify-center rounded-full px-5 h-9 text-[13px] font-medium text-slate"
+                className="inline-flex items-center justify-center rounded-md px-5 h-9 text-[13px] font-medium text-slate"
                 style={{ opacity: loadingMore ? 0.6 : 1 }}
               >
                 {loadingMore ? "Loading..." : "Load more"}
@@ -2019,7 +2077,7 @@ function TextBlock({
     <div className="group/transcript-detail space-y-1.5">
       <div className="flex items-center justify-between gap-2 min-h-[24px]">
         <div className="flex items-center gap-2">
-          <span className="text-[11px] uppercase tracking-wider text-steel">
+          <span className="text-xs uppercase tracking-wider text-steel">
             {label}
           </span>
           {labelAccessory}
@@ -2142,7 +2200,7 @@ function CardDetail({
     <button
       onClick={() => setShowOriginal((v) => !v)}
       aria-describedby={provenanceDescriptionId}
-      className="text-[11px] text-steel hover:text-slate transition-colors duration-150 cursor-pointer"
+      className="text-xs text-steel hover:text-slate transition-colors duration-150 cursor-pointer"
     >
       {showingOriginal ? "Show enhanced" : "Show original"}
     </button>
@@ -2268,12 +2326,12 @@ function QueueRow({
       <div className="flex-1 min-w-0">
         <div className="text-[13px] text-slate truncate">{item.file}</div>
         {sublabel && (
-          <div className="text-[11px] text-steel/70 truncate">{sublabel}</div>
+          <div className="text-xs text-steel truncate">{sublabel}</div>
         )}
       </div>
 
       <span
-        className="shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider"
+        className="shrink-0 inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-medium uppercase tracking-wider"
         style={{ background: pill.bg, color: pill.color }}
       >
         {item.status === "transcribing" && <Spinner />}
@@ -2283,7 +2341,7 @@ function QueueRow({
       <button
         onClick={onRemove}
         aria-label={item.status === "transcribing" ? "Cancel" : "Remove"}
-        className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full text-steel hover:text-rose cursor-pointer"
+        className="shrink-0 w-6 h-6 flex items-center justify-center rounded-md text-steel hover:text-rose cursor-pointer"
       >
         <XIcon />
       </button>
@@ -2353,7 +2411,7 @@ function ImportView({
             : "2px dashed var(--border-accent)",
         }}
       >
-        <div className="text-steel/60">
+        <div className="text-steel">
           <UploadGlyph />
         </div>
         <p className="text-[14px] font-medium text-slate">
@@ -2362,25 +2420,25 @@ function ImportView({
         <SecondaryButton
           onClick={onChooseFiles}
           disabled={importUnavailable}
-          className="inline-flex items-center justify-center rounded-full px-4 h-9 text-[13px] font-medium text-slate"
+          className="inline-flex items-center justify-center rounded-md px-4 h-9 text-[13px] font-medium text-slate"
         >
           Choose files
         </SecondaryButton>
       </div>
 
       {/* Supported-format caption (LOCKED). */}
-      <p className="text-[11px] text-steel/70 text-center leading-relaxed">
+      <p className="text-xs text-steel text-center leading-relaxed">
         WAV files always work. Other formats (like MP3 or M4A) may not import on
         every setup.
       </p>
 
       {pickerError && (
-        <p role="alert" className="text-[11px] text-rose text-center">
+        <p role="alert" className="text-xs text-rose text-center">
           Couldn't open the file picker. Try again.
         </p>
       )}
       {importUnavailable && (
-        <p role="alert" className="text-[11px] text-rose text-center">
+        <p role="alert" className="text-xs text-rose text-center">
           Saved transcript storage is unavailable. Return to the list for details.
         </p>
       )}

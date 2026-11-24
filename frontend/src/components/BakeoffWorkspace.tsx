@@ -1028,7 +1028,7 @@ export function BakeoffWorkspace({
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-4 right-4 w-6 h-6 rounded-full flex items-center justify-center text-steel/60 hover:text-slate transition-colors cursor-pointer"
+          className="absolute top-4 right-4 w-6 h-6 rounded-md flex items-center justify-center text-steel hover:text-slate transition-colors cursor-pointer"
         >
           <XGlyph />
         </button>
@@ -1045,7 +1045,7 @@ export function BakeoffWorkspace({
           </div>
           {phase !== "configure" && (
             <div className="flex items-center gap-3 shrink-0 pt-0.5">
-              <p className="text-[11px] font-medium text-steel">
+              <p className="text-xs font-medium text-steel">
                 {finishedCount} of {totalCount} finished
               </p>
               {/* One control for every completed card. Diff is the default. */}
@@ -1102,11 +1102,11 @@ export function BakeoffWorkspace({
               {diffView === "diff" && rawText !== null && <SemanticDiffLegend />}
               {/* Named again here so a borrowed-GPU lane's timing is never read
                   as directly comparable with a pool-CPU lane's. */}
-              <p className="text-[11px] text-steel leading-relaxed">
+              <p className="text-xs text-steel leading-relaxed">
                 {DEVICE_DISCLOSURE_COPY}
               </p>
               {allTerminal && (
-                <p className="text-[11px] text-slate leading-relaxed">
+                <p className="text-xs text-slate leading-relaxed">
                   {completionSummary}
                 </p>
               )}
@@ -1115,7 +1115,7 @@ export function BakeoffWorkspace({
           {phase === "configure" && (
           <p
             id={validationId}
-            className={`text-[11px] leading-relaxed ${
+            className={`text-xs leading-relaxed ${
               validationMessage ? "text-gold" : "text-transparent"
             }`}
           >
@@ -1127,7 +1127,7 @@ export function BakeoffWorkspace({
               <SecondaryButton
                 onClick={onCancelRemaining}
                 disabled={cancelling}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-slate"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-slate"
               >
                 Cancel remaining
               </SecondaryButton>
@@ -1135,14 +1135,14 @@ export function BakeoffWorkspace({
             {phase === "results" && onEditLineup && (
               <SecondaryButton
                 onClick={onEditLineup}
-                className="px-5 py-2 rounded-full text-[13px] font-medium text-slate"
+                className="px-5 py-2 rounded-md text-[13px] font-medium text-slate"
               >
                 Edit lineup
               </SecondaryButton>
             )}
             <SecondaryButton
               onClick={onClose}
-              className="px-5 py-2 rounded-full text-[13px] font-medium text-slate"
+              className="px-5 py-2 rounded-md text-[13px] font-medium text-slate"
             >
               Close
             </SecondaryButton>
@@ -1152,7 +1152,7 @@ export function BakeoffWorkspace({
                 onClick={() => onRun(selections)}
                 disabled={!lineupValid || starting}
                 aria-describedby={validationMessage ? validationId : undefined}
-                className="px-5 py-2 rounded-full text-[13px] font-medium cursor-pointer disabled:cursor-default transition-all duration-200"
+                className="px-5 py-2 rounded-md text-[13px] font-medium cursor-pointer disabled:cursor-default transition-all duration-200"
                 style={
                   lineupValid && !starting
                     ? {
@@ -1176,7 +1176,7 @@ export function BakeoffWorkspace({
                 type="button"
                 onClick={() => onRun(pairs.map((pair) => ({ ...pair.selection })))}
                 disabled={starting}
-                className="px-5 py-2 rounded-full text-[13px] font-medium cursor-pointer disabled:cursor-default transition-all duration-200"
+                className="px-5 py-2 rounded-md text-[13px] font-medium cursor-pointer disabled:cursor-default transition-all duration-200"
                 style={
                   starting
                     ? {
@@ -1277,7 +1277,7 @@ function LineupEditor({
                 style={insetStyle}
               >
                 <div className="flex-1 min-w-0">
-                  <span className="block mb-1 text-[11px] font-medium text-steel">
+                  <span className="block mb-1 text-xs font-medium text-steel">
                     Model
                   </span>
                   <Dropdown
@@ -1290,7 +1290,7 @@ function LineupEditor({
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <span className="block mb-1 text-[11px] font-medium text-steel">
+                  <span className="block mb-1 text-xs font-medium text-steel">
                     Profile
                   </span>
                   <Dropdown
@@ -1307,7 +1307,7 @@ function LineupEditor({
                   onClick={() => onRemove(row.key)}
                   disabled={rows.length <= MIN_BAKEOFF_PAIRS}
                   aria-label={`Remove comparison ${identity}`}
-                  className="self-end sm:self-auto sm:mt-5 w-6 h-6 shrink-0 flex items-center justify-center rounded-full text-steel hover:text-rose disabled:cursor-default disabled:text-steel/40 cursor-pointer"
+                  className="self-end sm:self-auto sm:mt-5 w-6 h-6 shrink-0 flex items-center justify-center rounded-md text-steel hover:text-rose disabled:cursor-default disabled:text-steel/40 cursor-pointer"
                 >
                   <MinusGlyph />
                 </button>
@@ -1315,7 +1315,7 @@ function LineupEditor({
               {guidance && (
                 <p
                   id={guidanceId}
-                  className="mt-1 px-3 text-[11px] leading-relaxed text-gold"
+                  className="mt-1 px-3 text-xs leading-relaxed text-gold"
                 >
                   {guidance}
                 </p>
@@ -1329,12 +1329,12 @@ function LineupEditor({
         <SecondaryButton
           onClick={onAdd}
           disabled={rows.length >= MAX_BAKEOFF_PAIRS}
-          className="inline-flex items-center gap-1.5 rounded-full px-3 h-8 text-[12px] font-medium text-slate"
+          className="inline-flex items-center gap-1.5 rounded-md px-3 h-8 text-[12px] font-medium text-slate"
         >
           <PlusGlyph /> Add comparison
         </SecondaryButton>
         {rows.length >= MAX_BAKEOFF_PAIRS && (
-          <span className="text-[11px] text-steel">
+          <span className="text-xs text-steel">
             A bakeoff can compare up to {MAX_BAKEOFF_PAIRS} combinations.
           </span>
         )}
@@ -1352,14 +1352,14 @@ function LineupEditor({
           </p>
         )}
         {footprint.estimated.length > 0 && (
-          <p className="text-[11px] text-steel leading-relaxed">
+          <p className="text-xs text-steel leading-relaxed">
             Memory includes an estimate for {footprint.estimated.join(", ")}.
           </p>
         )}
-        <p className="text-[11px] text-steel leading-relaxed">
+        <p className="text-xs text-steel leading-relaxed">
           Selected models stay loaded until you exit Whisperstream.
         </p>
-        <p className="text-[11px] text-steel leading-relaxed">
+        <p className="text-xs text-steel leading-relaxed">
           {DEVICE_DISCLOSURE_COPY}
         </p>
       </div>
@@ -1418,7 +1418,7 @@ function ComparisonView({
             type="button"
             onClick={onToggleOriginal}
             aria-expanded={originalOpen}
-            className="mb-1.5 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-wider text-steel hover:text-slate transition-colors cursor-pointer"
+            className="mb-1.5 inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-steel hover:text-slate transition-colors cursor-pointer"
           >
             Original
             <ChevronGlyph open={originalOpen} />
@@ -1558,7 +1558,7 @@ function AnswerCard({
 
       {compact.length > 0 && (
         <>
-          <p aria-hidden="true" className="text-[11px] text-steel leading-relaxed">
+          <p aria-hidden="true" className="text-xs text-steel leading-relaxed">
             {compact.join(" · ")}
           </p>
           <span className="sr-only">{`${spoken.join(". ")}.`}</span>
@@ -1566,7 +1566,7 @@ function AnswerCard({
       )}
 
       {shownDiff !== null && shownDiff.changed && (
-        <p className="text-[11px] font-medium">
+        <p className="text-xs font-medium">
           <span style={{ color: "var(--color-mint)" }}>+{shownDiff.added}</span>{" "}
           <span style={{ color: "var(--color-rose)" }}>
             {"−"}
@@ -1576,11 +1576,11 @@ function AnswerCard({
       )}
 
       {pair.state === "unchanged" && (
-        <p className="text-[11px] text-steel leading-relaxed">{UNCHANGED_COPY}</p>
+        <p className="text-xs text-steel leading-relaxed">{UNCHANGED_COPY}</p>
       )}
 
       {diffUnavailable && (
-        <p className="text-[11px] text-steel leading-relaxed">
+        <p className="text-xs text-steel leading-relaxed">
           {DIFF_FALLBACK_COPY}
         </p>
       )}
@@ -1604,7 +1604,7 @@ function AnswerCard({
       )}
 
       {errorCopy && (
-        <p id={errorId} className="text-[11px] text-rose leading-relaxed">
+        <p id={errorId} className="text-xs text-rose leading-relaxed">
           {errorCopy}
         </p>
       )}
@@ -1614,7 +1614,7 @@ function AnswerCard({
           onClick={() => onRetry(index)}
           disabled={retrying}
           aria-label={`Retry this result ${identity}`}
-          className="rounded-full px-3 h-8 text-[12px] font-medium text-slate"
+          className="rounded-md px-3 h-8 text-[12px] font-medium text-slate"
         >
           Retry this result
         </SecondaryButton>

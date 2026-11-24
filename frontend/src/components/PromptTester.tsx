@@ -96,7 +96,7 @@ export function PromptTester({
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="flex items-center gap-1.5 text-[11px] text-steel/70 hover:text-slate transition-colors cursor-pointer"
+        className="flex items-center gap-1.5 text-xs text-steel hover:text-slate transition-colors cursor-pointer"
       >
         <motion.svg
           animate={{ rotate: open ? 90 : 0 }}
@@ -129,7 +129,7 @@ export function PromptTester({
             }
             style={{ overflow: "hidden" }}
           >
-            <p className="text-[11px] text-steel mt-2">Sends your sample and these instructions to the selected connection.</p>
+            <p className="text-xs text-steel mt-2">Sends your sample and these instructions to the selected connection.</p>
             {compact ? (
               // ---- Lighter inline variant (round 04) ----
               <div className="mt-2 space-y-2">
@@ -148,7 +148,7 @@ export function PromptTester({
                     }}
                     placeholder="Try a sample..."
                     aria-label="Sample input"
-                    className="flex-1 min-w-0 bg-transparent px-4 h-9 text-[12px] font-body text-slate placeholder:text-steel/40 outline-none"
+                    className="flex-1 min-w-0 bg-transparent px-4 h-9 text-[12px] font-body text-slate placeholder:text-steel outline-none"
                   />
                   <button
                     type="button"
@@ -172,8 +172,8 @@ export function PromptTester({
                   </button>
                 </div>
 
-                {gateHint && <p className="text-[11px] text-steel/70">{gateHint}</p>}
-                {error && <p role="alert" className="text-[11px] text-rose/90">{error}</p>}
+                {gateHint && <p className="text-xs text-steel">{gateHint}</p>}
+                {error && <p role="alert" className="text-xs text-rose/90">{error}</p>}
 
                 {output !== null && !error && (
                   <div
@@ -190,7 +190,7 @@ export function PromptTester({
             ) : (
               // ---- Legacy stacked variant (default) ----
               <div className="mt-2 space-y-2">
-                <div className="text-[11px] text-steel font-medium">Sample input</div>
+                <div className="text-xs text-steel font-medium">Sample input</div>
                 <div className="flex items-start gap-2">
                   <input
                     value={sample}
@@ -203,7 +203,7 @@ export function PromptTester({
                     }}
                     placeholder="Type a sample to clean up"
                     aria-label="Sample input"
-                    className="flex-1 min-w-0 rounded-full px-4 h-9 text-[12px] font-body text-slate placeholder:text-steel/40 outline-none transition-all duration-200"
+                    className="flex-1 min-w-0 rounded-md px-4 h-9 text-[12px] font-body text-slate placeholder:text-steel outline-none transition-all duration-200"
                     style={insetStyle}
                   />
                   <button
@@ -211,7 +211,7 @@ export function PromptTester({
                     onClick={run}
                     disabled={!canRun}
                     aria-label="Run prompt test"
-                    className="shrink-0 inline-flex items-center justify-center h-9 px-4 rounded-full text-[12px] font-medium cursor-pointer disabled:cursor-default transition-all duration-150"
+                    className="shrink-0 inline-flex items-center justify-center h-9 px-4 rounded-md text-[12px] font-medium cursor-pointer disabled:cursor-default transition-all duration-150"
                     style={
                       canRun
                         ? {
@@ -231,9 +231,9 @@ export function PromptTester({
                   </button>
                 </div>
 
-                {gateHint && <p className="text-[11px] text-steel/70">{gateHint}</p>}
+                {gateHint && <p className="text-xs text-steel">{gateHint}</p>}
 
-                {error && <p role="alert" className="text-[11px] text-rose/90">{error}</p>}
+                {error && <p role="alert" className="text-xs text-rose/90">{error}</p>}
 
                 {output !== null && !error && (
                   <div

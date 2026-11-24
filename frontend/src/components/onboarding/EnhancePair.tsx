@@ -40,7 +40,7 @@ export type Written =
     };
 
 const labelClass =
-  "mb-[3px] flex items-center gap-[5px] text-[10px] font-medium uppercase tracking-[0.14em] text-steel";
+  "mb-[3px] flex items-center gap-[5px] text-xs font-medium uppercase tracking-[0.14em] text-steel";
 
 // Frost text for small accent copy: deep frost on light glass, the lighter
 // frost on dark glass (deep frost is too dim on #0C141D).
@@ -107,7 +107,7 @@ function SpokenColumn({
         seg.dropped ? (
           <del
             key={i}
-            className="no-underline line-through text-steel/55"
+            className="no-underline line-through text-steel"
             style={{
               textDecorationColor:
                 "color-mix(in srgb, var(--color-frost-deep) 60%, transparent)",
@@ -309,16 +309,16 @@ function AddressStrip() {
       }}
       data-address-strip
     >
-      <span className="flex items-center gap-1.5 text-[10.5px] tracking-[0.01em] text-steel">
+      <span className="flex items-center gap-1.5 text-xs tracking-[0.01em] text-steel">
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor"
-          strokeWidth="1.1" className="text-steel/60">
+          strokeWidth="1.1" className="text-steel">
           <rect x="2" y="4.5" width="6" height="4" rx="1" />
           <path d="M3.4 4.5V3.3a1.6 1.6 0 0 1 3.2 0v1.2" />
         </svg>
         mail.example.com
       </span>
       <span
-        className={`inline-flex shrink-0 items-center gap-[5px] whitespace-nowrap rounded-full py-px pr-2 pl-[7px] text-[10px] font-medium tracking-[0.02em] ${accentText}`}
+        className={`inline-flex shrink-0 items-center gap-[5px] whitespace-nowrap rounded-md py-px pr-2 pl-[7px] text-xs font-medium tracking-[0.02em] ${accentText}`}
         style={{
           background: "color-mix(in srgb, var(--color-frost) 12%, transparent)",
           border: "1px solid var(--border-accent)",

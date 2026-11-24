@@ -929,11 +929,11 @@ function IntroPhase({
         <span className="min-w-0 flex-1">
           <span className="block text-[13px] font-medium text-slate">{name}</span>
           {description && (
-            <span className="block text-[11px] leading-4 text-steel">{description}</span>
+            <span className="block text-xs leading-4 text-steel">{description}</span>
           )}
         </span>
         {modelSize && (
-          <span className="shrink-0 text-[11px] text-steel/70 tabular-nums">{modelSize}</span>
+          <span className="shrink-0 text-xs text-steel tabular-nums">{modelSize}</span>
         )}
       </div>
 
@@ -941,14 +941,14 @@ function IntroPhase({
         <button
           ref={cancelBtnRef}
           onClick={onCancel}
-          className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+          className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
           style={glassPillStyle}
         >
           Cancel
         </button>
         <button
           onClick={onContinue}
-          className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+          className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
           style={gradientPillStyle}
         >
           Start speed check
@@ -1044,7 +1044,7 @@ function IndeterminatePhase({
           animate={{ opacity: [1, 0.4, 1] }}
           transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
         />
-        <p className="text-[11px] text-steel/60 italic">{status}</p>
+        <p className="text-xs text-steel italic">{status}</p>
       </div>
 
       {onCancel && (
@@ -1128,7 +1128,7 @@ function SuccessPhase({
       <div className="flex justify-center">
         <button
           onClick={onDone}
-          className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+          className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
           style={gradientPillStyle}
         >
           {recheck ? "Done" : "Start using it"}
@@ -1287,7 +1287,7 @@ function MeasuringPhase({
       </div>
 
       {deviceName ? (
-        <p className="text-[11px] text-steel mb-2 truncate" title={deviceName}>
+        <p className="text-xs text-steel mb-2 truncate" title={deviceName}>
           Testing on {deviceName}
         </p>
       ) : null}
@@ -1394,7 +1394,7 @@ function CancelPill({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="px-4 py-1.5 rounded-full text-[13px] font-medium text-steel hover:text-slate hover:bg-white/40 cursor-pointer transition-all duration-200"
+      className="px-4 py-1.5 rounded-md text-[13px] font-medium text-steel hover:text-slate hover:bg-white/40 cursor-pointer transition-all duration-200"
     >
       Cancel
     </button>

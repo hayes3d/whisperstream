@@ -30,7 +30,7 @@ export function LoadingCurtain({ label, children }: {
         <div className="font-display text-lg font-light tracking-[0.12em] text-steel mb-3">
           whisperstream
         </div>
-        <div className="text-[12px] text-steel/60">{label}</div>
+        <div className="text-[12px] text-steel">{label}</div>
         {children ?? <div
           className="mt-4 w-32 h-0.5 mx-auto rounded-full overflow-hidden"
           style={{ background: "var(--frost-mesh-1)" }}

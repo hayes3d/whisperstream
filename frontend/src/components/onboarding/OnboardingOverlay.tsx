@@ -397,7 +397,7 @@ export function OnboardingOverlay({
 
         {/* Footer */}
         <footer className="px-8 pb-7 pt-2 shrink-0 flex flex-wrap items-center justify-end gap-x-5 gap-y-2">
-          {(step === "permissions" || finishFailed) && <div className="mr-auto text-[11px] text-steel" role={finishFailed ? "alert" : undefined}>
+          {(step === "permissions" || finishFailed) && <div className="mr-auto text-xs text-steel" role={finishFailed ? "alert" : undefined}>
             {finishFailed ? <>Couldn't finish setup. Try again. <button onClick={handleFinish} disabled={finishing} className="ml-2 underline">Try again</button></> : "Finish setup on Home before dictating."}
           </div>}
           {step === "enhance" ? (
@@ -412,7 +412,7 @@ export function OnboardingOverlay({
                   <SecondaryButton
                     onClick={enhanceFooter.secondary.onClick}
                     disabled={enhanceFooter.secondary.disabled}
-                    className="px-[22px] py-2.5 rounded-full text-[13px] font-medium text-slate"
+                    className="px-[22px] py-2.5 rounded-md text-[13px] font-medium text-slate"
                   >
                     {enhanceFooter.secondary.label}
                   </SecondaryButton>

@@ -57,7 +57,7 @@ export function PrimaryPill({
   return (
     <button
       onClick={onClick}
-      className="px-5 py-2 rounded-full text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
+      className="px-5 py-2 rounded-md text-[13px] font-medium text-white cursor-pointer transition-all duration-200"
       style={gradientPillStyle}
     >
       {children}
@@ -76,7 +76,7 @@ export function GlassPill({
   return (
     <button
       onClick={onClick}
-      className="px-5 py-2 rounded-full text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
+      className="px-5 py-2 rounded-md text-[13px] font-medium text-slate cursor-pointer transition-all duration-200"
       style={glassPillStyle}
     >
       {children}
@@ -125,7 +125,7 @@ export const LifeSignStatus = memo(function LifeSignStatus({
             : { duration: 0.2, ease: "easeOut" }
         }
       />
-      <p className="text-[11px] text-steel/60 italic">
+      <p className="text-xs text-steel italic">
         {active ? <span className="sr-only">Live measurement. </span> : null}
         {status}
       </p>
@@ -169,7 +169,7 @@ export function ModelChip({
       layoutId={layoutPrefix ? `${layoutPrefix}-chip-${id}` : undefined}
       data-model-chip-status={status}
       data-model-chip-motion={hasActiveMotion ? "animated" : "static"}
-      className="relative overflow-hidden rounded-full px-4 py-2 flex items-center gap-2"
+      className="relative overflow-hidden rounded-md px-4 py-2 flex items-center gap-2"
       style={{
         background: "var(--surface-modal)",
         border:
@@ -222,7 +222,7 @@ export function ModelChip({
       )}
       <span className="text-[13px] font-medium text-slate relative">{name}</span>
       {sizeLabel && (
-        <span className="text-[11px] text-steel/70 tabular-nums relative">
+        <span className="text-xs text-steel tabular-nums relative">
           {sizeLabel}
         </span>
       )}
@@ -277,7 +277,7 @@ export function WinnerHero({
       </motion.div>
       <motion.div
         layoutId={`${layoutPrefix}-chip-${id}`}
-        className="relative rounded-full px-5 py-2.5 flex items-center gap-2.5"
+        className="relative rounded-md px-5 py-2.5 flex items-center gap-2.5"
         style={{
           background: "var(--surface-modal)",
           border: "1px solid var(--border-emphasis)",
@@ -425,7 +425,7 @@ export function SpeedBar({
       <div className="h-4 mb-1 flex justify-end items-baseline gap-1">
         {mode === "fill" &&
           (caption != null ? (
-            <span className="text-[11px] text-steel leading-none">{caption}</span>
+            <span className="text-xs text-steel leading-none">{caption}</span>
           ) : (
             <>
               {settled ? (
@@ -437,7 +437,7 @@ export function SpeedBar({
                   {shown}
                 </motion.span>
               )}
-              <span className="text-[9px] uppercase tracking-wider text-steel">
+              <span className="text-xs uppercase tracking-wider text-steel">
                 words / sec
               </span>
             </>

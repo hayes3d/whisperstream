@@ -269,7 +269,7 @@ export function VoicePicker({
         // Mute FEMALE/MALE to the tertiary rung so the heading reads as a
         // caption/separator, not a selectable row. Opt-in: Enhancement's
         // grouped picker keeps the default `text-steel`.
-        groupHeadingClassName="text-steel/60"
+        groupHeadingClassName="text-steel"
         // Steel-tint the female->male hairline so it is perceptible on the
         // panel in Light. Opt-in: Enhancement's divider keeps `--divider`.
         dividerColor={GROUP_DIVIDER}

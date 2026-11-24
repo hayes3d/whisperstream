@@ -458,7 +458,7 @@ export function SetupStepVoice({
                 </div>
                 <p
                   id="show-summaries-description"
-                  className="mt-0.5 text-[11px] leading-relaxed text-steel/70"
+                  className="mt-0.5 text-xs leading-relaxed text-steel"
                 >
                   Display a written summary in the overlay.
                 </p>
@@ -482,7 +482,7 @@ export function SetupStepVoice({
                 </div>
                 <p
                   id="read-aloud-description"
-                  className="mt-0.5 text-[11px] leading-relaxed text-steel/70"
+                  className="mt-0.5 text-xs leading-relaxed text-steel"
                 >
                   Play summaries using your selected voice.
                 </p>
@@ -514,7 +514,7 @@ export function SetupStepVoice({
                   <div className="text-[13px] font-medium text-slate">
                     {VOICE_MODEL_LABEL}
                   </div>
-                  <p className="mt-0.5 text-[11px] leading-relaxed text-steel/70">
+                  <p className="mt-0.5 text-xs leading-relaxed text-steel">
                     {ENGINE_CAPTION}
                   </p>
                 </div>
@@ -555,7 +555,7 @@ export function SetupStepVoice({
               >
                 <div className="min-w-0 flex-1 text-left">
                   <div className="text-[13px] font-medium text-slate">Voice</div>
-                  <p className="mt-0.5 text-[11px] leading-relaxed text-steel/70">
+                  <p className="mt-0.5 text-xs leading-relaxed text-steel">
                     {VOICE_CAPTION}
                   </p>
                 </div>
@@ -588,7 +588,7 @@ export function SetupStepVoice({
               >
                 <div className="min-w-0 flex-1 text-left">
                   <div className="text-[13px] font-medium text-slate">Speed</div>
-                  <p className="mt-0.5 text-[11px] leading-relaxed text-steel/70">
+                  <p className="mt-0.5 text-xs leading-relaxed text-steel">
                     {SPEED_CAPTION}
                   </p>
                 </div>

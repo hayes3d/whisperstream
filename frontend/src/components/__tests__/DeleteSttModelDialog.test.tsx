@@ -60,7 +60,7 @@ describe("DeleteSttModelDialog", () => {
 
   it("cancels on Escape and renders nothing when closed", () => {
     const { onCancel } = renderDialog();
-    fireEvent.keyDown(window, { key: "Escape" });
+    fireEvent.keyDown(document, { key: "Escape" });
     expect(onCancel).toHaveBeenCalledTimes(1);
 
     cleanup();

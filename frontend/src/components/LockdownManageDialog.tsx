@@ -4,9 +4,7 @@
  * Opened by the "Manage" button on the Home Lockdown row once Lockdown Mode is
  * on. Replaces the old inline AnimatePresence sub-controls with a dialog on the
  * EnableLocalConfirmDialog shell (frost card, w-[440px], rounded-3xl p-7, spring
- * entrance, backdrop blur). The dialog family has NO
- * shared base — this card hand-rolls its overlay/card from the shared tokens
- * (do NOT DRY into a <Dialog>).
+ * entrance, backdrop blur), now built on the shared shadcn Dialog.
  *
  * TWO variants, keyed off `hasEnvelope` (from useLockdown status):
  *  - Full  (keep-history lockdown, an envelope exists): SealPanel "Protections
@@ -30,8 +28,7 @@
  * verbatim from copy-review.md section A. No em dashes.
  */
 
-import { useEffect } from "react";
-import { motion } from "framer-motion";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { SealPanel } from "./SealPanel";
 import { DurationSelect } from "./DurationSelect";
 import { SecondaryButton } from "./SecondaryButton";
@@ -40,20 +37,6 @@ import { HISTORY_DISABLED_BY_ORGANIZATION_MESSAGE } from "../lib/api/lockdown";
 /* ---------- Dialog shell tokens ----------
    Copied from EnableLocalConfirmDialog.tsx per the "no shared base, copy the
    tokens" rule. */
-const dialogShellStyle: React.CSSProperties = {
-  background: "var(--surface-modal)",
-  backdropFilter: "blur(24px)",
-  WebkitBackdropFilter: "blur(24px)",
-  border: "1px solid var(--border-emphasis)",
-  boxShadow: "var(--shadow-glass)",
-};
-
-const backdropStyle: React.CSSProperties = {
-  background: "var(--backdrop-strong)",
-  backdropFilter: "blur(40px)",
-  WebkitBackdropFilter: "blur(40px)",
-};
-
 /** The HIPAA summary PDF link, shared by both variants (matches the setup
  *  modal's link treatment: underline, frost-deep). */
 function HipaaPdfLink() {
@@ -79,7 +62,7 @@ function HipaaPdfLink() {
  *  copy-review.md (managed Manage-dialog option B). */
 function ManagedPolicyNote() {
   return (
-    <p className="text-[11px] text-steel leading-relaxed">
+    <p className="text-xs text-steel leading-relaxed">
       Your organization requires Lockdown Mode on this device.
     </p>
   );
@@ -147,56 +130,19 @@ export function LockdownManageDialog({
   onDisable,
   onClose,
 }: LockdownManageDialogProps) {
-  // Esc dismisses.
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        onClose();
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
-
-  if (!open) return null;
-
+  // Esc and scrim press dismiss via Radix (nothing is persisted). There is no
+  // description paragraph, so aria-describedby is explicitly omitted.
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        className="absolute inset-0"
-        style={backdropStyle}
-        onClick={onClose}
-      />
-
+    <Dialog open={open} onOpenChange={(next) => !next && onClose()}>
       {/* Glass card — w-[440px]. */}
-      <motion.div
-        initial={{ scale: 0.92, opacity: 0, y: 12 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 400, damping: 30, delay: 0.08 }}
-        className="relative w-[440px] rounded-[var(--radius-card)] p-7"
-        style={dialogShellStyle}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="manage-lockdown-heading"
-      >
+      <DialogContent className="w-[440px]" aria-describedby={undefined}>
         {/* Header — feature title + dismiss. */}
         <div className="flex items-center justify-between mb-4">
-          <h2
-            id="manage-lockdown-heading"
-            className="font-display text-[16px] font-normal text-slate"
-          >
-            Lockdown Mode
-          </h2>
+          <DialogTitle className="text-[16px]">Lockdown Mode</DialogTitle>
           <button
             onClick={onClose}
             aria-label="Close"
-            className="w-7 h-7 -mr-1 rounded-full flex items-center justify-center text-steel/60 hover:text-slate transition-colors cursor-pointer"
+            className="w-7 h-7 -mr-1 rounded-md flex items-center justify-center text-steel hover:text-slate transition-colors cursor-pointer"
           >
             <CloseIcon />
           </button>
@@ -221,7 +167,7 @@ export function LockdownManageDialog({
                 <div className="text-[13px] font-medium text-slate">
                   Lock transcripts after idle
                 </div>
-                <div className="text-[11px] text-steel mt-0.5">
+                <div className="text-xs text-steel mt-0.5">
                   Transcripts re-lock after this much inactivity.
                 </div>
               </div>
@@ -236,13 +182,13 @@ export function LockdownManageDialog({
             <div className="flex items-center gap-2">
               <SecondaryButton
                 onClick={onChangePassword}
-                className="h-9 px-3.5 rounded-full text-[12px] font-medium text-slate"
+                className="h-9 px-3.5 rounded-md text-[12px] font-medium text-slate"
               >
                 Change password
               </SecondaryButton>
               <SecondaryButton
                 onClick={onViewRecovery}
-                className="h-9 px-3.5 rounded-full text-[12px] font-medium text-slate"
+                className="h-9 px-3.5 rounded-md text-[12px] font-medium text-slate"
               >
                 View recovery key
               </SecondaryButton>
@@ -250,7 +196,7 @@ export function LockdownManageDialog({
 
             {/* Data-loss reminder (A9 string verbatim, rose). */}
             <p
-              className="text-[11px] leading-relaxed"
+              className="text-xs leading-relaxed"
               style={{ color: "color-mix(in srgb, var(--color-rose) 80%, transparent)" }}
             >
               If you lose both your password and recovery key, your history
@@ -270,7 +216,7 @@ export function LockdownManageDialog({
                 <SecondaryButton
                   variant="destructive"
                   onClick={onDisable}
-                  className="w-full h-10 rounded-full text-[13px] font-medium"
+                  className="w-full h-10 rounded-md text-[13px] font-medium"
                   style={{ color: "var(--color-rose)" }}
                 >
                   Turn off Lockdown Mode
@@ -303,7 +249,7 @@ export function LockdownManageDialog({
               </p>
             ) : <SecondaryButton
               onClick={onStartSaving}
-              className="w-full h-9 px-3.5 rounded-full text-[12px] font-medium text-slate"
+              className="w-full h-9 px-3.5 rounded-md text-[12px] font-medium text-slate"
             >
               Start saving transcripts
             </SecondaryButton>}
@@ -316,7 +262,7 @@ export function LockdownManageDialog({
                 <SecondaryButton
                   variant="destructive"
                   onClick={onDisable}
-                  className="w-full h-10 rounded-full text-[13px] font-medium"
+                  className="w-full h-10 rounded-md text-[13px] font-medium"
                   style={{ color: "var(--color-rose)" }}
                 >
                   Turn off Lockdown Mode
@@ -325,8 +271,8 @@ export function LockdownManageDialog({
             </div>
           </div>
         )}
-      </motion.div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   RECOVERY_GATE_HINT_CONFIRM,
@@ -75,8 +76,10 @@ function Harness({
 
 beforeEach(() => {
   files.downloadRecoveryFile.mockResolvedValue("saved");
-  Object.assign(navigator, {
-    clipboard: { writeText: vi.fn().mockResolvedValue(undefined) },
+  // userEvent.setup() installs a getter-only clipboard stub; override it.
+  Object.defineProperty(navigator, "clipboard", {
+    configurable: true,
+    value: { writeText: vi.fn().mockResolvedValue(undefined) },
   });
 });
 
@@ -87,8 +90,20 @@ afterEach(() => {
 
 const doneButton = () => screen.getByRole("button", { name: "Done" });
 
+// Radix mounts the bubble only while open (hover/focus on the trigger), so the
+// gate hint is revealed by hovering the gated Done button first.
+const user = userEvent.setup();
+async function showHint() {
+  await user.hover(doneButton());
+  return screen.findByRole("tooltip");
+}
+// The Copy/Print/Download clicks settle asynchronously; the gate is open once
+// Done drops aria-disabled.
+const gateOpen = () =>
+  waitFor(() => expect(doneButton()).not.toHaveAttribute("aria-disabled"));
+
 describe("RecoveryStep gate", () => {
-  it("starts closed with a focusable button and the save hint", () => {
+  it("starts closed with a focusable button and the save hint", async () => {
     const onDone = vi.fn();
     render(<Harness onDone={onDone} />);
 
@@ -96,19 +111,21 @@ describe("RecoveryStep gate", () => {
     expect(button).toHaveAttribute("aria-disabled", "true");
     expect(button).not.toBeDisabled();
     expect(button).toHaveAttribute("aria-describedby", HINT_ID);
-    expect(screen.getByRole("tooltip")).toHaveTextContent(RECOVERY_GATE_HINT_SAVE);
-    expect(screen.getByRole("tooltip").id).toBe(HINT_ID);
-    // No visible gate line inside the step itself.
-    expect(screen.getAllByText(RECOVERY_GATE_HINT_SAVE)).toHaveLength(1);
+    // No visible gate line inside the step itself; the hint only exists as
+    // the hover bubble.
+    expect(screen.queryAllByText(RECOVERY_GATE_HINT_SAVE)).toHaveLength(0);
+    expect(await showHint()).toHaveTextContent(RECOVERY_GATE_HINT_SAVE);
+    // aria-describedby resolves to the visible bubble while it is open.
+    expect(document.getElementById(HINT_ID)).toHaveTextContent(RECOVERY_GATE_HINT_SAVE);
 
     fireEvent.click(button);
     expect(onDone).not.toHaveBeenCalled();
   });
 
-  it("needs a save action even when the checkbox is ticked", () => {
+  it("needs a save action even when the checkbox is ticked", async () => {
     render(<Harness />);
     fireEvent.click(screen.getByRole("checkbox"));
-    expect(screen.getByRole("tooltip")).toHaveTextContent(RECOVERY_GATE_HINT_SAVE);
+    expect(await showHint()).toHaveTextContent(RECOVERY_GATE_HINT_SAVE);
     expect(doneButton()).toHaveAttribute("aria-disabled", "true");
   });
 
@@ -117,6 +134,7 @@ describe("RecoveryStep gate", () => {
     render(<Harness onDone={onDone} />);
 
     fireEvent.click(screen.getByRole("button", { name: "Copy recovery key" }));
+    await user.hover(doneButton());
     await waitFor(() =>
       expect(screen.getByRole("tooltip")).toHaveTextContent(RECOVERY_GATE_HINT_CONFIRM),
     );
@@ -132,7 +150,7 @@ describe("RecoveryStep gate", () => {
     expect(onDone).toHaveBeenCalledWith(null);
   });
 
-  it("counts Print and passes the file variant", () => {
+  it("counts Print and passes the file variant", async () => {
     render(<Harness optional />);
     fireEvent.click(screen.getByRole("button", { name: "Print recovery key" }));
     expect(files.printRecoveryFile).toHaveBeenCalledWith(KEY, {
@@ -140,7 +158,7 @@ describe("RecoveryStep gate", () => {
       platform: "mac",
     });
     expect(screen.getByRole("button", { name: "Print recovery key" })).toHaveTextContent("Printed");
-    expect(screen.getByRole("tooltip")).toHaveTextContent(RECOVERY_GATE_HINT_CONFIRM);
+    expect(await showHint()).toHaveTextContent(RECOVERY_GATE_HINT_CONFIRM);
   });
 
   it("counts a saved Download but not a cancelled or failed one", async () => {
@@ -151,7 +169,7 @@ describe("RecoveryStep gate", () => {
     fireEvent.click(download());
     await waitFor(() => expect(files.downloadRecoveryFile).toHaveBeenCalledTimes(1));
     expect(download()).toHaveTextContent("Download");
-    expect(screen.getByRole("tooltip")).toHaveTextContent(RECOVERY_GATE_HINT_SAVE);
+    expect(await showHint()).toHaveTextContent(RECOVERY_GATE_HINT_SAVE);
 
     files.downloadRecoveryFile.mockRejectedValueOnce(new Error("write failed"));
     fireEvent.click(download());
@@ -173,10 +191,10 @@ describe("RecoveryStep gate", () => {
     const { rerender } = render(<Harness />);
     fireEvent.click(screen.getByRole("button", { name: "Copy recovery key" }));
     fireEvent.click(screen.getByRole("checkbox"));
-    await waitFor(() => expect(screen.queryByRole("tooltip")).toBeNull());
+    await gateOpen();
 
     rerender(<Harness secret="WSRK-5555-6666-7777-8888" />);
-    expect(screen.getByRole("tooltip")).toHaveTextContent(RECOVERY_GATE_HINT_SAVE);
+    expect(await showHint()).toHaveTextContent(RECOVERY_GATE_HINT_SAVE);
     expect(screen.getByRole("checkbox")).toHaveAttribute("aria-checked", "false");
   });
 
@@ -192,7 +210,7 @@ describe("RecoveryStep optional password", () => {
   async function openGate() {
     fireEvent.click(screen.getByRole("button", { name: "Copy recovery key" }));
     fireEvent.click(screen.getByRole("checkbox"));
-    await waitFor(() => expect(screen.queryByRole("tooltip")).toBeNull());
+    await gateOpen();
   }
 
   it("is absent without the optionalPassword prop", () => {

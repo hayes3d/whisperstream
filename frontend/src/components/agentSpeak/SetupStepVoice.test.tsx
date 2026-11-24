@@ -8,6 +8,7 @@ import {
   waitFor,
   within,
 } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as api_speech from "../../lib/api/speech";
@@ -148,10 +149,14 @@ describe("SetupStepVoice", () => {
     expect(screen.getByText("Voice model")).toBeInTheDocument();
     // Each pill carries its own "i" and tooltip (owner, 2026-10-25).
     expect(screen.queryByRole("button", { name: "Voice model information" })).toBeNull();
+    const user = userEvent.setup();
     for (const [name, value] of [["Automatic", "auto"], ["Higher quality", "kokoro"], ["Lower memory", "supertonic"]] as const) {
       const pill = screen.getByRole("button", { name });
       expect(pill.querySelector("svg")).not.toBeNull();
-      expect(within(pill.parentElement as HTMLElement).getByRole("tooltip")).toHaveTextContent(VOICE_MODEL_INFO[value]);
+      // Radix mounts (and portals) the bubble only while the pill is hovered.
+      await user.hover(pill);
+      await waitFor(() => expect(screen.getByRole("tooltip")).toHaveTextContent(VOICE_MODEL_INFO[value]));
+      await user.unhover(pill);
     }
     await waitFor(() => expect(api_speech.getSpeechVoices).toHaveBeenCalled());
   });

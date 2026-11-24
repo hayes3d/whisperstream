@@ -25,7 +25,7 @@ export function TitleBar() {
       {/* Minimize */}
       <button
         onClick={minimize}
-        className="w-7 h-7 rounded-full flex items-center justify-center text-steel/40 hover:text-steel hover:bg-steel/10 transition-colors cursor-default"
+        className="w-7 h-7 rounded-full flex items-center justify-center text-steel hover:text-steel hover:bg-steel/10 transition-colors cursor-default"
         aria-label="Minimize"
       >
         <svg width="10" height="1" viewBox="0 0 10 1" fill="none">
@@ -36,7 +36,7 @@ export function TitleBar() {
       {/* Close */}
       <button
         onClick={close}
-        className="w-7 h-7 rounded-full flex items-center justify-center text-steel/40 hover:text-rose hover:bg-rose/10 transition-colors cursor-default"
+        className="w-7 h-7 rounded-full flex items-center justify-center text-steel hover:text-rose hover:bg-rose/10 transition-colors cursor-default"
         aria-label="Close"
       >
         <svg width="8" height="8" viewBox="0 0 8 8" fill="none">

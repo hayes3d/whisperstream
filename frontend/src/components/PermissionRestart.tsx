@@ -25,7 +25,7 @@ export function PermissionRestart({ disabled = false, compact = false }: { disab
     {import.meta.env.DEV ? <p className={compact ? "" : "mt-2"} title="Stop the dev launcher, then run scripts/run_dev.sh again.">{compact ? "Restart dev launcher" : "Stop the dev launcher, then run scripts/run_dev.sh again."}</p>
       : isTauri() ? <SecondaryButton type="button" onClick={restart}
         disabled={disabled || restarting} aria-busy={restarting}
-        className={`${compact ? "" : "mt-2 "}rounded-full px-3 py-1.5 text-[11.5px] text-slate disabled:opacity-50`}>
+        className={`${compact ? "" : "mt-2 "}rounded-md px-3 py-1.5 text-xs text-slate disabled:opacity-50`}>
         {restarting ? "Restarting..." : "Restart app"}
       </SecondaryButton> : <p className="mt-2">Quit Whisperstream from its app menu, then open it again.</p>}
     {failed && <p role="alert" className="mt-2">Couldn't restart. Quit Whisperstream from its app menu, then open it again.</p>}

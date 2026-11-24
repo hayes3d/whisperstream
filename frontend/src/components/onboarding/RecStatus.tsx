@@ -42,7 +42,7 @@ export function RecStatus({
   const pulsing = state === "listening" || state === "enhancing";
   return (
     <div
-      className="flex items-center gap-2 text-[11px] text-steel/70"
+      className="flex items-center gap-2 text-xs text-steel"
       role={live ? "status" : undefined}
       aria-live={live ? "polite" : undefined}
       data-rec-state={state}

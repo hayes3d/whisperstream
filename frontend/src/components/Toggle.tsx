@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { Switch } from "@/components/ui/switch";
 
 interface ToggleProps {
   checked: boolean;
@@ -14,6 +14,9 @@ interface ToggleProps {
   ariaDescribedBy?: string;
 }
 
+/** Thin adapter over shadcn's Switch keeping the app's original Toggle API
+ *  (checked/onChange/ariaLabel/ariaDescribedBy) so call sites are unchanged.
+ *  Glacier styling lives in components/ui/switch.tsx. */
 export function Toggle({
   checked,
   onChange,
@@ -22,38 +25,13 @@ export function Toggle({
   ariaDescribedBy,
 }: ToggleProps) {
   return (
-    <button
-      role="switch"
-      aria-checked={checked}
+    <Switch
+      checked={checked}
+      onCheckedChange={onChange}
+      disabled={disabled}
+      aria-disabled={disabled || undefined}
       aria-label={ariaLabel}
       aria-describedby={ariaDescribedBy}
-      aria-disabled={disabled || undefined}
-      disabled={disabled}
-      onClick={() => {
-        if (disabled) return;
-        onChange(!checked);
-      }}
-      className={`relative w-12 h-[26px] rounded-full shrink-0 transition-all duration-300 ${
-        disabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer"
-      }`}
-      style={{
-        background: checked
-          ? "var(--accent-fill)"
-          : "var(--surface-control)",
-      }}
-    >
-      <motion.span
-        className="absolute top-[3px] w-5 h-5 rounded-full"
-        initial={false}
-        animate={{
-          left: checked ? 25 : 3,
-          backgroundColor: checked ? "#ffffff" : "rgba(255, 255, 255, 0.05)",
-          boxShadow: checked
-            ? `0 2px 8px var(--border-accent)`
-            : `inset 0 0 0 2px var(--border-accent)`,
-        }}
-        transition={{ type: "spring", stiffness: 500, damping: 30 }}
-      />
-    </button>
+    />
   );
 }

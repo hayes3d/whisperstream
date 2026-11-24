@@ -187,7 +187,7 @@ export function ProviderDataGlyph({
       <Icon
         aria-hidden="true"
         data-provider-icon={staysLocal ? "local" : "remote"}
-        className="text-steel/70 cursor-help"
+        className="text-steel cursor-help"
       />
     </HoverTooltip>
   );

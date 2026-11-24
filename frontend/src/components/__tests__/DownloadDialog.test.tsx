@@ -28,14 +28,20 @@ afterEach(() => {
 
 /** Minimal subscribe factory that records the handler and allows manual emit. */
 function makeRawSubscribe() {
-  let registered: EventHandler | null = null;
+  // Like the real socket subscribe, supports several handlers (the dialog and
+  // its DownloadCard child both subscribe; Radix's portal changes their
+  // mount order, so a single "last registered" slot is not enough).
+  const handlers = new Set<EventHandler>();
   const unsubscribeMock = vi.fn();
   const rawSubscribe = vi.fn((handler: EventHandler) => {
-    registered = handler;
-    return unsubscribeMock;
+    handlers.add(handler);
+    return () => {
+      handlers.delete(handler);
+      unsubscribeMock();
+    };
   });
   const emit = (event: AppEvent) => {
-    if (registered) registered(event);
+    for (const handler of [...handlers]) handler(event);
   };
   return { rawSubscribe, emit, unsubscribeMock };
 }

@@ -116,7 +116,7 @@ function PillInput({
       autoComplete={autoComplete}
       aria-invalid={ariaInvalid || undefined}
       aria-describedby={ariaDescribedBy}
-      className="w-full h-11 rounded-full px-6 text-[13px] font-body text-slate placeholder:text-steel/40 outline-none transition-all duration-300"
+      className="w-full h-11 rounded-md px-6 text-[13px] font-body text-slate placeholder:text-steel outline-none transition-all duration-300"
       style={{
         background: "var(--surface-control)",
         border: "1px solid var(--border-emphasis)",
@@ -214,7 +214,7 @@ export function SupportForm({
         onClick={onBack}
         className="flex items-center gap-1.5 text-[12px] text-steel hover:text-slate transition-colors cursor-pointer mb-5"
       >
-        <BackArrowIcon className="text-steel/70" />
+        <BackArrowIcon className="text-steel" />
         About
       </button>
 
@@ -258,7 +258,7 @@ export function SupportForm({
           {emailHasError && (
             <p
               id={emailHelperId}
-              className="text-[11px] text-rose pl-6"
+              className="text-xs text-rose pl-6"
             >
               Check your email format.
             </p>
@@ -285,7 +285,7 @@ export function SupportForm({
             rows={5}
             placeholder="What's going on? Detail helps us reproduce it."
             aria-label="Support message"
-            className="w-full px-4 py-3 rounded-2xl text-[13px] text-slate outline-none placeholder:text-steel/30 transition-all duration-300 resize-none"
+            className="w-full px-4 py-3 rounded-2xl text-[13px] text-slate outline-none placeholder:text-steel transition-all duration-300 resize-none"
             style={{
               background: textFocused
                 ? "var(--surface-hover)"
@@ -303,7 +303,7 @@ export function SupportForm({
             onClick={handleContinue}
             disabled={!formValid}
             aria-disabled={!formValid || undefined}
-            className="h-11 px-7 rounded-full text-[13px] font-medium text-white shrink-0 cursor-pointer transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="h-11 px-7 rounded-md text-[13px] font-medium text-white shrink-0 cursor-pointer transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             style={{
               background: "var(--accent-fill)",
               boxShadow:

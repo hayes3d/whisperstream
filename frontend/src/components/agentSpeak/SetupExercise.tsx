@@ -112,7 +112,7 @@ export function SetupExercise({
         <SetupStatusDot ordinal={ordinal} state={discState} />
         <h3 className="flex-1 text-[13px] font-medium text-slate">{title}</h3>
         <SecondaryButton
-          className="rounded-full px-3 py-1 text-[12px] font-medium text-slate disabled:opacity-45"
+          className="rounded-md px-3 py-1 text-[12px] font-medium text-slate disabled:opacity-45"
           style={{ border: STEEL_BORDER, transition: `opacity ${STATE_TWEEN}` }}
           id={triggerId}
           disabled={triggerDisabled}
@@ -132,7 +132,7 @@ export function SetupExercise({
         {/* The state label's own polite region. Separate from the status line
             because the two say different things: this one is "where the
             exercise is", the line below is "what is wrong". */}
-        <div role="status" className="mt-1.5 text-[11px] text-steel/70">
+        <div role="status" className="mt-1.5 text-xs text-steel">
           {stateLabel}
         </div>
 

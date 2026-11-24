@@ -1,6 +1,7 @@
 import { agentRows, agentsEnabled as readAgentsEnabled, deriveProviderRow, rowNeedsUser } from "../components/agentSpeak/agentCompatibility";
 import type { AgentProviderActivityMap, AgentProviderLastConnectMap, ProviderActivity } from "../components/agentSpeak/agentCompatibility";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { PageHeader } from "../components/PageHeader";
 import { PrimaryButton } from "../components/PrimaryButton";
 import { HudConfigModal } from "../components/HudConfigModal";
 import { AgentSpeakSetupModal } from "../components/agentSpeak/AgentSpeakSetupModal";
@@ -540,10 +541,7 @@ export function Agents({
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-[18px] font-medium text-slate mb-1">Agents</h2>
-        <p className="text-[12px] text-steel leading-relaxed">Follow your coding agents and reply by voice or text.</p>
-      </div>
+      <PageHeader title="Agents" description="Follow your coding agents and reply by voice or text." />
       {!config.agent_speak_setup_completed ? (
         <section
           aria-labelledby={`${introId}-heading`}
@@ -598,14 +596,14 @@ export function Agents({
                 </svg>
               </PrimaryButton>
               {!hasConfiguredProvider && (
-                <p id={`${introId}-helper`} className="text-[11px] leading-relaxed text-steel">
+                <p id={`${introId}-helper`} className="text-xs leading-relaxed text-steel">
                   Choose your agents, voice, and reply shortcut.
                 </p>
               )}
             </div>
           </div>
           {!connected && (
-            <p id={`${introId}-offline`} role="status" className="mt-3 text-[11px] leading-relaxed text-steel">
+            <p id={`${introId}-offline`} role="status" className="mt-3 text-xs leading-relaxed text-steel">
               Whisperstream is reconnecting. Setup will be available shortly.
             </p>
           )}

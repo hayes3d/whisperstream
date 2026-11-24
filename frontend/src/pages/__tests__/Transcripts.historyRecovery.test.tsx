@@ -68,7 +68,7 @@ describe("Transcripts whose key can't read saved history", () => {
     mocks.getHistoryRecoveryStatus.mockResolvedValue({ ...baseStatus, key_mismatch: true });
     setup();
     expect(await screen.findByRole("heading", { name: "Restore your transcript history" })).toBeInTheDocument();
-    expect(screen.queryByPlaceholderText("Search transcripts...")).toBeNull();
+    expect(screen.queryByPlaceholderText("Search transcripts (Ctrl+F)")).toBeNull();
   });
 });
 
@@ -77,7 +77,7 @@ describe("Transcripts with a missing key", () => {
     mocks.unlockHistoryWithRecoveryKey.mockResolvedValue({ ok: true });
     setup();
     expect(await screen.findByRole("heading", { name: "Restore your transcript history" })).toBeInTheDocument();
-    expect(screen.queryByPlaceholderText("Search transcripts...")).toBeNull();
+    expect(screen.queryByPlaceholderText("Search transcripts (Ctrl+F)")).toBeNull();
     expect(screen.queryByText(/encryption key is unavailable/)).toBeNull();
 
     mocks.getHistoryRecoveryStatus.mockResolvedValue(baseStatus);
@@ -168,7 +168,7 @@ describe("Transcripts for existing users without a recovery key", () => {
     setup();
     expect(await screen.findByRole("heading", { name: "Finish recovery setup" })).toBeInTheDocument();
     expect(screen.getByText("Saving is on. 142 transcripts saved.")).toBeInTheDocument();
-    expect(screen.queryByPlaceholderText("Search transcripts...")).toBeNull();
+    expect(screen.queryByPlaceholderText("Search transcripts (Ctrl+F)")).toBeNull();
     expect(screen.queryByRole("button", { name: "Transcript settings" })).toBeNull();
 
     fireEvent.click(screen.getByRole("button", { name: "Set up recovery key" }));
@@ -180,7 +180,7 @@ describe("Transcripts for existing users without a recovery key", () => {
     await waitFor(() =>
       expect(screen.queryByRole("heading", { name: "Finish recovery setup" })).toBeNull(),
     );
-    expect(screen.getByPlaceholderText("Search transcripts...")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Search transcripts (Ctrl+F)")).toBeInTheDocument();
   });
 
   it("cancelling the required setup keeps the gate", async () => {

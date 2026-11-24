@@ -20,7 +20,7 @@ export function KeyChip({ keys }: KeyChipProps) {
   if (tokens.length === 0) {
     return (
       <span
-        className="inline-block align-middle px-2 py-[2px] mx-[2px] rounded-full text-[11px] font-medium text-steel/70"
+        className="inline-block align-middle px-2 py-[2px] mx-[2px] rounded-md text-xs font-medium text-steel"
         style={{
           background: "var(--surface-control)",
           border: "1px solid var(--border-standard)",
@@ -37,7 +37,7 @@ export function KeyChip({ keys }: KeyChipProps) {
       {tokens.map((token, i) => (
         <span key={`${token}-${i}`} className="inline-flex items-center gap-1">
           <span
-            className="inline-block px-2.5 py-[2px] rounded-full text-[11px] font-medium text-slate tracking-wide"
+            className="inline-block px-2.5 py-[2px] rounded-md text-xs font-medium text-slate tracking-wide"
             style={{
               background: "var(--surface-control)",
               border: "1px solid var(--border-hairline)",
@@ -48,7 +48,7 @@ export function KeyChip({ keys }: KeyChipProps) {
             {token}
           </span>
           {i < tokens.length - 1 && (
-            <span className="text-[11px] text-steel/40">+</span>
+            <span className="text-xs text-steel">+</span>
           )}
         </span>
       ))}

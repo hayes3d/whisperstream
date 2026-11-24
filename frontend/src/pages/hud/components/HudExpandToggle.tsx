@@ -40,7 +40,7 @@ export function HudExpandToggle({
         event.stopPropagation();
         onToggle();
       }}
-      className="flex shrink-0 cursor-pointer items-center justify-center rounded-full bg-[var(--surface-control)] p-0 transition-colors duration-150 hover:bg-[var(--surface-hover)] active:scale-[0.96]"
+      className="flex shrink-0 cursor-pointer items-center justify-center rounded-md bg-[var(--surface-control)] p-0 transition-colors duration-150 hover:bg-[var(--surface-hover)] active:scale-[0.96]"
       style={{
         width: HUD_EXPAND_TOGGLE_W,
         height: HUD_EXPAND_TOGGLE_H,

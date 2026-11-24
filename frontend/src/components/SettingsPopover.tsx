@@ -1,6 +1,5 @@
-import { useState, useEffect, useLayoutEffect, useRef } from "react";
-import { createPortal } from "react-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Dropdown } from "./Dropdown";
 import { Toggle } from "./Toggle";
 import { HISTORY_DISABLED_BY_ORGANIZATION_MESSAGE } from "../lib/api/lockdown";
@@ -36,17 +35,8 @@ interface SettingsPopoverProps {
   onRecoverySettings?: () => void;
 }
 
-type PanelCoords = {
-  /** Right edge of the panel measured from the viewport's right edge, so the
-   *  panel is right-aligned under the gear and never clips the window edge. */
-  right: number;
-  top: number;
-  maxHeight: number;
-};
-
 const GAP = 8; // px between trigger and panel
 const MARGIN = 8; // px breathing room from the viewport edge
-const PANEL_WIDTH = 256; // w-64
 
 /** Single setting row: left label, right control. Dims the label when the row's
  *  setting has no effect (history off). */
@@ -99,9 +89,9 @@ function GearIcon() {
 /**
  * Anchored frost-glass settings popover opened by a gear icon button. Holds the
  * four Transcripts settings (Save transcripts, Save audio, retention, Delete
- * all). Renders the panel through a portal with fixed positioning (right-aligned
- * under the gear so it never clips the right window edge) and reuses Dropdown's
- * outside-click / scroll / resize / Esc close behavior.
+ * all). Built on the shadcn/Radix Popover: portalled, fixed, right-aligned under
+ * the gear (Radix collision handling keeps it on screen), closing on outside
+ * press / Esc via Radix and on scroll / resize as before.
  */
 export function SettingsPopover({
   historyEnabled,
@@ -115,181 +105,135 @@ export function SettingsPopover({
   onRecoverySettings,
 }: SettingsPopoverProps) {
   const [open, setOpen] = useState(false);
-  const [coords, setCoords] = useState<PanelCoords | null>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
   // Dependent settings (Save audio + retention) dim when history is off.
   const settingsDisabled = historyDisabled || !historyEnabled;
 
-  // Position the panel right-aligned under the gear each time it opens. Layout
-  // effect runs before paint so there is no flash at the wrong spot.
-  useLayoutEffect(() => {
-    if (!open) {
-      setCoords(null);
-      return;
-    }
-    const r = triggerRef.current?.getBoundingClientRect();
-    if (!r) return;
-    // Right-align the panel's right edge with the gear's right edge, clamped so
-    // it never crosses the left margin on a narrow window.
-    const rightFromEdge = Math.max(MARGIN, window.innerWidth - r.right);
-    const clampedRight = Math.min(rightFromEdge, window.innerWidth - PANEL_WIDTH - MARGIN);
-    const top = r.bottom + GAP;
-    const maxHeight = window.innerHeight - top - MARGIN;
-    setCoords({ right: Math.max(MARGIN, clampedRight), top, maxHeight });
-  }, [open]);
-
-  // Close on outside click (trigger or panel), scroll/resize (fixed coords go
-  // stale), and Esc. Same pattern as Dropdown. A click on a portal-rendered
-  // Dropdown panel inside this popover is NOT inside panelRef, so guard by also
-  // ignoring clicks that land on any open listbox.
+  // The fixed panel is re-anchored by Radix, but keep the original contract of
+  // closing when anything scrolls or the window resizes. (Outside press and Esc
+  // are Radix's; a click inside the retention Dropdown's own portalled listbox is
+  // a nested Radix layer and does not dismiss this popover.)
   useEffect(() => {
     if (!open) return;
-    const onPointerDown = (e: MouseEvent) => {
-      const t = e.target as Node;
-      if (triggerRef.current?.contains(t) || panelRef.current?.contains(t)) return;
-      // The retention Dropdown renders its options through its own portal; a
-      // click there must not close this popover.
-      const el = t as HTMLElement;
-      if (el.closest?.('[role="listbox"]')) return;
-      setOpen(false);
-    };
-    const onScrollOrResize = () => setOpen(false);
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("mousedown", onPointerDown);
-    window.addEventListener("scroll", onScrollOrResize, true);
-    window.addEventListener("resize", onScrollOrResize);
-    document.addEventListener("keydown", onKey);
+    const close = () => setOpen(false);
+    window.addEventListener("scroll", close, true);
+    window.addEventListener("resize", close);
     return () => {
-      document.removeEventListener("mousedown", onPointerDown);
-      window.removeEventListener("scroll", onScrollOrResize, true);
-      window.removeEventListener("resize", onScrollOrResize);
-      document.removeEventListener("keydown", onKey);
+      window.removeEventListener("scroll", close, true);
+      window.removeEventListener("resize", close);
     };
   }, [open]);
 
   return (
-    <>
-      <button
-        ref={triggerRef}
-        onClick={() => setOpen((o) => !o)}
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <button
+          aria-label="Transcript settings"
+          aria-haspopup="menu"
+          aria-expanded={open}
+          className="w-9 h-9 shrink-0 flex items-center justify-center rounded-md text-steel hover:text-slate cursor-pointer transition-colors duration-150"
+          style={{
+            // Option C (round 04), matching SecondaryButton; the open state
+            // uses the accent border. Inline (not the primitive) because this
+            // button owns a ref + an open-state border.
+            background: "var(--surface-control)",
+            border: open
+              ? "1px solid var(--border-accent)"
+              : "1px solid var(--border-hairline)",
+            boxShadow: "inset 0 1px 0 rgb(255 255 255 / calc(0.7 * var(--rim-scale)))",
+          }}
+        >
+          <GearIcon />
+        </button>
+      </PopoverTrigger>
+
+      <PopoverContent
+        role="menu"
         aria-label="Transcript settings"
-        aria-haspopup="menu"
-        aria-expanded={open}
-        className="w-9 h-9 shrink-0 flex items-center justify-center rounded-full text-steel hover:text-slate cursor-pointer transition-colors duration-150"
-        style={{
-          // Option C (round 04), matching SecondaryButton; the open state
-          // uses the accent border. Inline (not the primitive) because this
-          // button owns a ref + an open-state border.
-          background: "var(--surface-control)",
-          border: open
-            ? "1px solid var(--border-accent)"
-            : "1px solid var(--border-hairline)",
-          boxShadow: "inset 0 1px 0 rgb(255 255 255 / calc(0.7 * var(--rim-scale)))",
+        align="end"
+        sideOffset={GAP}
+        collisionPadding={MARGIN}
+        className="w-64 rounded-[var(--radius-card)] p-3 space-y-2.5 overflow-y-auto focus-visible:outline-none"
+        style={{ maxHeight: "var(--radix-popover-content-available-height)" }}
+        // Focus the panel, not its first control: Radix would land on the
+        // "Save transcripts" switch, where a stray Space turns saving off.
+        // Tab still moves straight into the controls from here.
+        ref={panelRef}
+        tabIndex={-1}
+        onOpenAutoFocus={(event) => {
+          event.preventDefault();
+          panelRef.current?.focus();
         }}
       >
-        <GearIcon />
-      </button>
+        {historyDisabled && (
+          <p id="history-policy-note" className="text-[12px] text-steel leading-relaxed">
+            {HISTORY_DISABLED_BY_ORGANIZATION_MESSAGE}
+          </p>
+        )}
+        <Row label="Save transcripts" disabled={historyDisabled}>
+          <Toggle checked={!historyDisabled && historyEnabled} onChange={onHistoryChange} disabled={historyDisabled} ariaLabel="Save transcripts" ariaDescribedBy={historyDisabled ? "history-policy-note" : undefined} />
+        </Row>
 
-      {createPortal(
-        <AnimatePresence>
-          {open && coords && (
-            <motion.div
-              ref={panelRef}
-              role="menu"
-              aria-label="Transcript settings"
-              initial={{ opacity: 0, y: -4, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -4, scale: 0.98 }}
-              transition={{ duration: 0.15 }}
-              className="fixed z-50 rounded-[var(--radius-card)] p-3 space-y-2.5 overflow-y-auto"
-              style={{
-                right: coords.right,
-                top: coords.top,
-                width: PANEL_WIDTH,
-                maxHeight: coords.maxHeight,
-                background: "var(--surface-overlay)",
-                backdropFilter: "blur(24px)",
-                WebkitBackdropFilter: "blur(24px)",
-                border: "1px solid var(--border-hairline)",
-                boxShadow: "var(--shadow-glass)",
-              }}
-            >
-              {historyDisabled && (
-                <p id="history-policy-note" className="text-[12px] text-steel leading-relaxed">
-                  {HISTORY_DISABLED_BY_ORGANIZATION_MESSAGE}
-                </p>
-              )}
-              <Row label="Save transcripts" disabled={historyDisabled}>
-                <Toggle checked={!historyDisabled && historyEnabled} onChange={onHistoryChange} disabled={historyDisabled} ariaLabel="Save transcripts" ariaDescribedBy={historyDisabled ? "history-policy-note" : undefined} />
-              </Row>
+        <Row label="Save audio" disabled={settingsDisabled}>
+          <Toggle
+            checked={!historyDisabled && saveAudio}
+            ariaLabel="Save audio"
+            ariaDescribedBy={historyDisabled ? "history-policy-note" : undefined}
+            onChange={onSaveAudioChange}
+            disabled={settingsDisabled}
+          />
+        </Row>
 
-              <Row label="Save audio" disabled={settingsDisabled}>
-                <Toggle
-                  checked={!historyDisabled && saveAudio}
-                  ariaLabel="Save audio"
-                  ariaDescribedBy={historyDisabled ? "history-policy-note" : undefined}
-                  onChange={onSaveAudioChange}
-                  disabled={settingsDisabled}
-                />
-              </Row>
+        <Row label="Keep for" disabled={settingsDisabled}>
+          <Dropdown
+            value={retentionDays}
+            options={RETENTION_OPTIONS.map((o) => ({ ...o }))}
+            onChange={(days) => {
+              // Close the popover before handing off, so a retention-shrink
+              // confirm dialog opens unobscured by the panel.
+              setOpen(false);
+              onRetentionChange(days);
+            }}
+            ariaLabel="Keep transcripts for"
+            triggerClassName="w-[110px]"
+            disabled={settingsDisabled}
+          />
+        </Row>
 
-              <Row label="Keep for" disabled={settingsDisabled}>
-                <Dropdown
-                  value={retentionDays}
-                  options={RETENTION_OPTIONS.map((o) => ({ ...o }))}
-                  onChange={(days) => {
-                    // Close the popover before handing off, so a retention-shrink
-                    // confirm dialog opens unobscured by the panel.
-                    setOpen(false);
-                    onRetentionChange(days);
-                  }}
-                  ariaLabel="Keep transcripts for"
-                  triggerClassName="w-[110px]"
-                  disabled={settingsDisabled}
-                />
-              </Row>
+        {onRecoverySettings && (
+          <button
+            role="menuitem"
+            onClick={() => {
+              // Close first so the dialog opens unobscured by the panel.
+              setOpen(false);
+              onRecoverySettings();
+            }}
+            className="w-full flex items-center justify-between text-left text-[13px] text-slate px-1 py-1 cursor-pointer transition-colors duration-150 hover:text-frost-deep"
+          >
+            Recovery settings
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-steel" aria-hidden="true">
+              <path d="M4.5 3l3 3-3 3" />
+            </svg>
+          </button>
+        )}
 
-              {onRecoverySettings && (
-                <button
-                  role="menuitem"
-                  onClick={() => {
-                    // Close first so the dialog opens unobscured by the panel.
-                    setOpen(false);
-                    onRecoverySettings();
-                  }}
-                  className="w-full flex items-center justify-between text-left text-[13px] text-slate px-1 py-1 cursor-pointer transition-colors duration-150 hover:text-frost-deep"
-                >
-                  Recovery settings
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-steel/60" aria-hidden="true">
-                    <path d="M4.5 3l3 3-3 3" />
-                  </svg>
-                </button>
-              )}
+        <div
+          className="h-px my-1"
+          style={{ background: "var(--divider)" }}
+        />
 
-              <div
-                className="h-px my-1"
-                style={{ background: "var(--divider)" }}
-              />
-
-              {/* Destructive, pinned at the bottom below the divider. */}
-              <button
-                onClick={() => {
-                  onClearAll();
-                  setOpen(false);
-                }}
-                className="w-full text-left text-[12px] text-steel hover:text-rose transition-colors duration-150 px-1 py-1 cursor-pointer"
-              >
-                Delete all transcripts
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>,
-        document.body,
-      )}
-    </>
+        {/* Destructive, pinned at the bottom below the divider. */}
+        <button
+          onClick={() => {
+            onClearAll();
+            setOpen(false);
+          }}
+          className="w-full text-left text-[12px] text-steel hover:text-rose transition-colors duration-150 px-1 py-1 cursor-pointer"
+        >
+          Delete all transcripts
+        </button>
+      </PopoverContent>
+    </Popover>
   );
 }

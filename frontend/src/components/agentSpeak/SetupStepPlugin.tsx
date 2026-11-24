@@ -316,7 +316,7 @@ export function SetupStepPlugin({
                             ) : null}
                           </div>
                           {pluginDir ? (
-                            <div className="mt-0.5 break-all text-[11px] leading-snug text-steel">
+                            <div className="mt-0.5 break-all text-xs leading-snug text-steel">
                               {pluginDir}
                             </div>
                           ) : null}

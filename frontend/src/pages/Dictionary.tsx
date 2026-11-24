@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import type { AppConfig } from "../lib/api/config";
 import { DictionaryImportModal, DictionaryFileIcon } from "../components/DictionaryImportModal";
 import { SecondaryButton } from "../components/SecondaryButton";
+import { PageHeader } from "../components/PageHeader";
 import { normalizeDictionaryWord, reviewVocabulary, vocabularyImportPatch, type VocabularyFile } from "../lib/dictionaryImport";
 
 // Build-time variant toggle. Change, rebuild, screenshot. See design.md section 6.
@@ -196,7 +197,7 @@ const ArrowIcon = () => (
     height="14"
     viewBox="0 0 14 14"
     fill="none"
-    className="shrink-0 text-steel/40"
+    className="shrink-0 text-steel"
     aria-hidden="true"
   >
     <path
@@ -227,7 +228,7 @@ function TypeBadge({ type }: { type: EntryType }) {
         <Icon size={10} />
       </span>
       <span
-        className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-1.5 rounded-lg px-2 py-1 text-[10px] font-medium text-slate opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-30 whitespace-nowrap"
+        className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-1.5 rounded-lg px-2 py-1 text-xs font-medium text-slate opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-30 whitespace-nowrap"
         style={{
           background: "var(--surface-overlay)",
           border: "1px solid var(--border-emphasis)",
@@ -267,7 +268,7 @@ function ActionPill({
     <button
       onClick={onClick}
       disabled={disabled}
-      className="inline-flex items-center gap-1 h-8 px-2.5 rounded-full text-[12px] font-medium cursor-pointer disabled:cursor-default shrink-0 transition-all duration-150"
+      className="inline-flex items-center gap-1 h-8 px-2.5 rounded-md text-[12px] font-medium cursor-pointer disabled:cursor-default shrink-0 transition-all duration-150"
       style={{
         background: disabled ? "var(--surface-control)" : palette.bg,
         border: `1px solid ${disabled ? "var(--border-hairline)" : palette.border}`,
@@ -365,7 +366,7 @@ function AddRow({
         onKeyDown={handleKey}
         placeholder="Add a word..."
         aria-label="Dictionary entry word"
-        className="flex-1 min-w-0 bg-transparent text-[13px] text-slate border-none outline-none placeholder:text-steel/40 px-3 h-8 mr-4"
+        className="flex-1 min-w-0 bg-transparent text-[13px] text-slate border-none outline-none placeholder:text-steel px-3 h-8 mr-4"
       />
 
       <AnimatePresence initial={false}>
@@ -386,7 +387,7 @@ function AddRow({
               placeholder="Replace with"
               aria-label="Replacement word"
               autoFocus
-              className="flex-1 min-w-0 bg-transparent text-[13px] text-slate border-none outline-none placeholder:text-steel/40 px-2 h-8"
+              className="flex-1 min-w-0 bg-transparent text-[13px] text-slate border-none outline-none placeholder:text-steel px-2 h-8"
             />
           </motion.div>
         )}
@@ -540,7 +541,7 @@ function EntryRow({
               value={editWord}
               onChange={(e) => setEditWord(e.target.value)}
               onKeyDown={handleEditKey}
-              className="flex-1 min-w-0 bg-transparent text-[13px] font-medium text-slate border-none outline-none placeholder:text-steel/40"
+              className="flex-1 min-w-0 bg-transparent text-[13px] font-medium text-slate border-none outline-none placeholder:text-steel"
               aria-label="Edit word"
             />
             {entry.type === "replace" && (
@@ -550,7 +551,7 @@ function EntryRow({
                   value={editReplacement}
                   onChange={(e) => setEditReplacement(e.target.value)}
                   onKeyDown={handleEditKey}
-                  className="flex-1 min-w-0 bg-transparent text-[13px] font-medium text-slate border-none outline-none placeholder:text-steel/40"
+                  className="flex-1 min-w-0 bg-transparent text-[13px] font-medium text-slate border-none outline-none placeholder:text-steel"
                   aria-label="Edit replacement"
                 />
               </>
@@ -578,7 +579,7 @@ function EntryRow({
             }
           }}
           aria-label={isEditing ? "Save edit" : "Edit entry"}
-          className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-200 text-steel hover:text-slate cursor-pointer"
+          className="shrink-0 w-6 h-6 flex items-center justify-center rounded-md opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-200 text-steel hover:text-slate cursor-pointer"
           style={
             isEditing
               ? { opacity: 1, color: checkColor }
@@ -598,7 +599,7 @@ function EntryRow({
             }
           }}
           aria-label={isEditing ? "Cancel edit" : "Remove entry"}
-          className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-200 text-steel hover:text-rose cursor-pointer"
+          className="shrink-0 w-6 h-6 flex items-center justify-center rounded-md opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-200 text-steel hover:text-rose cursor-pointer"
           style={isEditing ? { opacity: 1 } : undefined}
         >
           <XIcon />
@@ -805,13 +806,11 @@ export function Dictionary({ config, onConfigChange, onImportConfig, onOpenEnhan
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 400, damping: 30 }}
       >
-        <div className="flex items-center justify-between gap-3">
-          <h2 className="text-[18px] font-medium text-slate">Dictionary</h2>
-          <SecondaryButton onClick={() => setImportOpen(true)} className="rounded-full px-3.5 py-1.5 text-[12px] text-slate inline-flex items-center gap-1.5"><DictionaryFileIcon />Import CSV</SecondaryButton>
-        </div>
-        <p className="text-[12px] text-steel leading-relaxed mt-1">
-          Boost names with AI enhancement, filter out words, or swap one word for another.
-        </p>
+        <PageHeader
+          title="Dictionary"
+          description="Boost names with AI enhancement, filter out words, or swap one word for another."
+          action={<SecondaryButton onClick={() => setImportOpen(true)} className="rounded-md px-3.5 py-1.5 text-[12px] text-slate inline-flex items-center gap-1.5"><DictionaryFileIcon />Import CSV</SecondaryButton>}
+        />
       </motion.div>
       <motion.div
         initial={{ opacity: 0, y: 8 }}
@@ -824,11 +823,11 @@ export function Dictionary({ config, onConfigChange, onImportConfig, onOpenEnhan
         }}
       >
         <AddRow onAdd={addEntry} reducedMotion={reducedMotion} />
-        <p className="text-[11px] text-steel mt-2 px-1">Boost helps AI enhancement choose the right spelling when it fits your dictation.</p>
+        <p className="text-xs text-steel mt-2 px-1">Boost helps AI enhancement choose the right spelling when it fits your dictation.</p>
       </motion.div>
       {config.word_boosts.length > 0 && (!config.enhancement_enabled || !config.enhancement_vocabulary_supported) && <div className="text-[12px] text-steel px-3 py-2.5 rounded-[var(--radius-input)]" style={{ background: "color-mix(in srgb, var(--color-gold) 7%, transparent)", border: "1px solid color-mix(in srgb, var(--color-gold) 25%, transparent)" }}>
         <p>{!config.enhancement_enabled ? "Boost is inactive while AI enhancement is off. You can still save words." : "Your selected enhancement model does not support Boost. Saved words will stay in your dictionary."}</p>
-        {onOpenEnhancement && <button onClick={onOpenEnhancement} className="text-[11px] underline mt-1 cursor-pointer">Open enhancement settings</button>}
+        {onOpenEnhancement && <button onClick={onOpenEnhancement} className="text-xs underline mt-1 cursor-pointer">Open enhancement settings</button>}
       </div>}
       {entries.length === 0 && <div className="text-center py-6 text-[12px] text-steel">Your dictionary is empty. Add a word or import a CSV.</div>}
       <div className="space-y-1">
@@ -847,9 +846,9 @@ export function Dictionary({ config, onConfigChange, onImportConfig, onOpenEnhan
           ))}
         </AnimatePresence>
       </div>
-      {entries.length > 100 && <div className="flex items-center justify-between gap-3 text-[11px] text-steel">
+      {entries.length > 100 && <div className="flex items-center justify-between gap-3 text-xs text-steel">
         <span>Showing {Math.min(visibleCount, entries.length)} of {entries.length} entries.</span>
-        {visibleCount < entries.length && <SecondaryButton onClick={() => setVisibleCount(count => count + 100)} className="rounded-full px-3.5 py-1.5 text-[12px] text-slate">Load more</SecondaryButton>}
+        {visibleCount < entries.length && <SecondaryButton onClick={() => setVisibleCount(count => count + 100)} className="rounded-md px-3.5 py-1.5 text-[12px] text-slate">Load more</SecondaryButton>}
       </div>}
       {importOpen && <DictionaryImportModal config={config} onClose={() => setImportOpen(false)} onImport={importVocabulary} />}
     </div>

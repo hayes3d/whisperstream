@@ -221,11 +221,11 @@ export function SetupChecklist({
               {titles[index]}
             </h3>
 
-            {/* Deliberately `text-steel`, not `text-steel/70`: this is a
+            {/* Deliberately `text-steel`, not `text-steel`: this is a
                 meaning carrier, not a decorative micro-label. */}
             <span
               data-setup-checklist-status
-              className="w-12 shrink-0 text-right text-[11px] text-steel"
+              className="w-12 shrink-0 text-right text-xs text-steel"
             >
               <span className="sr-only">, </span>
               {CHECKLIST_STATUS_WORD[state]}

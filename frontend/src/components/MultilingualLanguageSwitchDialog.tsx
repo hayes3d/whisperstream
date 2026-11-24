@@ -1,5 +1,10 @@
 import { useEffect, useRef } from "react";
-import { MotionConfig, motion } from "framer-motion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 // Language-change model guidance. One card, two variants, because both answer
 // the same question at the same moment: the language you picked and the model
@@ -26,23 +31,8 @@ import { MotionConfig, motion } from "framer-motion";
 // about the current and recommended SETUP. The actions stay explicit and the
 // routing behavior is identical in both presentations.
 //
-// Hand-rolled overlay + card: the dialog family deliberately shares no base
-// component. Family A tokens, mounted at the App root
-// so `position: fixed` resolves against the viewport rather than <main>.
-
-const dialogShellStyle = {
-  background: "var(--surface-modal)",
-  backdropFilter: "blur(24px)",
-  WebkitBackdropFilter: "blur(24px)",
-  border: "1px solid var(--border-emphasis)",
-  boxShadow: "var(--shadow-glass)",
-};
-
-const backdropStyle = {
-  background: "var(--backdrop-strong)",
-  backdropFilter: "blur(40px)",
-  WebkitBackdropFilter: "blur(40px)",
-};
+// Built on the shared shadcn Dialog (portaled to body, so it resolves against
+// the viewport rather than <main>). Escape and backdrop click both dismiss.
 
 const glassPillStyle = {
   background: "var(--surface-modal)",
@@ -87,24 +77,8 @@ export function MultilingualLanguageSwitchDialog({
   const safeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (!open) return;
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        onDismiss();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [open, onDismiss]);
-
-  useEffect(() => {
     if (open) safeButtonRef.current?.focus();
   }, [open, variant]);
-
-  if (!open) return null;
 
   const incompatible = variant === "incompatible";
   // Both sides carry the same product name, so naming either one is noise at
@@ -131,69 +105,34 @@ export function MultilingualLanguageSwitchDialog({
     : `Switch to ${recommendedModelName}`;
 
   return (
-    <MotionConfig reducedMotion="user">
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
-        <motion.div
-          aria-hidden="true"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4 }}
-          className="absolute inset-0"
-          style={backdropStyle}
-          onClick={onDismiss}
-        />
+    <Dialog open={open} onOpenChange={(next) => !next && onDismiss()}>
+      <DialogContent className="w-[420px]">
+        <DialogTitle className="mb-2 text-center">{heading}</DialogTitle>
 
-        <motion.div
-          initial={{ scale: 0.92, opacity: 0, y: 12 }}
-          animate={{ scale: 1, opacity: 1, y: 0 }}
-          transition={{
-            type: "spring",
-            stiffness: 400,
-            damping: 30,
-            delay: 0.08,
-          }}
-          className="relative w-[420px] rounded-[var(--radius-card)] p-7"
-          style={dialogShellStyle}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="multilingual-language-switch-heading"
-          aria-describedby="multilingual-language-switch-description"
-        >
-          <h2
-            id="multilingual-language-switch-heading"
-            className="mb-2 text-center font-display text-[18px] font-normal text-slate"
+        <DialogDescription className="mb-6 text-center text-[13px] leading-relaxed text-steel">
+          {description}
+        </DialogDescription>
+
+        <div className="flex items-center justify-end gap-2.5">
+          <button
+            ref={safeButtonRef}
+            type="button"
+            onClick={incompatible ? onDismiss : onKeepCurrentModel}
+            className="cursor-pointer rounded-md px-5 py-2 text-[13px] font-medium text-slate transition-all duration-200"
+            style={glassPillStyle}
           >
-            {heading}
-          </h2>
-
-          <p
-            id="multilingual-language-switch-description"
-            className="mb-6 text-center text-[13px] leading-relaxed text-steel"
+            {safeLabel}
+          </button>
+          <button
+            type="button"
+            onClick={onSwitchToRecommended}
+            className="cursor-pointer rounded-md px-5 py-2 text-[13px] font-medium text-white transition-all duration-200"
+            style={gradientPillStyle}
           >
-            {description}
-          </p>
-
-          <div className="flex items-center justify-end gap-2.5">
-            <button
-              ref={safeButtonRef}
-              type="button"
-              onClick={incompatible ? onDismiss : onKeepCurrentModel}
-              className="cursor-pointer rounded-full px-5 py-2 text-[13px] font-medium text-slate transition-all duration-200"
-              style={glassPillStyle}
-            >
-              {safeLabel}
-            </button>
-            <button
-              type="button"
-              onClick={onSwitchToRecommended}
-              className="cursor-pointer rounded-full px-5 py-2 text-[13px] font-medium text-white transition-all duration-200"
-              style={gradientPillStyle}
-            >
-              {forwardLabel}
-            </button>
-          </div>
-        </motion.div>
-      </div>
-    </MotionConfig>
+            {forwardLabel}
+          </button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

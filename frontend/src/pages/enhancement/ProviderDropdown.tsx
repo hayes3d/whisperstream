@@ -90,7 +90,7 @@ function LocalRowAffordance({
           onDownload();
         }}
         aria-label="Download local model"
-        className="w-6 h-6 rounded-full flex items-center justify-center text-steel/70 hover:text-frost-deep opacity-0 group-hover/row:opacity-100 group-focus-within/row:opacity-100 transition-opacity cursor-pointer"
+        className="w-6 h-6 rounded-md flex items-center justify-center text-steel hover:text-frost-deep opacity-0 group-hover/row:opacity-100 group-focus-within/row:opacity-100 transition-opacity cursor-pointer"
       >
         <DownloadMiniIcon aria-hidden="true" />
       </button>
@@ -111,7 +111,7 @@ function LocalRowAffordance({
         setDeletePending(true);
       }}
       aria-label="Delete local model"
-      className="w-6 h-6 rounded-full flex items-center justify-center text-steel/70 hover:text-rose opacity-0 group-hover/row:opacity-100 group-focus-within/row:opacity-100 transition-opacity cursor-pointer"
+      className="w-6 h-6 rounded-md flex items-center justify-center text-steel hover:text-rose opacity-0 group-hover/row:opacity-100 group-focus-within/row:opacity-100 transition-opacity cursor-pointer"
     >
       <svg
         viewBox="0 0 12 12"
@@ -176,22 +176,25 @@ export function ProviderDropdown(
           customHost,
           ollamaEndpoint,
         )}`}
-        className="w-full h-11 px-5 rounded-full text-[13px] text-left text-slate flex items-center justify-between cursor-pointer transition-all duration-200"
+        // Same trigger recipe as the shared Dropdown (Model picker beside it).
+        className="w-full px-3 py-1.5 rounded-[var(--radius-input)] text-[13px] text-left text-slate flex items-center justify-between cursor-pointer transition-all duration-200"
         style={{
           background: "var(--surface-control)",
           border: open
             ? "1px solid var(--border-accent)"
-            : "1px solid var(--border-emphasis)",
-          boxShadow: "inset 0 2px 4px rgba(0, 0, 0, 0.02)",
+            : "1px solid var(--border-hairline-steel)",
         }}
       >
-        <span className="truncate">{currentLabel}</span>
-        <span className="flex items-center gap-2 shrink-0 ml-2">
+        <span className="flex flex-1 items-center gap-2 min-w-0">
           <ProviderDataGlyph
             value={currentValue}
             customHost={customHost}
             ollamaEndpoint={ollamaEndpoint}
+            className="shrink-0"
           />
+          <span className="truncate">{currentLabel}</span>
+        </span>
+        <span className="flex items-center shrink-0 ml-2">
           <motion.svg
             animate={{ rotate: open ? 180 : 0 }}
             transition={{ duration: 0.2 }}
@@ -266,8 +269,7 @@ export function ProviderDropdown(
                   style={
                     isSelected && !isDisabledByLockdown && !isDisabledByCapability
                       ? {
-                          background: "color-mix(in srgb, var(--color-frost) 18%, transparent)",
-                          borderLeft: "3px solid var(--border-accent)",
+                          background: "var(--surface-hover)",
                         }
                       : undefined
                   }

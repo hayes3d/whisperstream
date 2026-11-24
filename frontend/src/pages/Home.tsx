@@ -21,6 +21,9 @@ import { LockdownDisableDialog } from "../components/LockdownDisableDialog";
 import { LockdownManageDialog } from "../components/LockdownManageDialog";
 import { ChangePasswordDialog, ViewRecoveryCodeDialog } from "../components/ChangePasswordDialog";
 import { RelocateModelsDialog } from "../components/RelocateModelsDialog";
+import { HomeStatusHeader, type HomeStatusTarget } from "../components/HomeStatusHeader";
+import { LOCAL_MODEL_DISPLAY_LABEL } from "../lib/localModels";
+import { PROVIDERS } from "./enhancement/providerMetadata";
 import { BASE } from "../lib/api/client";
 import { startRegisteredRelocate, deleteSttModel, deleteUnusedSttModels, getSttStatus } from "../lib/api/models";
 import { chooseMacosModelStorage, releaseMacosNativeSelections } from "../lib/nativeFileWorkflows";
@@ -40,6 +43,7 @@ import {
   ALL_LANGUAGES,
   getFamilyFromModel,
   getPickerModelsForLanguage,
+  getSttArtifactDisplayName,
   normalizeSelectionMode,
   resolveActiveSttArtifact,
   sttArtifactBackend,
@@ -54,6 +58,18 @@ interface Stats {
   total_transcriptions: number;
   total_words: number;
   total_recording_ms: number;
+}
+
+/** One-line summary of the active cleanup ("enhancement") setup. */
+function cleanupLabel(config: AppConfig): string {
+  if (!config.enhancement_enabled) return "Off";
+  const provider = config.enhancement_provider;
+  if (provider === "local") {
+    return LOCAL_MODEL_DISPLAY_LABEL[config.enhancement_local_model] ?? "Local";
+  }
+  const label = PROVIDERS.find((p) => p.value === provider)?.label ?? provider;
+  const model = (config as unknown as Record<string, unknown>)[`enhancement_${provider}_model`];
+  return typeof model === "string" && model ? `${label} · ${model}` : label;
 }
 
 const THEME_OPTIONS: { value: string; label: string }[] = [
@@ -116,6 +132,9 @@ function formatDuration(ms: number): string {
 
 interface HomeProps {
   config: AppConfig;
+  /** Send the user to another settings page from the status header's links.
+   *  Optional so tests (and early mounts) can render Home without it. */
+  onNavigate?: (target: HomeStatusTarget) => void;
   startupStatus: LaunchAtLoginStatus;
   onStartupChange: (enabled: boolean) => void;
   onConfigChange: (patch: Partial<AppConfig>) => void;
@@ -175,6 +194,7 @@ interface HomeProps {
 }
 
 export function Home({
+  onNavigate,
   config,
   startupStatus,
   onStartupChange,
@@ -606,49 +626,36 @@ export function Home({
   }, [statsRevision, connected]);
 
   return (
-    <div className="absolute inset-0 flex flex-col pt-10">
-      {/* Stats row */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 400, damping: 30 }}
-        className="flex rounded-[var(--radius-card)] mb-5 shrink-0 mx-10"
-        style={{
-          background: "var(--surface-control)",
-          border: "1px solid var(--border-hairline)",
-          boxShadow: "var(--shadow-glass-sm)",
-        }}
-      >
-        {[
-          { label: "Words", value: stats ? stats.total_words.toLocaleString() : "\u2014" },
-          { label: "Time", value: stats ? formatDuration(stats.total_recording_ms) : "\u2014" },
-          { label: "Transcriptions", value: stats ? stats.total_transcriptions.toLocaleString() : "\u2014" },
-        ].map((stat, i) => (
-          <div key={stat.label} className="flex-1 py-5 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: i * 0.03,
-                type: "spring",
-                stiffness: 400,
-                damping: 30,
-              }}
-              className="font-display text-[30px] font-light text-slate"
-            >
-              {stat.value}
-            </motion.div>
-            <div className="text-[11px] text-steel mt-1 font-medium uppercase tracking-wider">
-              {stat.label}
-            </div>
-          </div>
-        ))}
-      </motion.div>
+    <div className="absolute inset-0 flex flex-col pt-8">
+      <HomeStatusHeader
+        connected={connected !== false}
+        speechModelDownloaded={
+          sttStatus === undefined
+            ? null
+            : !!sttStatus.artifacts.find((a) => a.id === sttStatus.configured_artifact_id)?.downloaded
+        }
+        switchingToModel={switchingToModel}
+        downloadInFlight={downloadInFlight}
+        speechModelName={currentArtifact ? getSttArtifactDisplayName(currentArtifact) : null}
+        cleanupLabel={cleanupLabel(config)}
+        pushToTalkShortcut={config.push_to_talk_shortcut}
+        toggleShortcut={config.toggle_shortcut}
+        stats={
+          stats
+            ? {
+                words: stats.total_words.toLocaleString(),
+                time: formatDuration(stats.total_recording_ms),
+                transcriptions: stats.total_transcriptions.toLocaleString(),
+              }
+            : null
+        }
+        onNavigate={onNavigate}
+      />
 
       {/* Settings — full-bleed inside the rounded pane: scrollbar hugs the
           right edge, pl-10 keeps content off the left edge, pr-5 keeps
           controls off the scroll track. */}
-      <div className="flex-1 min-h-0 overflow-y-auto pl-10 pr-5 pb-6">
+      <div className="flex-1 min-h-0 overflow-y-auto pl-8 pr-5 pb-6">
         <SettingRow index={0} title="Appearance">
           <Dropdown
             value={config.theme ?? "light"}
@@ -676,6 +683,7 @@ export function Home({
           <Toggle
             checked={config.clipboard_behavior ?? true}
             onChange={(next) => onConfigChange({ clipboard_behavior: next })}
+            ariaLabel="Restore clipboard after dictation"
           />
         </SettingRow>
 
@@ -727,7 +735,7 @@ export function Home({
               {switchingToModel && (
                 <span
                   role="status"
-                  className="inline-flex items-center gap-1.5 text-[11px] text-steel"
+                  className="inline-flex items-center gap-1.5 text-xs text-steel"
                 >
                   <SwitchingSpinner />
                   Switching to {switchingToModel}
@@ -795,7 +803,7 @@ export function Home({
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="text-steel/50 cursor-help shrink-0"
+                    className="text-steel cursor-help shrink-0"
                     aria-hidden="true"
                   >
                     <circle cx="12" cy="12" r="10" />
@@ -806,7 +814,7 @@ export function Home({
               </div>
               {/* Two sentences on their own lines (same prominence, pure line
                   break) so the row subtitle stays concise. */}
-              <div className="text-[11px] text-steel mt-0.5 leading-snug">
+              <div className="text-xs text-steel mt-0.5 leading-snug">
                 <span className="block">On-device transcription and cleanup. Saved history locked.</span>
                 <span className="block">Designed to support HIPAA-conscious workflows.</span>
               </div>
@@ -819,7 +827,7 @@ export function Home({
               {isManagedLockdown && (
                 <div
                   id="lockdown-managed-note"
-                  className="text-[11px] font-medium text-slate mt-1.5 leading-snug"
+                  className="text-xs font-medium text-slate mt-1.5 leading-snug"
                 >
                   Managed by your organization.
                 </div>
@@ -831,7 +839,7 @@ export function Home({
               {isLockdownEnabled && (
                 <SecondaryButton
                   onClick={() => setManageOpen(true)}
-                  className="h-8 px-3.5 rounded-full text-[12px] font-medium text-slate"
+                  className="h-8 px-3.5 rounded-md text-[12px] font-medium text-slate"
                 >
                   Manage
                 </SecondaryButton>
@@ -981,7 +989,7 @@ export function Home({
                     )}
                   </div>
                   {/* Description */}
-                  <div className="text-[11px] text-steel mt-0.5 mb-2.5">
+                  <div className="text-xs text-steel mt-0.5 mb-2.5">
                     {privateMacStorage
                       ? "Move the Parakeet Multilingual model. Other speech and cleanup models stay in app storage."
                       : modelLifecycle.enabled
@@ -1017,7 +1025,7 @@ export function Home({
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          className="text-steel/60 shrink-0"
+                          className="text-steel shrink-0"
                           aria-hidden="true"
                         >
                           <path d="M1 4.5A1.5 1.5 0 012.5 3h3.764a1 1 0 01.894.553L8 5H13.5A1.5 1.5 0 0115 6.5v6A1.5 1.5 0 0113.5 14h-11A1.5 1.5 0 011 12.5v-8z" />
@@ -1026,7 +1034,7 @@ export function Home({
                           {displayPath || "Default location"}
                         </span>
                         {!isCustomDir && !privateMacStorage && (
-                          <span className="text-[10px] uppercase tracking-wider text-steel/70 shrink-0">
+                          <span className="text-xs uppercase tracking-wider text-steel shrink-0">
                             Default
                           </span>
                         )}
@@ -1041,7 +1049,7 @@ export function Home({
                       Browse
                     </SecondaryButton>
                     {privateMacStorage && nativeStoragePickerError && (
-                      <span role="alert" className="text-[11px] text-rose">
+                      <span role="alert" className="text-xs text-rose">
                         Couldn't open the folder picker. Try again.
                       </span>
                     )}
@@ -1260,7 +1268,7 @@ function SettingRow({
         <div className="min-w-0">
           <div className="text-[13px] font-medium text-slate">{title}</div>
           {description && (
-            <div className="text-[11px] text-steel mt-0.5">{description}</div>
+            <div className="text-xs text-steel mt-0.5">{description}</div>
           )}
         </div>
         <div className="shrink-0">{children}</div>

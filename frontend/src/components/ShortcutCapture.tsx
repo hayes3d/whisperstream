@@ -206,7 +206,7 @@ export function ShortcutCapture({
                       initial={{ scale: 0.8, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ duration: 0.1 }}
-                      className="px-2 py-0.5 bg-white/70 rounded-full text-[12px] font-medium text-slate border border-white/80"
+                      className="px-2 py-0.5 bg-white/70 rounded-md text-[12px] font-medium text-slate border border-white/80"
                       style={{ boxShadow: "0 2px 8px color-mix(in srgb, var(--color-frost) 20%, transparent)" }}
                     >
                       {key}
@@ -269,7 +269,7 @@ export function ShortcutCapture({
             type="button"
             onClick={clearShortcut}
             aria-label={clearAriaLabel ?? "Clear shortcut"}
-            className="absolute right-1 top-1/2 z-20 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-lg text-[18px] leading-none text-steel/60 transition-colors hover:text-rose cursor-pointer"
+            className="absolute right-1 top-1/2 z-20 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-lg text-[18px] leading-none text-steel transition-colors hover:text-rose cursor-pointer"
           >
             {"\u00d7"}
           </button>
@@ -277,7 +277,7 @@ export function ShortcutCapture({
       </div>
 
       {capturing && (
-        <span className="mt-1 text-center text-[11px] leading-none text-steel/60">
+        <span className="mt-1 text-center text-xs leading-none text-steel">
           Esc to cancel
         </span>
       )}

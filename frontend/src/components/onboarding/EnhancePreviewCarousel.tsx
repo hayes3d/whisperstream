@@ -256,7 +256,7 @@ function CarouselButton({
       type="button"
       aria-label={label}
       onClick={onClick}
-      className="grid h-6 w-6 cursor-pointer place-items-center rounded-full text-steel/70 transition-colors duration-200 hover:bg-[var(--surface-hover)] hover:text-slate"
+      className="grid h-6 w-6 cursor-pointer place-items-center rounded-md text-steel transition-colors duration-200 hover:bg-[var(--surface-hover)] hover:text-slate"
     >
       {children}
     </button>
