@@ -100,15 +100,23 @@ export function ConnectionSection({
             }. ${providerDataTooltip(provider, customHost, ollamaEndpoint)}`}
             className="w-full flex items-center gap-2 px-5 h-12 text-left cursor-pointer"
           >
-            <ProviderDataGlyph
-              value={provider}
-              customHost={customHost}
-              ollamaEndpoint={ollamaEndpoint}
-              className="shrink-0"
-            />
-            <span className="text-[13px] font-medium text-slate truncate">
-              {providerLabel}
-            </span>
+            {/* Expanded: the Provider dropdown below already names the
+                provider, so the header names the card instead. */}
+            {expanded ? (
+              <span className="text-[13px] font-medium text-slate truncate">Connection</span>
+            ) : (
+              <>
+                <ProviderDataGlyph
+                  value={provider}
+                  customHost={customHost}
+                  ollamaEndpoint={ollamaEndpoint}
+                  className="shrink-0"
+                />
+                <span className="text-[13px] font-medium text-slate truncate">
+                  {providerLabel}
+                </span>
+              </>
+            )}
             <span className="flex-1" />
             {!expanded && provider === "custom" && (customHost || summaryModelLabel) && (
               <span className="flex items-center gap-1.5 text-[12px] max-w-[60%] min-w-0">
@@ -161,15 +169,6 @@ export function ConnectionSection({
               >
                 <div className="px-5 pb-5 pt-1">
                   {controls}
-                  <div className="flex justify-end mt-3">
-                    <button
-                      type="button"
-                      onClick={onToggleExpanded}
-                      className="inline-flex items-center gap-1 text-xs font-medium text-frost-deep hover:underline cursor-pointer"
-                    >
-                      Done
-                    </button>
-                  </div>
                 </div>
               </motion.div>
             )}
